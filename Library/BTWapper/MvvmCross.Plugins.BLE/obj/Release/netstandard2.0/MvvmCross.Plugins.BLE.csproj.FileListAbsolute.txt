@@ -1,0 +1,17 @@
+C:\Temp\CS108 RFID Reader Demo 3\Library\BTWapper\MvvmCross.Plugins.BLE\bin\Release\netstandard2.0\MvvmCross.Plugins.BLE.deps.json
+C:\Temp\CS108 RFID Reader Demo 3\Library\BTWapper\MvvmCross.Plugins.BLE\bin\Release\netstandard2.0\MvvmCross.Plugins.BLE.dll
+C:\Temp\CS108 RFID Reader Demo 3\Library\BTWapper\MvvmCross.Plugins.BLE\bin\Release\netstandard2.0\MvvmCross.Plugins.BLE.pdb
+C:\Temp\CS108 RFID Reader Demo 3\Library\BTWapper\MvvmCross.Plugins.BLE\obj\Release\netstandard2.0\MvvmCross.Plugins.BLE.csproj.CoreCompileInputs.cache
+C:\Temp\CS108 RFID Reader Demo 3\Library\BTWapper\MvvmCross.Plugins.BLE\obj\Release\netstandard2.0\MvvmCross.Plugins.BLE.AssemblyInfoInputs.cache
+C:\Temp\CS108 RFID Reader Demo 3\Library\BTWapper\MvvmCross.Plugins.BLE\obj\Release\netstandard2.0\MvvmCross.Plugins.BLE.AssemblyInfo.cs
+C:\Temp\CS108 RFID Reader Demo 3\Library\BTWapper\MvvmCross.Plugins.BLE\obj\Release\netstandard2.0\MvvmCross.Plugins.BLE.dll
+C:\Temp\CS108 RFID Reader Demo 3\Library\BTWapper\MvvmCross.Plugins.BLE\obj\Release\netstandard2.0\MvvmCross.Plugins.BLE.pdb
+C:\Temp\CS108 RFID Reader Demo v3\Library\BTWapper\MvvmCross.Plugins.BLE\bin\Release\netstandard2.0\MvvmCross.Plugins.BLE.deps.json
+C:\Temp\CS108 RFID Reader Demo v3\Library\BTWapper\MvvmCross.Plugins.BLE\bin\Release\netstandard2.0\MvvmCross.Plugins.BLE.dll
+C:\Temp\CS108 RFID Reader Demo v3\Library\BTWapper\MvvmCross.Plugins.BLE\bin\Release\netstandard2.0\MvvmCross.Plugins.BLE.pdb
+C:\Temp\CS108 RFID Reader Demo v3\Library\BTWapper\MvvmCross.Plugins.BLE\obj\Release\netstandard2.0\MvvmCross.Plugins.BLE.csproj.CoreCompileInputs.cache
+C:\Temp\CS108 RFID Reader Demo v3\Library\BTWapper\MvvmCross.Plugins.BLE\obj\Release\netstandard2.0\MvvmCross.Plugins.BLE.AssemblyInfoInputs.cache
+C:\Temp\CS108 RFID Reader Demo v3\Library\BTWapper\MvvmCross.Plugins.BLE\obj\Release\netstandard2.0\MvvmCross.Plugins.BLE.AssemblyInfo.cs
+C:\Temp\CS108 RFID Reader Demo v3\Library\BTWapper\MvvmCross.Plugins.BLE\obj\Release\netstandard2.0\MvvmCross.Plugins.BLE.dll
+C:\Temp\CS108 RFID Reader Demo v3\Library\BTWapper\MvvmCross.Plugins.BLE\obj\Release\netstandard2.0\MvvmCross.Plugins.BLE.pdb
+C:\Temp\CS108 RFID Reader Demo v3\Library\BTWapper\MvvmCross.Plugins.BLE\obj\Release\netstandard2.0\MvvmCross.Plugins.BLE.csprojAssemblyReference.cache

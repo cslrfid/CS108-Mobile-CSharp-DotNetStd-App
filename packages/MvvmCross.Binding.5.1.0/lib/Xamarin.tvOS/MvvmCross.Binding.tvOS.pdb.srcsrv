@@ -1,0 +1,51 @@
+SRCSRV: ini ------------------------------------------------
+VERSION=2
+SRCSRV: variables ------------------------------------------
+RAWURL=https://raw.github.com/mvvmcross/mvvmcross/feac2c89270f39827383887f68864c032395b966/%var2%
+SRCSRVVERCTRL=https
+SRCSRVTRG=%RAWURL%
+SRCSRV: source files ---------------------------------------
+D:\git\MvvmCross\AssemblyInfo.cs*AssemblyInfo.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\MvxTvosPropertyBinding.cs*MvvmCross/Binding/tvOS/MvxTvosPropertyBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\MvxTvosPropertyBindingExtensions.cs*MvvmCross/Binding/tvOS/MvxTvosPropertyBindingExtensions.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\MvxTvosBindingBuilder.cs*MvvmCross/Binding/tvOS/MvxTvosBindingBuilder.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxBaseUIViewVisibleTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxBaseUIViewVisibleTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUIActivityIndicatorViewHiddenTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUIActivityIndicatorViewHiddenTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUIButtonTitleTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUIButtonTitleTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUIControlTouchUpInsideTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUIControlTouchUpInsideTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUIControlValueChangedTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUIControlValueChangedTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUILabelTextTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUILabelTextTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUISearchBarTextTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUISearchBarTextTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUISegmentedControlSelectedSegmentTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUISegmentedControlSelectedSegmentTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUITextFieldShouldReturnTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUITextFieldShouldReturnTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUITextFieldTextFocusTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUITextFieldTextFocusTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUITextFieldTextTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUITextFieldTextTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUITextViewTextTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUITextViewTextTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUIViewHiddenTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUIViewHiddenTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUIViewLayerBorderWidthTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUIViewLayerBorderWidthTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUIViewTapTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUIViewTapTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUIViewVisibilityTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUIViewVisibilityTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Target\MvxUIViewVisibleTargetBinding.cs*MvvmCross/Binding/tvOS/Target/MvxUIViewVisibleTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\ValueConverters\MvxUnifiedTypesValueConverter.cs*MvvmCross/Binding/tvOS/ValueConverters/MvxUnifiedTypesValueConverter.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\Gestures\MvxBehaviourExtensions.cs*MvvmCross/Binding/tvOS/Views/Gestures/MvxBehaviourExtensions.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\Gestures\MvxGestureRecognizerBehavior.cs*MvvmCross/Binding/tvOS/Views/Gestures/MvxGestureRecognizerBehavior.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\Gestures\MvxSwipeGestureRecognizerBehaviour.cs*MvvmCross/Binding/tvOS/Views/Gestures/MvxSwipeGestureRecognizerBehaviour.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\Gestures\MvxTapGestureRecognizerBehaviour.cs*MvvmCross/Binding/tvOS/Views/Gestures/MvxTapGestureRecognizerBehaviour.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\IMvxBindable.cs*MvvmCross/Binding/tvOS/Views/IMvxBindable.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxActionBasedTableViewSource.cs*MvvmCross/Binding/tvOS/Views/MvxActionBasedTableViewSource.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxBaseCollectionViewSource.cs*MvvmCross/Binding/tvOS/Views/MvxBaseCollectionViewSource.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxBaseTableViewSource.cs*MvvmCross/Binding/tvOS/Views/MvxBaseTableViewSource.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxCollectionReusableView.cs*MvvmCross/Binding/tvOS/Views/MvxCollectionReusableView.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxCollectionViewCell.cs*MvvmCross/Binding/tvOS/Views/MvxCollectionViewCell.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxCollectionViewSource.cs*MvvmCross/Binding/tvOS/Views/MvxCollectionViewSource.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxCollectionViewSourceAnimated.cs*MvvmCross/Binding/tvOS/Views/MvxCollectionViewSourceAnimated.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxImageView.cs*MvvmCross/Binding/tvOS/Views/MvxImageView.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxImageViewLoader.cs*MvvmCross/Binding/tvOS/Views/MvxImageViewLoader.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxImageViewWrapper.cs*MvvmCross/Binding/tvOS/Views/MvxImageViewWrapper.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxSimpleTableViewSource.cs*MvvmCross/Binding/tvOS/Views/MvxSimpleTableViewSource.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxStandardTableViewCell.cs*MvvmCross/Binding/tvOS/Views/MvxStandardTableViewCell.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxStandardTableViewSource.cs*MvvmCross/Binding/tvOS/Views/MvxStandardTableViewSource.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxTableViewCell.cs*MvvmCross/Binding/tvOS/Views/MvxTableViewCell.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxTableViewSource.cs*MvvmCross/Binding/tvOS/Views/MvxTableViewSource.cs
+D:\git\MvvmCross\MvvmCross\Binding\tvOS\Views\MvxView.cs*MvvmCross/Binding/tvOS/Views/MvxView.cs
+SRCSRV: end ------------------------------------------------

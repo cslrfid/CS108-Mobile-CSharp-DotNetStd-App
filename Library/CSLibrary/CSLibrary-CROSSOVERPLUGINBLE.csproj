@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>CSLibrary</RootNamespace>
+    <AssemblyName>CSLibrary</AssemblyName>
+    <Version>3.0.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="HAL\Acr.ble\**" />
+    <Compile Remove="HAL\btframework\**" />
+    <Compile Remove="HAL\UWP\**" />
+    <EmbeddedResource Remove="HAL\Acr.ble\**" />
+    <EmbeddedResource Remove="HAL\btframework\**" />
+    <EmbeddedResource Remove="HAL\UWP\**" />
+    <None Remove="HAL\Acr.ble\**" />
+    <None Remove="HAL\btframework\**" />
+    <None Remove="HAL\UWP\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="CSLibrary-UWP.projitems" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BTWapper\Plugin.BLE.Abstractions\Plugin.BLE.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

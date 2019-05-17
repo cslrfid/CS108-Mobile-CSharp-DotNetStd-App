@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:pages="clr-namespace:BLE.Client.Pages;assembly=BLE.Client"
+                x:Class="BLE.Client.Pages.PageSpecialFunctionsMenu"
+                Title="Special Functions Menu">
+
+	<StackLayout Margin="0,100,0,0">
+		<StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+			<Button Text="Multi Bank Inventory" Font="Large" Command="{Binding OnMultiBankInventoryButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+			<Button Text="Phase and Channel Inventory" Font="Large" Command="{Binding OnPhaseChannelInventoryButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+			<Button Text="Periodic Read" Font="Large" Command="{Binding OnPeriodicReadButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+      <Button Text="UCODE DNA" Font="Large" Command="{Binding OnUCODEDNAButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+      <Button Text="Axzon" Font="Large" Command="{Binding OnRFMicroButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+      <Button Text="Block Write" Font="Large" Command="{Binding OnBlockWriteButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+    </StackLayout>
+	</StackLayout>
+
+</pages:BasePage>

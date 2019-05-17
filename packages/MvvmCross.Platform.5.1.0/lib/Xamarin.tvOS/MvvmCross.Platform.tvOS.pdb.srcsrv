@@ -1,0 +1,25 @@
+SRCSRV: ini ------------------------------------------------
+VERSION=2
+SRCSRV: variables ------------------------------------------
+RAWURL=https://raw.github.com/mvvmcross/mvvmcross/feac2c89270f39827383887f68864c032395b966/%var2%
+SRCSRVVERCTRL=https
+SRCSRVTRG=%RAWURL%
+SRCSRV: source files ---------------------------------------
+D:\git\MvvmCross\AssemblyInfo.cs*AssemblyInfo.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\MvxTvosColorExtensionMethods.cs*MvvmCross/Platform/tvOS/MvxTvosColorExtensionMethods.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\MvxTvosDateTimeExtensionMethods.cs*MvvmCross/Platform/tvOS/MvxTvosDateTimeExtensionMethods.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\MvxTvosUIViewControllerExtensions.cs*MvvmCross/Platform/tvOS/MvxTvosUIViewControllerExtensions.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\Platform\IMvxTvosSystem.cs*MvvmCross/Platform/tvOS/Platform/IMvxTvosSystem.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\Platform\MvxTvosMajorVersionChecker.cs*MvvmCross/Platform/tvOS/Platform/MvxTvosMajorVersionChecker.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\Platform\MvxTvosSystem.cs*MvvmCross/Platform/tvOS/Platform/MvxTvosSystem.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\Platform\MvxTvosTask.cs*MvvmCross/Platform/tvOS/Platform/MvxTvosTask.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\Platform\MvxTvosVersion.cs*MvvmCross/Platform/tvOS/Platform/MvxTvosVersion.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\Views\IMvxEventSourceViewController.cs*MvvmCross/Platform/tvOS/Views/IMvxEventSourceViewController.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\Views\IMvxTvosModalHost.cs*MvvmCross/Platform/tvOS/Views/IMvxTvosModalHost.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\Views\MvxBaseViewControllerAdapter.cs*MvvmCross/Platform/tvOS/Views/MvxBaseViewControllerAdapter.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\Views\MvxEventSourceCollectionViewController.cs*MvvmCross/Platform/tvOS/Views/MvxEventSourceCollectionViewController.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\Views\MvxEventSourcePageViewController.cs*MvvmCross/Platform/tvOS/Views/MvxEventSourcePageViewController.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\Views\MvxEventSourceTabBarController.cs*MvvmCross/Platform/tvOS/Views/MvxEventSourceTabBarController.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\Views\MvxEventSourceTableViewController.cs*MvvmCross/Platform/tvOS/Views/MvxEventSourceTableViewController.cs
+D:\git\MvvmCross\MvvmCross\Platform\tvOS\Views\MvxEventSourceViewController.cs*MvvmCross/Platform/tvOS/Views/MvxEventSourceViewController.cs
+SRCSRV: end ------------------------------------------------

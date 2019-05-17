@@ -1,0 +1,30 @@
+SRCSRV: ini ------------------------------------------------
+VERSION=2
+SRCSRV: variables ------------------------------------------
+RAWURL=https://raw.github.com/mvvmcross/mvvmcross/feac2c89270f39827383887f68864c032395b966/%var2%
+SRCSRVVERCTRL=https
+SRCSRVTRG=%RAWURL%
+SRCSRV: source files ---------------------------------------
+D:\git\MvvmCross\AssemblyInfo.cs*AssemblyInfo.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Bindings\La.n.g.cs*MvvmCross-Forms/MvvmCross.Forms/Bindings/La.n.g.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Core\IMvxContentPage.cs*MvvmCross-Forms/MvvmCross.Forms/Core/IMvxContentPage.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Presenters\IMvxFormsPageLoader.cs*MvvmCross-Forms/MvvmCross.Forms/Presenters/IMvxFormsPageLoader.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\ViewModels\IMvxMasterDetailViewModel.cs*MvvmCross-Forms/MvvmCross.Forms/ViewModels/IMvxMasterDetailViewModel.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Core\MvxContentPage.cs*MvvmCross-Forms/MvvmCross.Forms/Core/MvxContentPage.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Core\MvxFormsApplication.cs*MvvmCross-Forms/MvvmCross.Forms/Core/MvxFormsApplication.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Presenters\MvxFormsMasterDetailPagePresenter.cs*MvvmCross-Forms/MvvmCross.Forms/Presenters/MvxFormsMasterDetailPagePresenter.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Presenters\MvxFormsPageLoader.cs*MvvmCross-Forms/MvvmCross.Forms/Presenters/MvxFormsPageLoader.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Presenters\MvxFormsPagePresenter.cs*MvvmCross-Forms/MvvmCross.Forms/Presenters/MvxFormsPagePresenter.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\ViewModels\MvxMasterDetailViewModel.cs*MvvmCross-Forms/MvvmCross.Forms/ViewModels/MvxMasterDetailViewModel.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Presenters\MvxPresenterHelpers.cs*MvvmCross-Forms/MvvmCross.Forms/Presenters/MvxPresenterHelpers.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Bindings\Bi.n.d.cs*MvvmCross-Forms/MvvmCross.Forms/Bindings/Bi.n.d.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Bindings\IMvxBindingCreator.cs*MvvmCross-Forms/MvvmCross.Forms/Bindings/IMvxBindingCreator.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Bindings\MvxBindablePropertyExtensionMethods.cs*MvvmCross-Forms/MvvmCross.Forms/Bindings/MvxBindablePropertyExtensionMethods.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Bindings\MvxBindingCreator.cs*MvvmCross-Forms/MvvmCross.Forms/Bindings/MvxBindingCreator.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Bindings\MvxFormsBindingBuilder.cs*MvvmCross-Forms/MvvmCross.Forms/Bindings/MvxFormsBindingBuilder.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Bindings\MvxFormsBindingCreator.cs*MvvmCross-Forms/MvvmCross.Forms/Bindings/MvxFormsBindingCreator.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Bindings\MvxFormsTargetBindingFactoryRegistry.cs*MvvmCross-Forms/MvvmCross.Forms/Bindings/MvxFormsTargetBindingFactoryRegistry.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Bindings\Target\MvxBindablePropertyTargetBinding.cs*MvvmCross-Forms/MvvmCross.Forms/Bindings/Target/MvxBindablePropertyTargetBinding.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Views\MvxImageView.cs*MvvmCross-Forms/MvvmCross.Forms/Views/MvxImageView.cs
+D:\git\MvvmCross\MvvmCross-Forms\MvvmCross.Forms\Presenters\IMvxFormsPagePresenter.cs*MvvmCross-Forms/MvvmCross.Forms/Presenters/IMvxFormsPagePresenter.cs
+SRCSRV: end ------------------------------------------------

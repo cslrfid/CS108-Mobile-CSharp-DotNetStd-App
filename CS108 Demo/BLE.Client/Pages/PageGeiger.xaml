@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:BLE.Client.Pages;assembly=BLE.Client"
+             x:Class="BLE.Client.Pages.PageGeiger"
+                Title="Geiger">
+
+  <StackLayout Margin="0,0,0,0">
+
+    <Label Text="Selected EPC" />
+    <Entry Text="{ Binding entryEPC, Mode=TwoWay }" />
+
+    <StackLayout Orientation="Horizontal">
+      <Label Text="Power (0-300)" WidthRequest="100" VerticalOptions="Center" />
+      <Entry x:Name="entryPower" Text="{ Binding power, Mode=TwoWay }" Unfocused="entryPowerCompleted" HorizontalOptions="FillAndExpand" />
+    </StackLayout>
+
+    <Label Text = "" />
+    <Label Text="{Binding rssiStart}" Font="Large" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+    <Label Text = "" />
+
+    <ProgressBar x:Name="progressbarRSSI" Progress="{Binding progressbarRSSIValue}" WidthRequest="300" HeightRequest="30" HorizontalOptions="Center" VerticalOptions="Center" />
+  
+    <Button Text= "{Binding startGeigerButtonText}" Font="Large" Command="{Binding OnStartGeigerButtonCommand}" />
+
+    </StackLayout>
+</pages:BasePage>

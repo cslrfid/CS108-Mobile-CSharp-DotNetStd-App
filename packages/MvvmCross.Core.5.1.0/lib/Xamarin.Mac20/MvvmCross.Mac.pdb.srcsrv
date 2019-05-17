@@ -1,0 +1,42 @@
+SRCSRV: ini ------------------------------------------------
+VERSION=2
+SRCSRV: variables ------------------------------------------
+RAWURL=https://raw.github.com/mvvmcross/mvvmcross/feac2c89270f39827383887f68864c032395b966/%var2%
+SRCSRVVERCTRL=https
+SRCSRVTRG=%RAWURL%
+SRCSRV: source files ---------------------------------------
+D:\git\MvvmCross\AssemblyInfo.cs*AssemblyInfo.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Platform\MvxApplicationDelegate.cs*MvvmCross/Mac/Mac/Platform/MvxApplicationDelegate.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Platform\MvxDebugTrace.cs*MvvmCross/Mac/Mac/Platform/MvxDebugTrace.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\MvxMacUIThreadDispatcher.cs*MvvmCross/Mac/Mac/Views/MvxMacUIThreadDispatcher.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\MvxMacViewDispatcher.cs*MvvmCross/Mac/Mac/Views/MvxMacViewDispatcher.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\MvxMacViewsContainer.cs*MvvmCross/Mac/Mac/Views/MvxMacViewsContainer.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\Presenters\MvxMacViewPresenter.cs*MvvmCross/Mac/Mac/Views/Presenters/MvxMacViewPresenter.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Platform\MvxMacSetup.cs*MvvmCross/Mac/Mac/Platform/MvxMacSetup.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\MvxViewController.cs*MvvmCross/Mac/Mac/Views/MvxViewController.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\IMvxMacView.cs*MvvmCross/Mac/Mac/Views/IMvxMacView.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\IMvxMacNavigator.cs*MvvmCross/Mac/Mac/Views/IMvxMacNavigator.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\IMvxMacViewCreator.cs*MvvmCross/Mac/Mac/Views/IMvxMacViewCreator.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\IMvxCanCreateMacView.cs*MvvmCross/Mac/Mac/Views/IMvxCanCreateMacView.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\IMvxCurrentRequest.cs*MvvmCross/Mac/Mac/Views/IMvxCurrentRequest.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\Presenters\MvxBaseMacViewPresenter.cs*MvvmCross/Mac/Mac/Views/Presenters/MvxBaseMacViewPresenter.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\Presenters\IMvxMacViewPresenter.cs*MvvmCross/Mac/Mac/Views/Presenters/IMvxMacViewPresenter.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\MvxViewControllerAdaptingExtensions.cs*MvvmCross/Mac/Mac/Views/MvxViewControllerAdaptingExtensions.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\MvxViewControllerAdapter.cs*MvvmCross/Mac/Mac/Views/MvxViewControllerAdapter.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\MvxViewControllerExtensionMethods.cs*MvvmCross/Mac/Mac/Views/MvxViewControllerExtensionMethods.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\MvxBindingViewControllerAdapter.cs*MvvmCross/Mac/Mac/Views/MvxBindingViewControllerAdapter.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\Presenters\MvxNSSwitchOnTargetBinding.cs*MvvmCross/Mac/Mac/Views/Presenters/MvxNSSwitchOnTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\ExtensionMethods\MvxMacDateTimeExtensionMethods.cs*MvvmCross/Mac/Mac/ExtensionMethods/MvxMacDateTimeExtensionMethods.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\IMvxMacViewsContainer.cs*MvvmCross/Mac/Mac/Views/IMvxMacViewsContainer.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\MvxWindowController.cs*MvvmCross/Mac/Mac/Views/MvxWindowController.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\MvxFromStoryboardAttribute.cs*MvvmCross/Mac/Mac/Views/MvxFromStoryboardAttribute.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\Presenters\Attributes\MvxBasePresentationAttribute.cs*MvvmCross/Mac/Mac/Views/Presenters/Attributes/MvxBasePresentationAttribute.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\Presenters\Attributes\MvxModalPresentationAttribute.cs*MvvmCross/Mac/Mac/Views/Presenters/Attributes/MvxModalPresentationAttribute.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\Presenters\Attributes\MvxWindowPresentationAttribute.cs*MvvmCross/Mac/Mac/Views/Presenters/Attributes/MvxWindowPresentationAttribute.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\Presenters\Attributes\MvxSheetPresentationAttribute.cs*MvvmCross/Mac/Mac/Views/Presenters/Attributes/MvxSheetPresentationAttribute.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\Presenters\Attributes\MvxContentPresentationAttribute.cs*MvvmCross/Mac/Mac/Views/Presenters/Attributes/MvxContentPresentationAttribute.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\Presenters\Attributes\IMvxOverridePresentationAttribute.cs*MvvmCross/Mac/Mac/Views/Presenters/Attributes/IMvxOverridePresentationAttribute.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\MvxTabViewController.cs*MvvmCross/Mac/Mac/Views/MvxTabViewController.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\IMvxTabViewController.cs*MvvmCross/Mac/Mac/Views/IMvxTabViewController.cs
+D:\git\MvvmCross\MvvmCross\Mac\Mac\Views\Presenters\Attributes\MvxTabPresentationAttribute.cs*MvvmCross/Mac/Mac/Views/Presenters/Attributes/MvxTabPresentationAttribute.cs
+SRCSRV: end ------------------------------------------------

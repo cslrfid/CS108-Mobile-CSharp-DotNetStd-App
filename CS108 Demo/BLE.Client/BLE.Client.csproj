@@ -1,0 +1,155 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="BleMvxFormsApp.xaml" />
+    <None Remove="Pages\DeviceListPage.xaml" />
+    <None Remove="Pages\PageAbout.xaml" />
+    <None Remove="Pages\PageBarcodeScan.xaml" />
+    <None Remove="Pages\PageBlockWrite.xaml" />
+    <None Remove="Pages\PageFilter.xaml" />
+    <None Remove="Pages\PageGeiger.xaml" />
+    <None Remove="Pages\PageInventory.xaml" />
+    <None Remove="Pages\PageInventorynScan.xaml" />
+    <None Remove="Pages\PageMainMenu.xaml" />
+    <None Remove="Pages\PageMultiBankInventory.xaml" />
+    <None Remove="Pages\PageMultiBankInventorySetting.xaml" />
+    <None Remove="Pages\PagePeriodicRead.xaml" />
+    <None Remove="Pages\PagePhaseChannelInventory.xaml" />
+    <None Remove="Pages\PagePostFilter.xaml" />
+    <None Remove="Pages\PagePreFilter.xaml" />
+    <None Remove="Pages\PageReadWrite.xaml" />
+    <None Remove="Pages\PageRegisterTag.xaml" />
+    <None Remove="Pages\PageRFMicronInventory.xaml" />
+    <None Remove="Pages\PageRFMicronNickname.xaml" />
+    <None Remove="Pages\PageRFMicroReadTemp.xaml" />
+    <None Remove="Pages\PageRFMicroSetting.xaml" />
+    <None Remove="Pages\PageSecurity.xaml" />
+    <None Remove="Pages\PageSetting.xaml" />
+    <None Remove="Pages\PageSettingAdministration.xaml" />
+    <None Remove="Pages\PageSettingOperation.xaml" />
+    <None Remove="Pages\PageSpecialFunctionsMenu.xaml" />
+    <None Remove="Pages\PageUCODEDNA.xaml" />
+    <None Remove="Pages\ServiceListPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\PageBlockWrite.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="BleMvxFormsApp.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\DeviceListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageAbout.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageBarcodeScan.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageFilter.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageGeiger.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageInventory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageInventorynScan.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageMainMenu.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageMultiBankInventory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageMultiBankInventorySetting.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PagePeriodicRead.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PagePhaseChannelInventory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PagePostFilter.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PagePreFilter.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageReadWrite.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageRegisterTag.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageRFMicronInventory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageRFMicronNickname.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageRFMicroReadTemp.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageRFMicroSetting.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageSecurity.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageSetting.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageSettingAdministration.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageSettingOperation.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageSpecialFunctionsMenu.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageUCODEDNA.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\ServiceListPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="6.5.1" />
+    <PackageReference Include="MvvmCross" Version="5.1.0" />
+    <PackageReference Include="MvvmCross.Binding" Version="5.1.0" />
+    <PackageReference Include="MvvmCross.Core" Version="5.1.0" />
+    <PackageReference Include="MvvmCross.Forms" Version="5.1.0" />
+    <PackageReference Include="MvvmCross.Platform" Version="5.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="PCLStorage" Version="1.0.2" />
+    <PackageReference Include="Plugin.Permissions" Version="2.0.1" />
+    <PackageReference Include="Plugin.Share" Version="7.0.1" />
+    <PackageReference Include="Prism.Core" Version="6.3.0" />
+    <PackageReference Include="Splat" Version="2.0.0" />
+    <PackageReference Include="Xam.Plugins.Settings" Version="3.0.1" />
+    <PackageReference Include="Xamarin.Forms" Version="2.3.4.247" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\BTWapper\MvvmCross.Plugins.BLE\MvvmCross.Plugins.BLE.csproj" />
+    <ProjectReference Include="..\..\Library\BTWapper\Plugin.BLE.Abstractions\Plugin.BLE.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Library\CSLibrary\CSLibrary-CROSSOVERPLUGINBLE.csproj" />
+  </ItemGroup>
+
+</Project>

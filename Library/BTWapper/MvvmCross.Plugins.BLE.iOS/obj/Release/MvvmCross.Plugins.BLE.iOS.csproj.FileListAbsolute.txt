@@ -1,0 +1,6 @@
+C:\Temp\CS108 RFID Reader Demo v3\Library\bin\Release\iOS\MvvmCross.Plugins.BLE.iOS.dll
+C:\Temp\CS108 RFID Reader Demo v3\Library\BTWapper\MvvmCross.Plugins.BLE.iOS\obj\Release\optimized\
+C:\Temp\CS108 RFID Reader Demo v3\Library\BTWapper\MvvmCross.Plugins.BLE.iOS\obj\Release\MvvmCross.Plugins.BLE.iOS.csprojAssemblyReference.cache
+C:\Temp\CS108 RFID Reader Demo v3\Library\BTWapper\MvvmCross.Plugins.BLE.iOS\obj\Release\MvvmCross.Plugins.BLE.iOS.csproj.CoreCompileInputs.cache
+C:\Temp\CS108 RFID Reader Demo v3\Library\BTWapper\MvvmCross.Plugins.BLE.iOS\obj\Release\MvvmCross.Plugins.BLE.iOS.csproj.CopyComplete
+C:\Temp\CS108 RFID Reader Demo v3\Library\BTWapper\MvvmCross.Plugins.BLE.iOS\obj\Release\MvvmCross.Plugins.BLE.iOS.dll

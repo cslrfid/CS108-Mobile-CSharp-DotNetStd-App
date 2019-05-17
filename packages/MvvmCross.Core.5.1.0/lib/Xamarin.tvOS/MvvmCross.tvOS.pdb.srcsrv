@@ -1,0 +1,43 @@
+SRCSRV: ini ------------------------------------------------
+VERSION=2
+SRCSRV: variables ------------------------------------------
+RAWURL=https://raw.github.com/mvvmcross/mvvmcross/feac2c89270f39827383887f68864c032395b966/%var2%
+SRCSRVVERCTRL=https
+SRCSRVTRG=%RAWURL%
+SRCSRV: source files ---------------------------------------
+D:\git\MvvmCross\AssemblyInfo.cs*AssemblyInfo.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Platform\IMvxApplicationDelegate.cs*MvvmCross/tvOS/tvOS/Platform/IMvxApplicationDelegate.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Platform\IMvxTvosPlatformProperties.cs*MvvmCross/tvOS/tvOS/Platform/IMvxTvosPlatformProperties.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Platform\MvxApplicationDelegate.cs*MvvmCross/tvOS/tvOS/Platform/MvxApplicationDelegate.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Platform\MvxDebugTrace.cs*MvvmCross/tvOS/tvOS/Platform/MvxDebugTrace.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Platform\MvxTvosDisplayDensity.cs*MvvmCross/tvOS/tvOS/Platform/MvxTvosDisplayDensity.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Platform\MvxTvosFormFactor.cs*MvvmCross/tvOS/tvOS/Platform/MvxTvosFormFactor.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Platform\MvxTvosPlatformProperties.cs*MvvmCross/tvOS/tvOS/Platform/MvxTvosPlatformProperties.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Platform\MvxTvosSetup.cs*MvvmCross/tvOS/tvOS/Platform/MvxTvosSetup.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\IMvxCanCreateTvosView.cs*MvvmCross/tvOS/tvOS/Views/IMvxCanCreateTvosView.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\IMvxCurrentRequest.cs*MvvmCross/tvOS/tvOS/Views/IMvxCurrentRequest.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\IMvxTvosNavigator.cs*MvvmCross/tvOS/tvOS/Views/IMvxTvosNavigator.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\IMvxTvosView.cs*MvvmCross/tvOS/tvOS/Views/IMvxTvosView.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\IMvxTvosViewCreator.cs*MvvmCross/tvOS/tvOS/Views/IMvxTvosViewCreator.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\IMvxTvosViewsContainer.cs*MvvmCross/tvOS/tvOS/Views/IMvxTvosViewsContainer.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\IMvxModalTvosView.cs*MvvmCross/tvOS/tvOS/Views/IMvxModalTvosView.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxBindingViewControllerAdapter.cs*MvvmCross/tvOS/tvOS/Views/MvxBindingViewControllerAdapter.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxCanCreateTvosViewExtensionMethods.cs*MvvmCross/tvOS/tvOS/Views/MvxCanCreateTvosViewExtensionMethods.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxCollectionViewController.cs*MvvmCross/tvOS/tvOS/Views/MvxCollectionViewController.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxFormFactorSpecificAttribute.cs*MvvmCross/tvOS/tvOS/Views/MvxFormFactorSpecificAttribute.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxFromStoryboardAttribute.cs*MvvmCross/tvOS/tvOS/Views/MvxFromStoryboardAttribute.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxTvosUIThreadDispatcher.cs*MvvmCross/tvOS/tvOS/Views/MvxTvosUIThreadDispatcher.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxTvosViewDispatcher.cs*MvvmCross/tvOS/tvOS/Views/MvxTvosViewDispatcher.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxTvosViewsContainer.cs*MvvmCross/tvOS/tvOS/Views/MvxTvosViewsContainer.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxPageViewController.cs*MvvmCross/tvOS/tvOS/Views/MvxPageViewController.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxTabBarViewController.cs*MvvmCross/tvOS/tvOS/Views/MvxTabBarViewController.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxTableViewController.cs*MvvmCross/tvOS/tvOS/Views/MvxTableViewController.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxViewController.cs*MvvmCross/tvOS/tvOS/Views/MvxViewController.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxViewControllerAdapter.cs*MvvmCross/tvOS/tvOS/Views/MvxViewControllerAdapter.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxViewControllerAdaptingExtensions.cs*MvvmCross/tvOS/tvOS/Views/MvxViewControllerAdaptingExtensions.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\MvxViewControllerExtensionMethods.cs*MvvmCross/tvOS/tvOS/Views/MvxViewControllerExtensionMethods.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\Presenters\IMvxTvosViewPresenter.cs*MvvmCross/tvOS/tvOS/Views/Presenters/IMvxTvosViewPresenter.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\Presenters\MvxBaseTvosViewPresenter.cs*MvvmCross/tvOS/tvOS/Views/Presenters/MvxBaseTvosViewPresenter.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\Presenters\MvxTvosViewPresenter.cs*MvvmCross/tvOS/tvOS/Views/Presenters/MvxTvosViewPresenter.cs
+D:\git\MvvmCross\MvvmCross\tvOS\tvOS\Views\Presenters\MvxModalNavSupportTvosViewPresenter.cs*MvvmCross/tvOS/tvOS/Views/Presenters/MvxModalNavSupportTvosViewPresenter.cs
+SRCSRV: end ------------------------------------------------

@@ -1,0 +1,27 @@
+SRCSRV: ini ------------------------------------------------
+VERSION=2
+SRCSRV: variables ------------------------------------------
+RAWURL=https://raw.github.com/mvvmcross/mvvmcross/feac2c89270f39827383887f68864c032395b966/%var2%
+SRCSRVVERCTRL=https
+SRCSRVTRG=%RAWURL%
+SRCSRV: source files ---------------------------------------
+D:\git\MvvmCross\AssemblyInfo.cs*AssemblyInfo.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\Bi.n.d.cs*MvvmCross/Binding/Wpf/Bi.n.d.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\Import.cs*MvvmCross/Binding/Wpf/Import.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\IMvxBindingCreator.cs*MvvmCross/Binding/Wpf/IMvxBindingCreator.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\IMvxWindowsAssemblyCache.cs*MvvmCross/Binding/Wpf/IMvxWindowsAssemblyCache.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\La.n.g.cs*MvvmCross/Binding/Wpf/La.n.g.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\MvxBindingCreator.cs*MvvmCross/Binding/Wpf/MvxBindingCreator.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\MvxBinding\MvxMvvmCrossBindingCreator.cs*MvvmCross/Binding/Wpf/MvxBinding/MvxMvvmCrossBindingCreator.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\MvxBinding\MvxWindowsTargetBindingFactoryRegistry.cs*MvvmCross/Binding/Wpf/MvxBinding/MvxWindowsTargetBindingFactoryRegistry.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\MvxBinding\Target\MvxCollapsedTargetBinding.cs*MvvmCross/Binding/Wpf/MvxBinding/Target/MvxCollapsedTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\MvxBinding\Target\MvxDependencyPropertyTargetBinding.cs*MvvmCross/Binding/Wpf/MvxBinding/Target/MvxDependencyPropertyTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\MvxBinding\Target\MvxVisibleTargetBinding.cs*MvvmCross/Binding/Wpf/MvxBinding/Target/MvxVisibleTargetBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\MvxDependencyPropertyExtensionMethods.cs*MvvmCross/Binding/Wpf/MvxDependencyPropertyExtensionMethods.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\MvxDesignTimeChecker.cs*MvvmCross/Binding/Wpf/MvxDesignTimeChecker.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\MvxWindowsAssemblyCache.cs*MvvmCross/Binding/Wpf/MvxWindowsAssemblyCache.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\MvxWindowsBindingBuilder.cs*MvvmCross/Binding/Wpf/MvxWindowsBindingBuilder.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\MvxWindowsPropertyBinding.cs*MvvmCross/Binding/Wpf/MvxWindowsPropertyBinding.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\MvxWindowsPropertyBindingExtensions.cs*MvvmCross/Binding/Wpf/MvxWindowsPropertyBindingExtensions.cs
+D:\git\MvvmCross\MvvmCross\Binding\Wpf\WindowsBinding\MvxWindowsBindingCreator.cs*MvvmCross/Binding/Wpf/WindowsBinding/MvxWindowsBindingCreator.cs
+SRCSRV: end ------------------------------------------------
