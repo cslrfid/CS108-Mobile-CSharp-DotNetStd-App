@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="csl.cs108fulldemo.demo" android:installLocation="auto" android:versionCode="180" android:versionName="3.0.0">
-	<uses-sdk android:minSdkVersion="18" android:targetSdkVersion="27" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="csl.cs108fulldemo.demo" android:installLocation="auto" android:versionCode="190" android:versionName="3.1.4">
+	<uses-sdk android:minSdkVersion="18" android:targetSdkVersion="28" />
 	<application android:label="CS108 C# Demo" android:icon="@drawable/icon" android:theme="@style/MyTheme"></application>
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

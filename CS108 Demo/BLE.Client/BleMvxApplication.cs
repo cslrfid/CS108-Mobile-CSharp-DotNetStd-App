@@ -200,6 +200,19 @@ namespace BLE.Client
         public static int _rfMicro_MinDry;
         public static int _rfMicro_MaxDry;
 
+        //for ColdChain
+        public static int _coldChain_TempOffset;
+        public static int _coldChain_Temp1THUnder;
+        public static int _coldChain_Temp1THOver;
+        public static int _coldChain_Temp1THCount;
+        public static int _coldChain_Temp2THUnder;
+        public static int _coldChain_Temp2THOver;
+        public static int _coldChain_Temp2THCount;
+        public static int _coldChain_LogInterval;
+
+        // for Xerxes Tag
+        public static int _xerxes_delay;
+
         public override void Initialize()
         {
             RFMicroTagNicknameViewModel item;

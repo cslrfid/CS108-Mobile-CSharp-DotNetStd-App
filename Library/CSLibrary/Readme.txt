@@ -2,8 +2,8 @@
 
 CSLibrary type
 --------------
-1. CSLibrary-CROSSOVERPLUGINBLE (Protable) is a .netstandard library for iOS and Android MVVM apps
-2. CSLibrary-DESKTOP (WINFORMS and WPF) is a DLL library for Widnows 10 Desktop apps
+1. CSLibrary-NETStandard is a .netstandard library for iOS and Android MVVM apps
+2. CSLibrary-DESKTOP is a DLL library for Widnows 10 Desktop apps (WINFORMS and WPF) 
 3. CSLibrary-UWP is a link project for Widnows 10 UWP apps
 
 

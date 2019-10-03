@@ -33,6 +33,10 @@ namespace BLE.Client.ViewModels
         private uint _power = 300;
         public uint power { get { return _power; } set { _power = value; } }
 
+        private int _Threshold = 0;
+        public string labelThresholdText { get { return _Threshold.ToString(); } set { try { _Threshold = int.Parse(value); } catch (Exception ex) { } } }
+
+
         // end for test
 
         bool _startInventory = false;
@@ -53,7 +57,7 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.SetPowerLevel(_power);
 
             BleMvxApplication._reader.rfid.SetCurrentLinkProfile(BleMvxApplication._config.RFID_Profile);
-            //BleMvxApplication._reader.rfid.Options.TagSelected.Qvalue = (uint)_qValue;
+            BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.EPC;
             BleMvxApplication._reader.rfid.Options.TagSelected.epcMask = new CSLibrary.Structures.S_MASK(_entryEPC);
             BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskOffset = 0;
             BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskLength = (uint)(_entryEPC.Length) * 4;
@@ -62,6 +66,8 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.SetOperationMode(CSLibrary.Constants.RadioOperationMode.CONTINUOUS);
             //BleMvxApplication._reader.rfid.Options.TagSearchOne.avgRssi = cb_averaging.Checked;
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PRESEARCHING);
+
+            _Threshold = BleMvxApplication._config.RFID_DBm ? -47 : 60;
 
             //SetEvent(true);
         }
@@ -142,6 +148,8 @@ namespace BLE.Client.ViewModels
             _beepSoundCount = 0;
             Xamarin.Forms.Device.StartTimer(TimeSpan.FromMilliseconds(50), () =>
             {
+                CSLibrary.Debug.WriteLine("Threshold {0}", _Threshold);
+
                 if (_rssi == 0)
                 {
                     _noTagCount++;
@@ -158,31 +166,13 @@ namespace BLE.Client.ViewModels
 
                     _beepSoundCount++;
 
-                    if (_rssi >= 20 && _rssi < 30)
+                    if ((!BleMvxApplication._config.RFID_DBm && _rssi >= _Threshold) || (BleMvxApplication._config.RFID_DBm && _rssi >= dBm2dBuV(_Threshold)))
                     {
-                        if (_beepSoundCount >= 40)
-                        {
-                            _beepSoundCount = 0;
-                            _rssi = 0;
-                        }
+                        Xamarin.Forms.DependencyService.Get<ISystemSound>().SystemSound(4);
+                        _beepSoundCount = 1;
+                        _rssi = 0;
                     }
-                    else if (_rssi >= 30 && _rssi < 40)
-                    {
-                        if (_beepSoundCount >= 20)
-                        {
-                            _beepSoundCount = 0;
-                            _rssi = 0;
-                        }
-                    }
-                    else if (_rssi >= 40 && _rssi < 50)
-                    {
-                        if (_beepSoundCount >= 10)
-                        {
-                            _beepSoundCount = 0;
-                            _rssi = 0;
-                        }
-                    }
-                    else if (_rssi >= 50 && _rssi < 60)
+                    else if (_rssi >= 50)
                     {
                         if (_beepSoundCount >= 5)
                         {
@@ -190,11 +180,29 @@ namespace BLE.Client.ViewModels
                             _rssi = 0;
                         }
                     }
-                    else if (_rssi > 60)
+                    else if (_rssi >= 40)
                     {
-                        Xamarin.Forms.DependencyService.Get<ISystemSound>().SystemSound(4);
-                        _beepSoundCount = 0;
-                        _rssi = 0;
+                        if (_beepSoundCount >= 10)
+                        {
+                            _beepSoundCount = 0;
+                            _rssi = 0;
+                        }
+                    }
+                    else if (_rssi >= 30)
+                    {
+                        if (_beepSoundCount >= 20)
+                        {
+                            _beepSoundCount = 0;
+                            _rssi = 0;
+                        }
+                    }
+                    else if (_rssi >= 20)
+                    {
+                        if (_beepSoundCount >= 40)
+                        {
+                            _beepSoundCount = 0;
+                            _rssi = 0;
+                        }
                     }
                 }
 
@@ -242,7 +250,7 @@ namespace BLE.Client.ViewModels
                     if (BleMvxApplication._config.RFID_DBm)
                     {
                         // Range -90 ~ -10 (16.98 ~ 96.98)
-                        double displayRSSI = (Math.Round(((CSLibrary.Structures.TagCallbackInfo)e.info).rssi - 106.98));
+                        double displayRSSI = dBuV2dBm(((CSLibrary.Structures.TagCallbackInfo)e.info).rssi);
                         if (displayRSSI < -90)
                             _progressbarRSSIValue = 0;
                         else if (displayRSSI > -10)
@@ -261,6 +269,18 @@ namespace BLE.Client.ViewModels
                     RaisePropertyChanged(() => progressbarRSSIValue);
                     break;
             }
+        }
+
+        double dBuV2dBm (double dBuV)
+        {
+            // Range -90 ~ -10 (16.98 ~ 96.98)
+            return (Math.Round(dBuV - 106.98));
+        }
+
+        double dBm2dBuV(double dBm)
+        {
+            // Range -90 ~ -10 (16.98 ~ 96.98)
+            return (dBm + 106.98);
         }
 
         void StateChangedEvent(object sender, CSLibrary.Events.OnStateChangedEventArgs e)

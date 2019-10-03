@@ -93,6 +93,8 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.OnStateChanged += new EventHandler<CSLibrary.Events.OnStateChangedEventArgs>(StateChangedEvent);
 
             CheckConnection();
+
+            BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
         }
 
         public override void Suspend()
@@ -162,6 +164,7 @@ namespace BLE.Client.ViewModels
                         break;
                 }
 
+                if ((BleMvxApplication._reader.bluetoothIC.GetFirmwareVersion() & 0x0F0000) != 0x030000) // ignore CS463
                 if (BleMvxApplication._reader.rfid.GetFirmwareVersion() < 0x00020614 || BleMvxApplication._reader.siliconlabIC.GetFirmwareVersion() < 0x00010009 || BleMvxApplication._reader.bluetoothIC.GetFirmwareVersion() < 0x0001000E)
                 {
                     _userDialogs.AlertAsync("Firmware too old" + Environment.NewLine + 

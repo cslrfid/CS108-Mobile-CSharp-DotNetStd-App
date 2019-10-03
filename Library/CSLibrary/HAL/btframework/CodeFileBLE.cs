@@ -8,6 +8,11 @@ using wclBluetooth;
 
 namespace CSLibrary
 {
+    class IDevice
+    {
+        public string Name = "";
+    }
+
     public partial class HighLevelInterface
     {
         // for bluetooth Connection
@@ -22,6 +27,7 @@ namespace CSLibrary
         wclGattCharacteristic WriteCharacteristic;
         //= FCharacteristics[lvCharacteristics.SelectedItems[0].Index];
 
+        IDevice _device = new IDevice();
 
         /// <summary>
         /// return error code

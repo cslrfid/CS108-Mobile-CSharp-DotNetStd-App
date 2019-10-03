@@ -42,7 +42,7 @@ namespace BLE.Client.ViewModels
 
         void OnAccessCompletedEvent(object sender, CSLibrary.SiliconLabIC.Events.OnAccessCompletedEventArgs e)
         {
-            //InvokeOnMainThread(() =>
+            InvokeOnMainThread(() =>
             {
                 switch (e.type)
                 {
@@ -50,7 +50,7 @@ namespace BLE.Client.ViewModels
                         _userDialogs.Alert("Serial Number : " + (string)e.info);
                         break;
                 }
-            }//);
+            });
         }
     }
 }

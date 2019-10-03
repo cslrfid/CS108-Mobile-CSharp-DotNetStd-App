@@ -21,8 +21,9 @@ namespace BLE.Client.ViewModels
         public ICommand OnPeriodicReadButtonCommand { protected set; get; }
         public ICommand OnUCODEDNAButtonCommand { protected set; get; }
         public ICommand OnRFMicroButtonCommand { protected set; get; }
+        public ICommand OnXerxesButtonCommand { protected set; get; }
         public ICommand OnBlockWriteButtonCommand { protected set; get; }
-
+        public ICommand OnCS83045ButtonCommand { protected set; get; }
 
         public ViewModelSpecialFunctionsMenu (IAdapter adapter, IUserDialogs userDialogs) : base(adapter)
         {
@@ -33,7 +34,16 @@ namespace BLE.Client.ViewModels
             OnPeriodicReadButtonCommand = new Command(OnPeriodicReadButtonClicked);
             OnUCODEDNAButtonCommand = new Command(OnUCODEDNAButtonClicked);
             OnRFMicroButtonCommand = new Command(OnRFMicroButtonClicked);
+            OnXerxesButtonCommand = new Command(OnXerxesButtonClicked);
             OnBlockWriteButtonCommand = new Command(OnBlockWriteButtonClicked);
+            OnCS83045ButtonCommand = new Command(OnCS83045ButtonClicked);
+        }
+
+        public override void Resume()
+        {
+            base.Resume();
+
+            BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
         }
 
         void OnMultiBankInventoryButtonClicked()
@@ -61,9 +71,19 @@ namespace BLE.Client.ViewModels
             ShowViewModel<ViewModelRFMicroSetting>(new MvxBundle());
         }
 
+        void OnXerxesButtonClicked()
+        {
+            ShowViewModel<ViewModelXerxesSetting>(new MvxBundle());
+        }
+
         void OnBlockWriteButtonClicked()
         {
             ShowViewModel<ViewModelBlockWrite>(new MvxBundle());
+        }
+
+        void OnCS83045ButtonClicked()
+        {
+            ShowViewModel<ViewModelCS83045Setting>(new MvxBundle());
         }
     }
 }

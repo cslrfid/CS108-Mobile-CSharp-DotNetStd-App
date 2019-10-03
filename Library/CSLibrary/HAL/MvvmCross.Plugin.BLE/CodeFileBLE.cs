@@ -122,7 +122,7 @@ namespace CSLibrary
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Program execption error, please check!!!");
+                Debug.WriteLine("Program execption error, please check!!! error message : " + ex.Message);
             }
         }
 

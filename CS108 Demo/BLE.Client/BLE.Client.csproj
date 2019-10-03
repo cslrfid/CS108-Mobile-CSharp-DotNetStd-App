@@ -5,11 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\PageCS83045DataLog.xaml.cs" />
+    <Compile Remove="ViewModels\ViewModelCS83045DataLog.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="BleMvxFormsApp.xaml" />
     <None Remove="Pages\DeviceListPage.xaml" />
     <None Remove="Pages\PageAbout.xaml" />
     <None Remove="Pages\PageBarcodeScan.xaml" />
     <None Remove="Pages\PageBlockWrite.xaml" />
+    <None Remove="Pages\PageCS83045DataLog.xaml" />
+    <None Remove="Pages\PageCS83045Inventory.xaml" />
+    <None Remove="Pages\PageCS83045Setting.xaml" />
     <None Remove="Pages\PageFilter.xaml" />
     <None Remove="Pages\PageGeiger.xaml" />
     <None Remove="Pages\PageInventory.xaml" />
@@ -33,6 +41,11 @@
     <None Remove="Pages\PageSettingOperation.xaml" />
     <None Remove="Pages\PageSpecialFunctionsMenu.xaml" />
     <None Remove="Pages\PageUCODEDNA.xaml" />
+    <None Remove="Pages\PageXerxesAuthentication.xaml" />
+    <None Remove="Pages\PageXerxesInventory.xaml" />
+    <None Remove="Pages\PageXerxesReadTemp.xaml" />
+    <None Remove="Pages\PageXerxesSetting.xaml" />
+    <None Remove="Pages\PageXerxesTagList.xaml" />
     <None Remove="Pages\ServiceListPage.xaml" />
   </ItemGroup>
 
@@ -59,6 +72,21 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageGeiger.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageXerxesAuthentication.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageXerxesSetting.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageXerxesTagList.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageXerxesReadTemp.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageXerxesInventory.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageInventory.xaml">
@@ -94,6 +122,9 @@
     <EmbeddedResource Include="Pages\PageRegisterTag.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageCS83045Inventory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageRFMicronInventory.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -101,6 +132,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageRFMicroReadTemp.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageCS83045Setting.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageRFMicroSetting.xaml">
@@ -149,7 +183,13 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Library\BTWapper\MvvmCross.Plugins.BLE\MvvmCross.Plugins.BLE.csproj" />
     <ProjectReference Include="..\..\Library\BTWapper\Plugin.BLE.Abstractions\Plugin.BLE.Abstractions.csproj" />
-    <ProjectReference Include="..\..\Library\CSLibrary\CSLibrary-CROSSOVERPLUGINBLE.csproj" />
+    <ProjectReference Include="..\..\Library\CSLibrary\CSLibrary-NETStandard.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Pages\PageXerxesSetting.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

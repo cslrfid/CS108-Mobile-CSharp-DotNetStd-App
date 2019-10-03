@@ -58,6 +58,8 @@ namespace BLE.Client.ViewModels
             entryLengthText = "255";
 
             UpdatePage();
+
+            BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
         }
 
         public override void Resume()
@@ -189,6 +191,7 @@ namespace BLE.Client.ViewModels
 
         void SelectTag()
         {
+            BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.EPC;
             BleMvxApplication._reader.rfid.Options.TagSelected.epcMask = new CSLibrary.Structures.S_MASK(/*m_record.pc.ToString() + */editorSelectedEPCText);
 
             BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE;

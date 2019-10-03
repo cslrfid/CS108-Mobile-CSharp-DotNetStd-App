@@ -4,13 +4,26 @@ using Xamarin.Forms;
 
 namespace BLE.Client.Pages
 {
-	public partial class PageGeiger
+    public partial class PageGeiger
 	{
 		static uint _rssi;
 
 		public PageGeiger()
 		{
 			InitializeComponent();
+
+            if (BleMvxApplication._config.RFID_DBm)
+            {
+                sliderThreshold.Minimum = -90;
+                sliderThreshold.Maximum = -10;
+                sliderThreshold.Value = -47;
+            }
+            else
+            {
+                sliderThreshold.Minimum = 17;
+                sliderThreshold.Maximum = 97;
+                sliderThreshold.Value = 60;
+            }
         }
 
         public async void entryPowerCompleted(object sender, EventArgs e)
@@ -31,5 +44,9 @@ namespace BLE.Client.Pages
             }
         }
 
+        void sliderThresholdValueChanged(object sender, EventArgs e)
+        {
+            labelThreshold.Text = ((int)(sliderThreshold.Value)).ToString();
+        }
     }
 }

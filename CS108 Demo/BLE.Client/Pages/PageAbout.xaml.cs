@@ -37,12 +37,19 @@ namespace BLE.Client.Pages
 
         string GetPCBVersion ()
         {
-            var ver = BleMvxApplication._reader.siliconlabIC.GetPCBVersion();
+            try
+            {
+                var ver = BleMvxApplication._reader.siliconlabIC.GetPCBVersion();
 
-            if (ver.Substring(2, 1) != "0")
-                return ver.Substring(0, 1) + "." + ver.Substring(1, 2);
-            else
-                return ver.Substring(0, 1) + "." + ver.Substring(1, 1);
+                if (ver.Substring(2, 1) != "0")
+                    return ver.Substring(0, 1) + "." + ver.Substring(1, 2);
+                else
+                    return ver.Substring(0, 1) + "." + ver.Substring(1, 1);
+            }
+            catch(Exception ex)
+            {
+                return "No PCB Version";
+            }
         }
 
     }

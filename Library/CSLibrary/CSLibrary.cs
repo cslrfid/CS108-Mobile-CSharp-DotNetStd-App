@@ -191,8 +191,10 @@ namespace CSLibrary
         /// 
         /// </summary>
         /// <param name="packetData"></param>
-        public bool ProcessAPIPacket (byte [] data)
+        public bool ProcessAPIPacket (byte [] recData)
         {
+            byte [] data = (byte [])recData.Clone();
+
             CSLibrary.Debug.WriteLine("Routine : ProcessAPIPacket");
 
             switch (data[3])

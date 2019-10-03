@@ -1,0 +1,2 @@
+MainPackage=C:\Temp\CS108 UWP Demo\bin\ARM\Release\Upload\CS108 UWP Demo_2.1.2.0_ARM.appx
+SymbolPackage=C:\Temp\CS108 UWP Demo\bin\ARM\Release\Upload\CS108 UWP Demo_2.1.2.0\CS108 UWP Demo_2.1.2.0_ARM.appxsym

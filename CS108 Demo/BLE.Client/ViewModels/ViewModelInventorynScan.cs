@@ -354,6 +354,8 @@ namespace BLE.Client.ViewModels
 
         void InventorySetting()
         {
+            BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
+
             BleMvxApplication._reader.rfid.Options.TagRanging.flags = CSLibrary.Constants.SelectFlags.ZERO;
 
             // Setting 1
@@ -687,8 +689,8 @@ namespace BLE.Client.ViewModels
 
         void StateChangedEvent(object sender, CSLibrary.Events.OnStateChangedEventArgs e)
         {
-            //InvokeOnMainThread(() =>
-            //{
+            InvokeOnMainThread(() =>
+            {
                 switch (e.state)
                 {
                     case CSLibrary.Constants.RFState.IDLE:
@@ -712,7 +714,7 @@ namespace BLE.Client.ViewModels
                         //InventoryStopped();
                         break;
                 }
-            //});
+            });
         }
 
         private void AddOrUpdateTagData(CSLibrary.Structures.TagCallbackInfo info)
@@ -819,55 +821,57 @@ namespace BLE.Client.ViewModels
 
 		void VoltageEvent(object sender, CSLibrary.Notification.VoltageEventArgs e)
 		{
-            if (e.Voltage == 0xffff)
+            InvokeOnMainThread(() =>
             {
-                _labelVoltage = "CS108 Bat. ERROR"; //			3.98v
-            }
-            else
-            {
-                // to fix CS108 voltage bug
-                if (_cancelVoltageValue)
+                if (e.Voltage == 0xffff)
                 {
-                    _cancelVoltageValue = false;
-                    return;
+                    _labelVoltage = "CS108 Bat. ERROR"; //			3.98v
                 }
-
-                double voltage = (double)e.Voltage / 1000;
-
+                else
                 {
-                    var batlow = ClassBattery.BatteryLow(voltage);
-
-                    if (BleMvxApplication._batteryLow && batlow == ClassBattery.BATTERYLEVELSTATUS.NORMAL)
+                    // to fix CS108 voltage bug
+                    if (_cancelVoltageValue)
                     {
-                        BleMvxApplication._batteryLow = false;
-                        RaisePropertyChanged(() => labelVoltageTextColor);
+                        _cancelVoltageValue = false;
+                        return;
                     }
-                    else
-                    if (!BleMvxApplication._batteryLow && batlow != ClassBattery.BATTERYLEVELSTATUS.NORMAL)
+
+                    double voltage = (double)e.Voltage / 1000;
+
                     {
-                        BleMvxApplication._batteryLow = true;
+                        var batlow = ClassBattery.BatteryLow(voltage);
 
-                        if (batlow == ClassBattery.BATTERYLEVELSTATUS.LOW)
-                            _userDialogs.AlertAsync("20% Battery Life Left, Please Recharge CS108 or Replace Freshly Charged CS108B");
-                        //else if (batlow == ClassBattery.BATTERYLEVELSTATUS.LOW_17)
-                        //    _userDialogs.AlertAsync("8% Battery Life Left, Please Recharge CS108 or Replace with Freshly Charged CS108B");
+                        if (BleMvxApplication._batteryLow && batlow == ClassBattery.BATTERYLEVELSTATUS.NORMAL)
+                        {
+                            BleMvxApplication._batteryLow = false;
+                            RaisePropertyChanged(() => labelVoltageTextColor);
+                        }
+                        else
+                        if (!BleMvxApplication._batteryLow && batlow != ClassBattery.BATTERYLEVELSTATUS.NORMAL)
+                        {
+                            BleMvxApplication._batteryLow = true;
 
-                        RaisePropertyChanged(() => labelVoltageTextColor);
+                            if (batlow == ClassBattery.BATTERYLEVELSTATUS.LOW)
+                                _userDialogs.AlertAsync("20% Battery Life Left, Please Recharge CS108 or Replace Freshly Charged CS108B");
+                            //else if (batlow == ClassBattery.BATTERYLEVELSTATUS.LOW_17)
+                            //    _userDialogs.AlertAsync("8% Battery Life Left, Please Recharge CS108 or Replace with Freshly Charged CS108B");
+
+                            RaisePropertyChanged(() => labelVoltageTextColor);
+                        }
+                    }
+
+                    switch (BleMvxApplication._config.BatteryLevelIndicatorFormat)
+                    {
+                        case 0:
+                            _labelVoltage = "CS108 Bat. " + voltage.ToString("0.000") + "v"; //			v
+                            break;
+
+                        default:
+                            _labelVoltage = "CS108 Bat. " + ClassBattery.Voltage2Percent(voltage).ToString("0") + "%"; //			%
+                                                                                                                       //_labelVoltage = ClassBattery.Voltage2Percent((double)e.Voltage / 1000).ToString("0") + "% " + ((double)e.Voltage / 1000).ToString("0.000") + "v"; //			%
+                            break;
                     }
                 }
-
-                switch (BleMvxApplication._config.BatteryLevelIndicatorFormat)
-                {
-                    case 0:
-                        _labelVoltage = "CS108 Bat. " + voltage.ToString("0.000") + "v"; //			v
-                        break;
-
-                    default:
-                        _labelVoltage = "CS108 Bat. " + ClassBattery.Voltage2Percent(voltage).ToString("0") + "%"; //			%
-                        //_labelVoltage = ClassBattery.Voltage2Percent((double)e.Voltage / 1000).ToString("0") + "% " + ((double)e.Voltage / 1000).ToString("0.000") + "v"; //			%
-                        break;
-                }
-            }
 
 
 #if nouse
@@ -890,7 +894,8 @@ namespace BLE.Client.ViewModels
                         _labelVoltage = "Bat. " + ((double)e.Voltage / 1000).ToString("0.000") + "v"; //			3.98v
 #endif
 
-			RaisePropertyChanged(() => labelVoltage);
+                RaisePropertyChanged(() => labelVoltage);
+            });
 		}
 
 #region -------------------- Barcode Scan -------------------
@@ -1033,52 +1038,55 @@ namespace BLE.Client.ViewModels
 
         void HotKeys_OnKeyEvent(object sender, CSLibrary.Notification.HotKeyEventArgs e)
         {
-            Page currentPage;
-
-            Trace.Message("Receive Key Event");
-
-            // try to get current page
-            try
+            InvokeOnMainThread(() =>
             {
-                currentPage = ((TabbedPage)Application.Current.MainPage.Navigation.NavigationStack[1]).CurrentPage;
-            }
-            catch (Exception ex)
-            {
-                return;
-            }
+                Page currentPage;
 
-            switch (currentPage.Title)
-            {
-                case "RFID Inventory":
-                    if (e.KeyCode == CSLibrary.Notification.Key.BUTTON)
-                    {
-                        if (e.KeyDown)
-                        {
-                            if (!_InventoryScanning)
-                                StartInventory();
-                        }
-                        else
-                        {
-                            StopInventory();
-                        }
-                    }
-                    break;
+                Trace.Message("Receive Key Event");
 
-                case "Barcode Scan":
-                    /*
-                    if (e.KeyCode == CSLibrary.Notification.Key.BUTTON)
-                    {
-                        if (e.KeyDown)
+                // try to get current page
+                try
+                {
+                    currentPage = ((TabbedPage)Application.Current.MainPage.Navigation.NavigationStack[1]).CurrentPage;
+                }
+                catch (Exception ex)
+                {
+                    return;
+                }
+
+                switch (currentPage.Title)
+                {
+                    case "RFID Inventory":
+                        if (e.KeyCode == CSLibrary.Notification.Key.BUTTON)
                         {
-                            BarcodeStart();
+                            if (e.KeyDown)
+                            {
+                                if (!_InventoryScanning)
+                                    StartInventory();
+                            }
+                            else
+                            {
+                                StopInventory();
+                            }
                         }
-                        else
+                        break;
+
+                    case "Barcode Scan":
+                        /*
+                        if (e.KeyCode == CSLibrary.Notification.Key.BUTTON)
                         {
-                            BarcodeStop();
-                        }
-                    }*/
-                    break;
-            }
+                            if (e.KeyDown)
+                            {
+                                BarcodeStart();
+                            }
+                            else
+                            {
+                                BarcodeStop();
+                            }
+                        }*/
+                        break;
+                }
+            });
         }
 #endregion
 
@@ -1211,7 +1219,7 @@ namespace BLE.Client.ViewModels
                     //string rootPath = @"https://192.168.25.21:29090/WebServiceRESTs/1.0/req";
                     string fullPath = BleMvxApplication._config.RFID_IPAddress;
 
-                    if (fullPath.Substring(12, 18) == "convergence.com.hk")
+                    if (fullPath.Length >= 28 && fullPath.Substring(8, 28) == "democloud.convergence.com.hk")
                         fullPath += @"/create-update-delete/update-entity/tagdata";
 
                     var uri = new Uri(fullPath + "?" + JSONdata);
@@ -1247,7 +1255,7 @@ namespace BLE.Client.ViewModels
                     //string rootPath = @"https://192.168.25.21:29090/WebServiceRESTs/1.0/req";
                     string fullPath1 = BleMvxApplication._config.RFID_IPAddress;
 
-                    if (fullPath1.Substring(8, 28) == "democloud.convergence.com.hk")
+                    if (fullPath1.Length >= 28 && fullPath1.Substring(8, 28) == "democloud.convergence.com.hk")
                         fullPath1 += @"/create-update-delete/update-entity/tagdata";
 
                     var uri1 = new Uri(string.Format(fullPath1, string.Empty));

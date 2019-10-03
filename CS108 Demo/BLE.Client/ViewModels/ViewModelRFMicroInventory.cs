@@ -70,6 +70,9 @@ namespace BLE.Client.ViewModels
         private ObservableCollection<RFMicroTagInfoViewModel> _TagInfoList = new ObservableCollection<RFMicroTagInfoViewModel>();
         public ObservableCollection<RFMicroTagInfoViewModel> TagInfoList { get { return _TagInfoList; } set { SetProperty(ref _TagInfoList, value); } }
 
+        //classRFMICROTAG[] aaa = new classRFMICROTAG();
+
+
         public string SensorValueTitle { get {
                 switch (BleMvxApplication._rfMicro_SensorUnit)
                 {
@@ -138,6 +141,7 @@ namespace BLE.Client.ViewModels
             RaisePropertyChanged(() => SensorValueTitle);
 
             SetPowerString();
+
         }
 
         ~ViewModelRFMicroInventory()
@@ -258,9 +262,17 @@ namespace BLE.Client.ViewModels
                         BleMvxApplication._reader.rfid.SetSelectCriteria(0, extraSlecetion);
 
                         // OC RSSI
+                        //extraSlecetion.action = new CSLibrary.Structures.SelectAction(CSLibrary.Constants.Target.SELECTED, CSLibrary.Constants.Action.NOTHING_DSLINVB, 0);
+                        //extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.BANK3, 0xa0, 8, new byte[] { 0x20 });
+                        //BleMvxApplication._reader.rfid.SetSelectCriteria(1, extraSlecetion);
+
+                        // Set OCRSSI Limit
                         extraSlecetion.action = new CSLibrary.Structures.SelectAction(CSLibrary.Constants.Target.SELECTED, CSLibrary.Constants.Action.NOTHING_DSLINVB, 0);
-                        extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.BANK3, 0xa0, 8, new byte[] { 0x20 });
+                        extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.BANK3, 0xa0, 8, new byte[] { (byte)(0x20 | BleMvxApplication._rfMicro_minOCRSSI) });
                         BleMvxApplication._reader.rfid.SetSelectCriteria(1, extraSlecetion);
+                        extraSlecetion.action = new CSLibrary.Structures.SelectAction(CSLibrary.Constants.Target.SELECTED, CSLibrary.Constants.Action.NOTHING_DSLINVB, 0);
+                        extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.BANK3, 0xa0, 8, new byte[] { (byte)(BleMvxApplication._rfMicro_maxOCRSSI) });
+                        BleMvxApplication._reader.rfid.SetSelectCriteria(2, extraSlecetion);
 
                         break;
 
@@ -270,14 +282,22 @@ namespace BLE.Client.ViewModels
                         BleMvxApplication._reader.rfid.SetSelectCriteria(0, extraSlecetion);
 
                         // OC RSSI
+                        //extraSlecetion.action = new CSLibrary.Structures.SelectAction(CSLibrary.Constants.Target.SELECTED, CSLibrary.Constants.Action.NOTHING_DSLINVB, 0);
+                        //extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.BANK3, 0xd0, 8, new byte[] { 0x20 });
+                        //BleMvxApplication._reader.rfid.SetSelectCriteria(1, extraSlecetion);
+
+                        // Set OCRSSI Limit
                         extraSlecetion.action = new CSLibrary.Structures.SelectAction(CSLibrary.Constants.Target.SELECTED, CSLibrary.Constants.Action.NOTHING_DSLINVB, 0);
-                        extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.BANK3, 0xd0, 8, new byte[] { 0x20 });
+                        extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.BANK3, 0xd0, 8, new byte[] { (byte)(0x20 | BleMvxApplication._rfMicro_minOCRSSI) });
                         BleMvxApplication._reader.rfid.SetSelectCriteria(1, extraSlecetion);
+                        extraSlecetion.action = new CSLibrary.Structures.SelectAction(CSLibrary.Constants.Target.SELECTED, CSLibrary.Constants.Action.NOTHING_DSLINVB, 0);
+                        extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.BANK3, 0xd0, 8, new byte[] { (byte)(BleMvxApplication._rfMicro_maxOCRSSI) });
+                        BleMvxApplication._reader.rfid.SetSelectCriteria(2, extraSlecetion);
 
                         // Temperature and Sensor code
                         extraSlecetion.action = new CSLibrary.Structures.SelectAction(CSLibrary.Constants.Target.SELECTED, CSLibrary.Constants.Action.NOTHING_DSLINVB, 0);
                         extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.BANK3, 0xe0, 0, new byte[] { 0x00 });
-                        BleMvxApplication._reader.rfid.SetSelectCriteria(2, extraSlecetion);
+                        BleMvxApplication._reader.rfid.SetSelectCriteria(3, extraSlecetion);
 
                         break;
                 }
