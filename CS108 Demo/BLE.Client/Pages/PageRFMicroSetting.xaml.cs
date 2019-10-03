@@ -62,15 +62,20 @@ namespace BLE.Client.Pages
 
                 switch (Array.IndexOf(_tagTypeOptions, buttonTagType.Text))
                 {
-                    case 0:
+                    case 0: // S2
                         SetIndicatorsProfile(2);
                         buttonIndicatorsProfile.IsEnabled = false;
                         buttonSensorType.IsEnabled = false;
                         break;
 
-                    default:
+                    case 1: // S3
                         buttonIndicatorsProfile.IsEnabled = true;
                         buttonSensorType.IsEnabled = true;
+                        break;
+
+                    default: // Xerxes
+
+
                         break;
                 }
             }
@@ -146,27 +151,6 @@ namespace BLE.Client.Pages
                         stacklayoutMinDry.IsVisible = true;
                         stacklayoutMaxDry.IsVisible = true;
 
-                        /*
-                        entryMinWet.IsVisible = true;
-                        entryMaxWet.IsVisible = true;
-                        entryMinDamp.IsVisible = true;
-                        entryMaxDamp.IsVisible = true;
-                        entryMinDry.IsVisible = true;
-                        entryMaxDry.IsVisible = true;
-
-                        entryMinWet.IsEnabled = true;
-                        entryMaxWet.IsEnabled = true;
-                        entryMinDamp.IsEnabled = true;
-                        entryMaxDamp.IsEnabled = true;
-                        entryMinDry.IsEnabled = true;
-                        entryMaxDry.IsEnabled = true;
-                        entryMinWet.TextColor = Color.Black;
-                        entryMaxWet.TextColor = Color.Black;
-                        entryMinDamp.TextColor = Color.Black;
-                        entryMaxDamp.TextColor = Color.Black;
-                        entryMinDry.TextColor = Color.Black;
-                        entryMaxDry.TextColor = Color.Black;*/
-
                     }
                     else
                     {
@@ -177,27 +161,6 @@ namespace BLE.Client.Pages
                         stacklayoutMinDry.IsVisible = false;
                         stacklayoutMaxDry.IsVisible = false;
 
-                        /*
-                        entryMinWet.IsVisible = false;
-                        entryMaxWet.IsVisible = false;
-                        entryMinDamp.IsVisible = false;
-                        entryMaxDamp.IsVisible = false;
-                        entryMinDry.IsVisible = false;
-                        entryMaxDry.IsVisible = false;
-                        stacklayoutMaxDry.IsVisible = false;
-
-                    entryMinWet.IsEnabled = false;
-                        entryMaxWet.IsEnabled = false;
-                        entryMinDamp.IsEnabled = false;
-                        entryMaxDamp.IsEnabled = false;
-                        entryMinDry.IsEnabled = false;
-                        entryMaxDry.IsEnabled = false;
-                        entryMinWet.TextColor = Color.LightGray;
-                        entryMaxWet.TextColor = Color.LightGray;
-                        entryMinDamp.TextColor = Color.LightGray;
-                        entryMaxDamp.TextColor = Color.LightGray;
-                        entryMinDry.TextColor = Color.LightGray;
-                        entryMaxDry.TextColor = Color.LightGray;*/
                     }
                 }
             }

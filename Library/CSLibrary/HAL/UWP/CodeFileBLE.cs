@@ -11,6 +11,11 @@ using Windows.Devices.Bluetooth.GenericAttributeProfile;
 
 namespace CSLibrary
 {
+    class IDevice
+    {
+        public string Name = "";
+    }
+
     public partial class HighLevelInterface
     {
         #region Error Codes
@@ -28,6 +33,8 @@ namespace CSLibrary
         private GattCharacteristic notificationCharacteristic;      // Characteristic for notification (data read)
         private GattCharacteristic writeCharacteristic;             // Characteristic for write (data send)
         private GattPresentationFormat presentationFormat;
+
+        IDevice _device = new IDevice();
 
         /// <summary>
         /// return error code
@@ -194,7 +201,6 @@ namespace CSLibrary
             }
 
             // Jump to CS108 Connect
-            _handleSiliconLabIC.GetVersion();
             HardwareInit();
 
             return true;

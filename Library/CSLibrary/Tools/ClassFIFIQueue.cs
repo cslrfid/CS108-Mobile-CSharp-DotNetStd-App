@@ -248,6 +248,7 @@ namespace CSLibrary.Tools
         }
 #endif
 
+        /*
 		private void Defragment()
         {
             if (_dataStreamStartPoint != 0 && _dataStreamSize != 0)
@@ -263,6 +264,43 @@ namespace CSLibrary.Tools
                 _dataStreamStartPoint = 0;
             }
         }
+        */
+
+        private void Defragment()
+        {
+            try
+            {
+                if (_dataStreamStartPoint != 0 && _dataStreamSize != 0)
+                {
+                    if ((_dataStreamStartPoint + _dataStreamSize) > _dataStream.Length)
+                    {
+                        byte[] newStream = new byte[_dataStream.Length];
+                        int headerLength = MAXBUFFERSIZE - _dataStreamStartPoint;
+                        int footerlength = _dataStreamSize - headerLength;
+
+                        Array.Copy(_dataStream, _dataStreamStartPoint, newStream, 0, headerLength);
+                        Array.Copy(_dataStream, 0, newStream, headerLength, footerlength);
+
+                        _dataStream = newStream;
+                        _dataStreamStartPoint = 0;
+                    }
+                    else
+                    {
+                        byte[] newStream = new byte[_dataStream.Length];
+
+                        Array.Copy(_dataStream, _dataStreamStartPoint, newStream, 0, _dataStreamSize);
+
+                        _dataStream = newStream;
+                        _dataStreamStartPoint = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("Defragment Error : " + ex.Message);
+            }
+        }
+
 
         /// <summary>
         /// find data in array

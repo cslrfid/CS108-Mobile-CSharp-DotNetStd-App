@@ -49,6 +49,13 @@ namespace CSLibrary
             switch (pktType)
             {
                 case 0xb000:    // version
+                    if (data[2] == 0x03) // for CS463
+                    {
+                        _firmwareVersion = 0;
+                        _firmwareOlderT108 = false;
+                        return HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.BTAPIRESPONSE;
+                    }
+
                     _firmwareVersion = (uint)((data[10] << 16) | (data[11] << 8) | (data[12]));
                     if (_firmwareVersion < 0x00010008)
                         _firmwareOlderT108 = true;

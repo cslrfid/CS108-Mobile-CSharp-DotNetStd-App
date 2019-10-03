@@ -45,7 +45,6 @@
       "type": "package",
       "path": "microsoft.netcore.platforms/1.1.0",
       "files": [
-        ".nupkg.metadata",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -55,11 +54,11 @@
       ]
     },
     "MvvmCross.Platform/5.1.0": {
-      "sha512": "D0FtgkPzzipg7zaokQ5d81jtEhPb8vUfu14AbQNYqaMFayxFi2NRULNxC+1ChbJsrToCnFMdvIAwVv1JJ+62VA==",
+      "sha512": "TIIfPI4oRPKumCZR9UVbFY9DTReiW4tvQoRK+pM5Pwm8HY+AYmR8BPBGCwhpLLYDMJ+RhkDJGWEgofDOAMFizg==",
       "type": "package",
       "path": "mvvmcross.platform/5.1.0",
       "files": [
-        ".nupkg.metadata",
+        ".signature.p7s",
         "lib/MonoAndroid/MvvmCross.Platform.Droid.dll",
         "lib/MonoAndroid/MvvmCross.Platform.Droid.pdb",
         "lib/MonoAndroid/MvvmCross.Platform.Droid.pdb.srcsrv",
@@ -242,31 +241,28 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Mephist Siu\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/Users/TurtleMac01/.nuget/packages/": {},
+    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Temp\\CS108 RFID Reader Demo v3\\Library\\BTWapper\\MvvmCross.Plugins.BLE\\MvvmCross.Plugins.BLE.csproj",
+      "projectUniqueName": "/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/BTWapper/MvvmCross.Plugins.BLE/MvvmCross.Plugins.BLE.csproj",
       "projectName": "MvvmCross.Plugins.BLE",
-      "projectPath": "C:\\Temp\\CS108 RFID Reader Demo v3\\Library\\BTWapper\\MvvmCross.Plugins.BLE\\MvvmCross.Plugins.BLE.csproj",
-      "packagesPath": "C:\\Users\\Mephist Siu\\.nuget\\packages\\",
-      "outputPath": "C:\\Temp\\CS108 RFID Reader Demo v3\\Library\\BTWapper\\MvvmCross.Plugins.BLE\\obj\\",
+      "projectPath": "/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/BTWapper/MvvmCross.Plugins.BLE/MvvmCross.Plugins.BLE.csproj",
+      "packagesPath": "/Users/TurtleMac01/.nuget/packages/",
+      "outputPath": "/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/BTWapper/MvvmCross.Plugins.BLE/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Temp\\CS108 RFID Reader Demo v3\\.nuget\\NuGet.Config",
-        "C:\\Users\\Mephist Siu\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/TurtleMac01/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

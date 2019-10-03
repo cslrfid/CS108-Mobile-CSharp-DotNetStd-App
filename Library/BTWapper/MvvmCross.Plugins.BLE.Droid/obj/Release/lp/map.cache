@@ -1,0 +1,6 @@
+MvvmCross.Platform
+MvvmCross.Platform.Droid
+MvvmCross.Plugins.BLE
+Plugin.BLE.Abstractions
+Plugin.BLE
+System.Runtime

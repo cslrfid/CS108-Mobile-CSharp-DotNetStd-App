@@ -236,15 +236,31 @@ namespace CSLibrary
                     info.pc = (UInt16)(recvData[newInventoryPacketOffset] << 8 | recvData[newInventoryPacketOffset + 1]);
                     int epcbytelen = ((info.pc & 0xf800) >> 11) * 2;
                     //info.epcstrlen = (uint)((info.pc & 0xf800) >> 11) * 4;
-                    info.epcstrlen = info.epcstrlen * 2;
+                    //info.epcstrlen = info.epcstrlen * 2;
 
                     if ((newInventoryPacketOffset + epcbytelen + 1) >= recvData.Length)
                         return false;
 
                     info.rssi = R2000_RssiTranslation(recvData[newInventoryPacketOffset + epcbytelen + 2]);
 
+                    int xpcoffset = 0;
+
+                    if (info.pc.XI) // Check XPC W1
+                    {
+                        info.xpc_w1 = new S_XPC_W1((UInt16)(recvData[newInventoryPacketOffset + 2] << 8 | recvData[newInventoryPacketOffset + 3]));
+                        xpcoffset+=2;
+                        epcbytelen -= 2;
+
+                        if (info.xpc_w1.XEB) // Check XPC W2
+                        {
+                            info.xpc_w2 = new S_XPC_W2((UInt16)(recvData[newInventoryPacketOffset + 4] << 8 | recvData[newInventoryPacketOffset + 5]));
+                            xpcoffset+=2;
+                            epcbytelen -= 2;
+                        }
+                    }
+
                     byte[] byteEpc = new byte[epcbytelen];
-                    Array.Copy(recvData, (int)(newInventoryPacketOffset + 2), byteEpc, 0, epcbytelen);
+                    Array.Copy(recvData, (int)(newInventoryPacketOffset + 2 + xpcoffset), byteEpc, 0, epcbytelen);
 
                     info.epc = new S_EPC(byteEpc);
 
@@ -324,7 +340,7 @@ namespace CSLibrary
                     info.pc = (UInt16)(recvData[newInventoryPacketOffset] << 8 | recvData[newInventoryPacketOffset + 1]);
                     int epcbytelen = ((info.pc & 0xf800) >> 11) * 2;
                     //info.epcstrlen = (uint)((info.pc & 0xf800) >> 11) * 4;
-                    info.epcstrlen = info.epcstrlen * 2;
+                    //info.epcstrlen = info.epcstrlen * 2;
 
                     if ((newInventoryPacketOffset + epcbytelen + 1) > recvData.Length)
                         return false;
@@ -361,39 +377,44 @@ namespace CSLibrary
             {
                 CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
 
-                var pkt_len = (UInt16)(recvData[offset + 4] | (recvData[offset + 5] << 8));
                 var flags = recvData[offset + 1];
+                var pkt_len = (recvData[offset + 4] | (recvData[offset + 5] << 8));
+                var ms_ctr = (recvData[offset + 8] | recvData[offset + 9] << 8 | recvData[offset + 10] << 16 | recvData[offset + 11] << 24);
+                var wb_rssi = recvData[offset + 12];
+                var nb_rssi = recvData[offset + 13];
+                var phase = recvData[offset + 14];
+                var chidx = recvData[offset + 15];
+                var data1count = recvData[offset + 16];
+                var data2count = recvData[offset + 17];
+                var antennaPort = (recvData[offset + 18] | recvData[offset + 19] << 8);
+                var pc = (recvData[offset + 20] << 8 | recvData[offset + 21]);
+                var totaldatalen = ((((pkt_len - 3) * 4) - ((flags >> 6) & 3)));
+                var crc16 = (recvData[offset + 18 + totaldatalen] << 8 | recvData[offset + 19 + totaldatalen]);
 
-                info.ms_ctr = (UInt32)(recvData[offset + 8 + 0] | recvData[offset + 8 + 1] << 8 | recvData[offset + 8 + 2] << 16 | recvData[offset + 8 + 3] << 24);
-                //info.rssi = (Single)(recvData[offset + 8 + 5] * 0.8);
+                info.ms_ctr = (UInt32)ms_ctr;
                 switch (OEMChipSetID)
                 {
                     default:
-                        info.rssi = (Single)(recvData[offset + 8 + 5] * 0.8);
+                        info.rssi = (Single)(nb_rssi * 0.8);
                         break;
 
                     case ChipSetID.R2000:
-                        info.rssi = R2000_RssiTranslation(recvData[offset + 8 + 5]);
+                        info.rssi = R2000_RssiTranslation(nb_rssi);
                         break;
                 }
 
                 if (currentInventoryFreqRevIndex != null)
                 {
-                    var pseudoChannel = recvData[offset + 8 + 7];
-
-                    info.freqChannel = (pseudoChannel < currentInventoryFreqRevIndex.Length) ? currentInventoryFreqRevIndex[pseudoChannel] : (uint)0xff;
+                    info.freqChannel = (chidx < currentInventoryFreqRevIndex.Length) ? currentInventoryFreqRevIndex[chidx] : (uint)0xff;
                 }
 
-                info.antennaPort = (UInt16)(recvData[offset + 8 + 10] | recvData[offset + 8 + 11] << 8);
-                info.pc = (UInt16)(recvData[offset + 8 + 12] << 8 | recvData[offset + 8 + 13]);
-                info.epcstrlen = (UInt16)((((pkt_len - 3) * 4) - ((flags >> 6) & 3) - 4));
-                info.crc16 = (UInt16)(recvData[offset + 8 + 14 + info.epcstrlen] << 8 | recvData[offset + 8 + 15 + info.epcstrlen]);
+                info.antennaPort = (UInt16)antennaPort;
+                info.pc = new S_PC((UInt16)pc);
+                info.crc16 = (UInt16)crc16;
 
                 {
-                    var PhaseByte = recvData[offset + 8 + 6];
-
-                    info.phase = (Int16)(PhaseByte & 0x3f);
-                    if ((PhaseByte & 0x40) != 0x00)
+                    info.phase = (Int16)(phase & 0x3f);
+                    if ((phase & 0x40) != 0x00)
                     {
                         UInt16 pvalue = (UInt16)info.phase;
                         pvalue |= 0xffc0;
@@ -401,7 +422,44 @@ namespace CSLibrary
                     }
                 }
 
-                if (CurrentOperation == Operation.TAG_RANGING)
+                if (data2count > 0)
+                {
+                    UInt16[] data = new UInt16[data2count];
+                    int data2offset = (int)(offset + 20 + totaldatalen - 2 - (data2count * 2));
+
+                    ArrayCopy(recvData, data2offset, data, 0, data2count * 2);
+                    info.Bank2Data = data;
+
+                    CSLibrary.Debug.WriteLine("data 2:" + Tools.Hex.ToString(data));
+                }
+
+                if (data1count > 0)
+                {
+                    UInt16[] data = new UInt16[data1count];
+                    int data1offset = (int)(offset + 20 + totaldatalen - 2 - ((data2count + data1count) * 2));
+
+                    ArrayCopy(recvData, data1offset, data, 0, data1count * 2);
+                    info.Bank1Data = data;
+
+                    CSLibrary.Debug.WriteLine("data 1:" + Tools.Hex.ToString(data));
+                }
+
+                int xpcoffset = 0;
+
+                if (info.pc.XI) // Check XPC W1
+                {
+                    info.xpc_w1 = new S_XPC_W1((UInt16)(recvData[offset + 8 + 12] << 8 | recvData[offset + 8 + 13]));
+                    xpcoffset += 2;
+
+                    if (info.xpc_w1.XEB) // Check XPC W2
+                    {
+                        info.xpc_w2 = new S_XPC_W2((UInt16)(recvData[offset + 8 + 14] << 8 | recvData[offset + 8 + 15]));
+                        xpcoffset += 2;
+                    }
+                }
+
+                
+                /*                if (CurrentOperation == Operation.TAG_RANGING)
                 {
                     if (_tagRangingParms.multibanks == 2)
                     {
@@ -431,9 +489,12 @@ namespace CSLibrary
                         info.epcstrlen -= (uint)data1length;
                     }
                 }
+*/
 
-				byte[] byteEpc = new byte[info.epcstrlen];
-                Array.Copy(recvData, (int)(offset + 8 + 14), byteEpc, 0, (int)info.epcstrlen);
+                byte[] byteEpc = new byte[info.pc.EPCLength * 2];
+                Array.Copy(recvData, (int)(offset + 22 + xpcoffset), byteEpc, 0, (int)info.pc.EPCLength * 2);
+
+                //info.epcstrlen = (UInt16)epcbytelen;
 
                 info.epc = new S_EPC(byteEpc);
 
@@ -444,7 +505,14 @@ namespace CSLibrary
                             CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_RANGING;
                             CSLibrary.Events.OnAsyncCallbackEventArgs callBackData = new Events.OnAsyncCallbackEventArgs(info, type);
                             if (OnAsyncCallback != null)
-                                OnAsyncCallback(_deviceHandler, callBackData);
+                                try
+                                {
+                                    OnAsyncCallback(_deviceHandler, callBackData);
+                                }
+                                catch (Exception ex)
+                                {
+                                    CSLibrary.Debug.WriteLine("OnAsyncCallback Error : " + ex.Message);
+                                }
                         }
                         break;
 
@@ -472,7 +540,14 @@ namespace CSLibrary
                                 CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_SEARCHING;
                                 CSLibrary.Events.OnAsyncCallbackEventArgs callBackData = new Events.OnAsyncCallbackEventArgs(info, type);
                                 if (OnAsyncCallback != null)
-                                    OnAsyncCallback(_deviceHandler, callBackData);
+                                    try
+                                    {
+                                        OnAsyncCallback(_deviceHandler, callBackData);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        CSLibrary.Debug.WriteLine("OnAsyncCallback Error : " + ex.Message);
+                                    }
                             }
                             else
                             {
@@ -1155,7 +1230,8 @@ namespace CSLibrary
                     registerValue = (0x01 |
                         (((uint)(pAction.target) & 0x07) << 1) |
                         (((uint)(pAction.action) & 0x07) << 4) |
-                        (pAction.enableTruncate != 0x00 ? (uint)(1 << 7) : 0));
+                        (pAction.enableTruncate != 0x00 ? (uint)(1 << 7) : 0)) |
+                        (((uint)(pAction.delay) & 0xFF) << 8) ;
                     MacWriteRegister(MACREGISTER.HST_TAGMSK_DESC_CFG, registerValue);
 
                     // Create the HST_TAGMSK_BANK register value and write it to the MAC
@@ -1211,7 +1287,8 @@ namespace CSLibrary
                     registerValue = (0x01 |
                         (((uint)(pAction.target) & 0x07) << 1) |
                         (((uint)(pAction.action) & 0x07) << 4) |
-                        (pAction.enableTruncate != 0x00 ? (uint)(1 << 7) : 0));
+                        (pAction.enableTruncate != 0x00 ? (uint)(1 << 7) : 0)) |
+                        (((uint)(pAction.delay) & 0xFF) << 8);
                     MacWriteRegister(MACREGISTER.HST_TAGMSK_DESC_CFG, registerValue);
 
                     // Create the HST_TAGMSK_BANK register value and write it to the MAC

@@ -9,15 +9,15 @@ namespace BLE.Client.UWP
 {
     public class Version_UWP : IAppVersion
     {
+        static Version version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
+
         public string GetVersion()
         {
-            //return NSBundle.MainBundle.ObjectForInfoDictionary("CFBundleShortVersionString").ToString();
-            return "";
+            return version.Major.ToString() + "." + version.Minor.ToString() + "." + version.Build.ToString();
         }
         public int GetBuild()
         {
-            //return int.Parse(NSBundle.MainBundle.ObjectForInfoDictionary("CFBundleVersion").ToString());
-            return 0;
+            return version.Revision;
         }
     }
 }

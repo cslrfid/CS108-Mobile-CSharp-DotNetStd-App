@@ -52,7 +52,7 @@
     "MvvmCross.Platform/5.1.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-D0FtgkPzzipg7zaokQ5d81jtEhPb8vUfu14AbQNYqaMFayxFi2NRULNxC+1ChbJsrToCnFMdvIAwVv1JJ+62VA==",
+      "sha512": "sha512-TIIfPI4oRPKumCZR9UVbFY9DTReiW4tvQoRK+pM5Pwm8HY+AYmR8BPBGCwhpLLYDMJ+RhkDJGWEgofDOAMFizg==",
       "path": "mvvmcross.platform/5.1.0",
       "hashPath": "mvvmcross.platform.5.1.0.nupkg.sha512"
     },

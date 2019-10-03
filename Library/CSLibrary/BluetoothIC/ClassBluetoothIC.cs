@@ -38,6 +38,10 @@ namespace CSLibrary
                     {
                         _firmwareVersion = (uint)((recvData[10] << 16) | (recvData[11] << 8) | (recvData[12]));
                         return true;
+                    } else if (recvData.Length == 11)
+                    {
+                        _firmwareVersion = 0;
+                        return true;
                     }
                     CSLibrary.Debug.WriteLine("BluetoothIC Get Version error!");
                     break;
@@ -56,7 +60,10 @@ namespace CSLibrary
                     break;
 
                 case 0xc004:
-                    _deviceName = Encoding.UTF8.GetString(recvData, 10, 21).TrimEnd((Char)0);
+                    if (recvData[2] == 0x17)
+                        _deviceName = Encoding.UTF8.GetString(recvData, 10, 21).TrimEnd((Char)0);
+                    else
+                        _deviceName = "";
                     return true;
             }
 

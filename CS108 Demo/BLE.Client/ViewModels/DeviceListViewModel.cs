@@ -171,27 +171,35 @@ namespace BLE.Client.ViewModels
             {
                 bool CS108Service = false;
 
-                if (Xamarin.Forms.Device.RuntimePlatform != Xamarin.Forms.Device.Windows)
+                // CS108 filter
+                switch (Xamarin.Forms.Device.RuntimePlatform)
                 {
-                    // CS108 filter
-                    if (args.Device.AdvertisementRecords.Count < 1)
-                        return;
+                    case Xamarin.Forms.Device.Windows:
+                        if (args.Device.AdvertisementRecords.Count == 0)
+                            CS108Service = true;
+                        break;
 
-                    foreach (AdvertisementRecord service in args.Device.AdvertisementRecords)
-                    {
-                        if (service.Data.Length == 2)
+                    default:
+                        if (args.Device.AdvertisementRecords.Count < 1)
+                            return;
+
+                        foreach (AdvertisementRecord service in args.Device.AdvertisementRecords)
                         {
-                            if (service.Data[0] == 0x98 && service.Data[1] == 0x00)
+                            if (service.Data.Length == 2)
                             {
-                                CS108Service = true;
-                                break;
+                                if (service.Data[0] == 0x98 && service.Data[1] == 0x00)
+                                {
+                                    CS108Service = true;
+                                    break;
+                                }
                             }
                         }
-                    }
-
-                    if (!CS108Service)
-                        return;
+                        break;
                 }
+
+                if (!CS108Service)
+                    return;
+
                 AddOrUpdateDevice(args.Device);
             }
             catch (Exception ex)

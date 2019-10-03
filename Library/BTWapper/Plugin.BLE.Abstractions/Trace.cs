@@ -10,7 +10,7 @@ namespace Plugin.BLE.Abstractions
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine(format, args);
+                //System.Diagnostics.Debug.WriteLine(format, args);
                 TraceImplementation?.Invoke(format, args);
             }
             catch { /* ignore */ }
