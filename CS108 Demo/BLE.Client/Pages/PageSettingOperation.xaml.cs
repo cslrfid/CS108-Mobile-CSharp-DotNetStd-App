@@ -55,7 +55,8 @@ namespace BLE.Client.Pages
             CSLibrary.Constants.RegionCode.DO,
             CSLibrary.Constants.RegionCode.PA,
             CSLibrary.Constants.RegionCode.PE,
-            CSLibrary.Constants.RegionCode.UY
+            CSLibrary.Constants.RegionCode.UY,
+            CSLibrary.Constants.RegionCode.KR
         };
         string[] _regionsName = new string[] {
             "USACanada",
@@ -95,7 +96,8 @@ namespace BLE.Client.Pages
             "Dominican Republic",
             "Panama",
             "Peru",
-            "Uruguay"
+            "Uruguay",
+            "Korea"
         };
 
         //        string[] _profileList = { "0 for Fade Resistance", "1 for Range", "2 for Range & Throughput", "3 for Max Throughput" };
@@ -188,7 +190,7 @@ namespace BLE.Client.Pages
                 buttonQOverride.Text = "Override";
             }
             buttonSession.Text = BleMvxApplication._config.RFID_TagGroup.session.ToString();
-            if (BleMvxApplication._config.RFID_DynamicQParms.toggleTarget != 0)
+            if (BleMvxApplication._config.RFID_ToggleTarget)
             {
                 buttonTarget.Text = "Toggle A/B";
             }
@@ -290,16 +292,19 @@ namespace BLE.Client.Pages
             switch (buttonTarget.Text)
             {
                 case "A":
+                    BleMvxApplication._config.RFID_ToggleTarget = false;
                     BleMvxApplication._config.RFID_TagGroup.target = CSLibrary.Constants.SessionTarget.A;
                     BleMvxApplication._config.RFID_FixedQParms.toggleTarget = 0;
                     BleMvxApplication._config.RFID_DynamicQParms.toggleTarget = 0;
                     break;
                 case "B":
+                    BleMvxApplication._config.RFID_ToggleTarget = false;
                     BleMvxApplication._config.RFID_TagGroup.target = CSLibrary.Constants.SessionTarget.B;
                     BleMvxApplication._config.RFID_FixedQParms.toggleTarget = 0;
                     BleMvxApplication._config.RFID_DynamicQParms.toggleTarget = 0;
                     break;
                 default:
+                    BleMvxApplication._config.RFID_ToggleTarget = true;
                     BleMvxApplication._config.RFID_DynamicQParms.toggleTarget = 1;
                     BleMvxApplication._config.RFID_FixedQParms.toggleTarget = 1;
                     break;
@@ -352,7 +357,7 @@ namespace BLE.Client.Pages
         {
             var answer = await DisplayActionSheet("Regions", "Cancel", null, ActiveRegionsTextList);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
             {
                 int cnt;
 
@@ -380,7 +385,7 @@ namespace BLE.Client.Pages
             
             answer = await DisplayActionSheet("Frequence Channel Order", "Cancel", null, _freqOrderOptions);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
                 buttonFrequencyOrder.Text = answer;
 
             checkbuttonFixedChannel();
@@ -390,7 +395,7 @@ namespace BLE.Client.Pages
         {
             var answer = await DisplayActionSheet("Frequence Channel Order", "Cancel", null, ActiveFrequencyTextList);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
                 buttonFixedChannel.Text = answer;
         }
 
@@ -473,7 +478,7 @@ namespace BLE.Client.Pages
         {
             var answer = await DisplayActionSheet("Session", "Cancel", null, "S0", "S1", "S2", "S3"); // S2 S3
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
                 buttonSession.Text = answer;
         }
 
@@ -481,7 +486,7 @@ namespace BLE.Client.Pages
         {
             var answer = await DisplayActionSheet(null, "Cancel", null, "A", "B", "Toggle A/B");
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
                 buttonTarget.Text = answer;
         }
 
@@ -511,9 +516,28 @@ namespace BLE.Client.Pages
 
         public async void buttonProfileClicked(object sender, EventArgs e)
         {
-            var answer = await DisplayActionSheet(null, "Cancel", null, _profileList);
+            int cnt;
+            CSLibrary.Constants.RegionCode region = CSLibrary.Constants.RegionCode.UNKNOWN;
 
-            if (answer != "Cancel")
+            for (cnt = 0; cnt < _regionsName.Length; cnt++)
+            {
+                if (_regionsName[cnt] == buttonRegion.Text)
+                {
+                    region = _regionsCode[cnt];
+                    break;
+                }
+            }
+
+            var currentProfileList = BleMvxApplication._reader.rfid.GetActiveLinkProfile(region);
+
+            string[] profileList = new string[currentProfileList.Length];
+
+            for (cnt = 0; cnt < currentProfileList.Length; cnt++)
+                profileList[cnt] = _profileList[cnt];
+
+            var answer = await DisplayActionSheet(null, "Cancel", null, profileList);
+
+            if (answer != null && answer !="Cancel")
                 buttonProfile.Text = answer;
         }
 

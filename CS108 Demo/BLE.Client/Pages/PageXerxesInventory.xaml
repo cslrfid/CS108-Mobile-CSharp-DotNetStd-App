@@ -55,6 +55,7 @@
 
             <StackLayout Orientation="Horizontal">
                 <Button Text="Authentication" Font="Large" Command="{Binding OnAuthenticationButtonCommand}" HorizontalOptions="StartAndExpand" />
+                <Button Text="DataLogger" Font="Large" Command="{Binding OnConfigurationButtonCommand}" HorizontalOptions="Center" />
                 <Button Text="ReadTemp" Font="Large" Command="{Binding OnReadTempButtonCommand}" HorizontalOptions="EndAndExpand" />
             </StackLayout>
 

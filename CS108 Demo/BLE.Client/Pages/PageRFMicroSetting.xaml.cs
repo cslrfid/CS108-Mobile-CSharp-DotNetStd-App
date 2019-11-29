@@ -9,16 +9,17 @@ using Xamarin.Forms.Xaml;
 
 namespace BLE.Client.Pages
 {
-	public partial class PageRFMicroSetting
+    public partial class PageRFMicroSetting
     {
         string[] _tagTypeOptions = { "Magnus S2", "Magnus S3" };
-        string[] _powerOptions = { "Low (16dBm)", "Mid (23dBm)", "High (30dBm)", "Auto (Trigger Cycle)", "Follow system Setting" };
+        string[] _powerOptions = { "Low (16dBm)", "Mid (23dBm)", "High (30dBm)", "Cycle Power by Trigger Button", "Follow system Setting" };
+        string[] _targetOptions = { "A", "B", "Toggle A/B"};
         string[] _indicatorsProfileOptions = { "Hot temperature", "Cold temperature", "Moisture detection" };
         string[] _sensorTypeOptions = { "Sensor Code", "Temperature" };
         string[] _sensorCodeUnitOptions = { "code", "%" };
         string[] _sensorCodeS2UnitOptions = { "code", "%", "RAW", "Range Allocation" };
         string[] _temperatureUnitOptions = { "code", "ºF", "ºC" };
-        int[] _minOCRSSIs = { 0, 8, 10, 10 };
+        int[] _minOCRSSIs = { 0, 5, 10, 10 };
         int [] _maxOCRSSIs = { 21, 18, 21, 21 };
         string[] _thresholdComparisonOptions = { ">", "<" };
         int[] _thresholdValueOptions = { 100, -1, 58 };
@@ -30,6 +31,7 @@ namespace BLE.Client.Pages
 
             buttonTagType.Text = _tagTypeOptions[1];
             buttonPower.Text = _powerOptions[2];
+            buttonTarget.Text = _targetOptions[2];
             SetIndicatorsProfile(0);
 
             entryMinWet.Text = "0";
@@ -56,7 +58,7 @@ namespace BLE.Client.Pages
         {
             var answer = await DisplayActionSheet("Tag Type", "Cancel", null, _tagTypeOptions);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
             {
                 buttonTagType.Text = answer;
 
@@ -85,17 +87,25 @@ namespace BLE.Client.Pages
         {
             var answer = await DisplayActionSheet("Power", "Cancel", null, _powerOptions);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
             {
                 buttonPower.Text = answer;
             }
+        }
+
+        public async void buttonTargetClicked(object sender, EventArgs e)
+        {
+            var answer = await DisplayActionSheet("Target", "Cancel", null, _targetOptions);
+
+            if (answer != null && answer !="Cancel")
+                buttonTarget.Text = answer;
         }
 
         public async void buttonSensorTypeClicked(object sender, EventArgs e)
         {
             var answer = await DisplayActionSheet("Sensor Type", "Cancel", null, _sensorTypeOptions);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
             {
                 SetSensorType((uint)Array.IndexOf(_sensorTypeOptions, answer));
             }
@@ -105,7 +115,7 @@ namespace BLE.Client.Pages
         {
             var answer = await DisplayActionSheet("Indicators Profile", "Cancel", null, _indicatorsProfileOptions);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
             {
                 SetIndicatorsProfile((uint)Array.IndexOf(_indicatorsProfileOptions, answer));
             }
@@ -127,7 +137,7 @@ namespace BLE.Client.Pages
             else
                 answer = await DisplayActionSheet("Sensor Unit", "Cancel", null, _temperatureUnitOptions);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
             {
                 buttonSensorUnit.Text = answer;
             }
@@ -170,7 +180,7 @@ namespace BLE.Client.Pages
         {
             string answer = await DisplayActionSheet("Threshold Comparison", "Cancel", null, _thresholdComparisonOptions);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
             {
                 buttonThresholdComparison.Text = answer;
             }
@@ -180,7 +190,7 @@ namespace BLE.Client.Pages
         {
             string answer = await DisplayActionSheet("Threshold Color", "Cancel", null, _thresholdColorOptions);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
             {
                 buttonThresholdColor.Text = answer;
             }
@@ -190,6 +200,7 @@ namespace BLE.Client.Pages
         {
             BleMvxApplication._rfMicro_TagType = Array.IndexOf(_tagTypeOptions, buttonTagType.Text);
             BleMvxApplication._rfMicro_Power = Array.IndexOf(_powerOptions, buttonPower.Text);
+            BleMvxApplication._rfMicro_Target = Array.IndexOf(_targetOptions, buttonTarget.Text); 
             BleMvxApplication._rfMicro_SensorType = Array.IndexOf(_sensorTypeOptions, buttonSensorType.Text);
             switch (BleMvxApplication._rfMicro_SensorType)
             {

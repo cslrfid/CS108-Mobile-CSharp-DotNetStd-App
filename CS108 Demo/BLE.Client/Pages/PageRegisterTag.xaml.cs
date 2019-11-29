@@ -66,7 +66,7 @@ namespace BLE.Client.Pages
         {
             var answer = await DisplayActionSheet(null, "Cancel", null, stringSlectMaskBankSelectionList);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
                 buttonSelectBank.Text = answer;
         }
         
@@ -106,7 +106,7 @@ namespace BLE.Client.Pages
         {
             var answer = await DisplayActionSheet(null, "Cancel", null, stringWriteBankSelectionList);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
                 buttonWriteBank.Text = answer;
         }
 

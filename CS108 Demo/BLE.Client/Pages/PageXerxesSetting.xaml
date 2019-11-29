@@ -11,7 +11,17 @@
 
             <StackLayout Orientation="Horizontal">
                 <Label Text="IC Type" WidthRequest="100" VerticalOptions="Center"/>
-                <Button x:Name="buttonTagType" Text ="{Binding buttonTagTypeText, Mode=OneWayToSource }" HorizontalOptions="FillAndExpand" BorderWidth ="1" />
+                <Button x:Name="buttonTagType" HorizontalOptions="FillAndExpand" BorderWidth ="1" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Power" WidthRequest="100" VerticalOptions="Center"/>
+                <Button x:Name="buttonPower" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonPowerClicked" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Target" WidthRequest="100" VerticalOptions="Center" />
+                <Button x:Name="buttonTarget" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonTargetClicked" />
             </StackLayout>
 
             <StackLayout Orientation="Horizontal">
@@ -19,7 +29,7 @@
                 <Entry x:Name="entryDelay" HorizontalOptions="FillAndExpand" />
             </StackLayout>
 
-            <Button x:Name="buttonOK" Text="OK" Font="Large" Clicked="ButtonOK_Clicked" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black"/>
+            <Button x:Name="buttonOK" Text="OK &amp; Proceed" Font="Large" Clicked="ButtonOK_Clicked" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black"/>
 
         </StackLayout>
     </ScrollView>

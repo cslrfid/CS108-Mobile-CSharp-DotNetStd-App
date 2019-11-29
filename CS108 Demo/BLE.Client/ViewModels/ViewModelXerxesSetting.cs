@@ -15,7 +15,6 @@ namespace BLE.Client.ViewModels
     {
         private readonly IUserDialogs _userDialogs;
 
-        public string entryDelayText { get; set; }
         public ICommand OnOKButtonCommand { protected set; get; }
 
         public ViewModelXerxesSetting(IAdapter adapter, IUserDialogs userDialogs) : base(adapter)

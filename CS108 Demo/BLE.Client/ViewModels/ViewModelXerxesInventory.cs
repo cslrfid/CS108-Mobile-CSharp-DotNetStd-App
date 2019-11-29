@@ -68,6 +68,7 @@ namespace BLE.Client.ViewModels
 		public ICommand OnStartInventoryButtonCommand { protected set; get; }
         public ICommand OnClearButtonCommand { protected set; get; }
         public ICommand OnAuthenticationButtonCommand { protected set; get; }
+        public ICommand OnConfigurationButtonCommand { protected set; get; }
         public ICommand OnReadTempButtonCommand { protected set; get; }
 
         //private ObservableCollection<TagInfoViewModel> _TagInfoList = new ObservableCollection<TagInfoViewModel>();
@@ -125,10 +126,11 @@ namespace BLE.Client.ViewModels
             OnClearButtonCommand = new Command(ClearClick);
 
             OnAuthenticationButtonCommand = new Command(AuthenticationButtonClick);
-
+            OnConfigurationButtonCommand = new Command(ConfigurationButtonClick);
             OnReadTempButtonCommand = new Command(ReadTempButtonClick);
 
             InventorySetting();
+            SetEvent(true);
         }
 
         ~ViewModelXerxesInventory()
@@ -158,14 +160,7 @@ namespace BLE.Client.ViewModels
         public override void Resume()
         {
             base.Resume();
-            //SetEvent(true);
-            BleMvxApplication._reader.rfid.OnAsyncCallback += new EventHandler<CSLibrary.Events.OnAsyncCallbackEventArgs>(TagInventoryEvent);
-            BleMvxApplication._reader.rfid.OnStateChanged += new EventHandler<CSLibrary.Events.OnStateChangedEventArgs>(StateChangedEvent);
-
-            // Key Button event handler
-            BleMvxApplication._reader.notification.OnKeyEvent += new EventHandler<CSLibrary.Notification.HotKeyEventArgs>(HotKeys_OnKeyEvent);
-            BleMvxApplication._reader.notification.OnVoltageEvent += new EventHandler<CSLibrary.Notification.VoltageEventArgs>(VoltageEvent);
-
+            SetEvent(true);
             InventorySetting();
         }
 
@@ -176,13 +171,7 @@ namespace BLE.Client.ViewModels
             ClassBattery.SetBatteryMode(ClassBattery.BATTERYMODE.IDLE);
             if (BleMvxApplication._config.RFID_Vibration)
                 BleMvxApplication._reader.barcode.VibratorOff();
-            BleMvxApplication._reader.rfid.OnAsyncCallback -= new EventHandler<CSLibrary.Events.OnAsyncCallbackEventArgs>(TagInventoryEvent);
-            BleMvxApplication._reader.rfid.OnStateChanged -= new EventHandler<CSLibrary.Events.OnStateChangedEventArgs>(StateChangedEvent);
-
-
-            // Key Button event handler
-            BleMvxApplication._reader.notification.OnKeyEvent -= new EventHandler<CSLibrary.Notification.HotKeyEventArgs>(HotKeys_OnKeyEvent);
-            BleMvxApplication._reader.notification.OnVoltageEvent -= new EventHandler<CSLibrary.Notification.VoltageEventArgs>(VoltageEvent);
+            SetEvent(false);
 
             // don't turn off event handler is you need program work in sleep mode.
             //SetEvent(false);
@@ -228,18 +217,19 @@ namespace BLE.Client.ViewModels
             // Setting 1
             BleMvxApplication._reader.rfid.SetInventoryTimeDelay((uint)BleMvxApplication._config.RFID_InventoryDelayTime);
             BleMvxApplication._reader.rfid.SetInventoryCycleDelay(BleMvxApplication._config.RFID_InventoryCycleDelayTime);
-            BleMvxApplication._reader.rfid.SetInventoryDuration((uint)BleMvxApplication._config.RFID_DWellTime);
-            BleMvxApplication._reader.rfid.SetPowerLevel((uint)BleMvxApplication._config.RFID_Power);
+            //SetPower(BleMvxApplication._xerxes_Power);
 
             // Setting 3
+            //BleMvxApplication._config.RFID_DynamicQParms.toggleTarget = (BleMvxApplication._xerxes_Target == 2) ? 1U : 0U;
             BleMvxApplication._reader.rfid.SetDynamicQParms(BleMvxApplication._config.RFID_DynamicQParms);
 
             // Setting 4
+            //BleMvxApplication._config.RFID_FixedQParms.toggleTarget = (BleMvxApplication._xerxes_Target == 2) ? 1U : 0U;
             BleMvxApplication._reader.rfid.SetFixedQParms(BleMvxApplication._config.RFID_FixedQParms);
 
             // Setting 2
             BleMvxApplication._reader.rfid.SetOperationMode(BleMvxApplication._config.RFID_OperationMode);
-            BleMvxApplication._reader.rfid.SetTagGroup(BleMvxApplication._config.RFID_TagGroup);
+            //BleMvxApplication._reader.rfid.SetTagGroup(CSLibrary.Constants.Selected.ASSERTED, BleMvxApplication._config.RFID_TagGroup.session, (BleMvxApplication._xerxes_Target != 1) ? CSLibrary.Constants.SessionTarget.A : CSLibrary.Constants.SessionTarget.B);
             BleMvxApplication._reader.rfid.SetCurrentSingulationAlgorithm(BleMvxApplication._config.RFID_Algorithm);
             BleMvxApplication._reader.rfid.SetCurrentLinkProfile(BleMvxApplication._config.RFID_Profile);
 
@@ -250,7 +240,7 @@ namespace BLE.Client.ViewModels
                 BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.TID;
                 BleMvxApplication._reader.rfid.Options.TagSelected.Mask = new byte[] { 0xE2, 0x82, 0x40, 0x5B };
                 BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
-                BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 32;
+                BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 28;
                 BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PREFILTER);
 
                 {
@@ -291,6 +281,38 @@ namespace BLE.Client.ViewModels
             //ShowDialog("Configuring RFID");
         }
 
+        void SetPower(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(0);
+                    BleMvxApplication._reader.rfid.SetPowerLevel(160);
+                    break;
+                case 1:
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(0);
+                    BleMvxApplication._reader.rfid.SetPowerLevel(230);
+                    break;
+                case 2:
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(0);
+                    BleMvxApplication._reader.rfid.SetPowerLevel(300);
+                    break;
+                case 3:
+                    //                    BleMvxApplication._reader.rfid.SetPowerLevel((uint)BleMvxApplication._config.RFID_Power);
+                    if (BleMvxApplication._reader.rfid.GetModelName() == "CS108")
+                    {
+                        if (BleMvxApplication._config.RFID_PowerSequencing_NumberofPower == 0)
+                        {
+                            BleMvxApplication._reader.rfid.SetPowerSequencing(0);
+                            BleMvxApplication._reader.rfid.SetPowerLevel((uint)BleMvxApplication._config.RFID_Power);
+                        }
+                        else
+                            BleMvxApplication._reader.rfid.SetPowerSequencing(BleMvxApplication._config.RFID_PowerSequencing_NumberofPower, BleMvxApplication._config.RFID_PowerSequencing_Level, BleMvxApplication._config.RFID_PowerSequencing_DWell);
+                    }
+                    break;
+            }
+        }
+
         void StartInventory()
         {
             if (BleMvxApplication._reader.BLEBusy)
@@ -313,6 +335,7 @@ namespace BLE.Client.ViewModels
             if (BleMvxApplication._config.RFID_Vibration && BleMvxApplication._config.RFID_VibrationTag)
                 BleMvxApplication._reader.barcode.VibratorOn(CSLibrary.BarcodeReader.VIBRATORMODE.INVENTORYON, BleMvxApplication._config.RFID_VibrationTime);
 
+            //SetPower(BleMvxApplication._xerxes_Power);
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_EXERANGING);
             ClassBattery.SetBatteryMode(ClassBattery.BATTERYMODE.INVENTORY);
             _cancelVoltageValue = true;
@@ -772,65 +795,32 @@ namespace BLE.Client.ViewModels
             });
 		}
 
-#region Key_event
+        #region Key_event
 
         void HotKeys_OnKeyEvent(object sender, CSLibrary.Notification.HotKeyEventArgs e)
         {
-            InvokeOnMainThread(() =>
+            if (e.KeyCode == CSLibrary.Notification.Key.BUTTON)
             {
-                Page currentPage;
-
-                Trace.Message("Receive Key Event");
-
-                // try to get current page
-                try
+                if (e.KeyDown)
                 {
-                    currentPage = ((TabbedPage)Application.Current.MainPage.Navigation.NavigationStack[1]).CurrentPage;
+                    StartInventory();
                 }
-                catch (Exception ex)
+                else
                 {
-                    return;
+                    StopInventory();
                 }
-
-                switch (currentPage.Title)
-                {
-                    case "RFID Inventory":
-                        if (e.KeyCode == CSLibrary.Notification.Key.BUTTON)
-                        {
-                            if (e.KeyDown)
-                            {
-                                if (!_InventoryScanning)
-                                    StartInventory();
-                            }
-                            else
-                            {
-                                StopInventory();
-                            }
-                        }
-                        break;
-
-                    case "Barcode Scan":
-                        /*
-                        if (e.KeyCode == CSLibrary.Notification.Key.BUTTON)
-                        {
-                            if (e.KeyDown)
-                            {
-                                BarcodeStart();
-                            }
-                            else
-                            {
-                                BarcodeStop();
-                            }
-                        }*/
-                        break;
-                }
-            });
+            }
         }
         #endregion
 
         void AuthenticationButtonClick ()
         {
             ShowViewModel<ViewModelXerxesAuthentication>(new MvxBundle());
+        }
+
+        void ConfigurationButtonClick()
+        {
+            ShowViewModel<ViewModelXerxesConfiguration>(new MvxBundle());
         }
 
         void ReadTempButtonClick ()

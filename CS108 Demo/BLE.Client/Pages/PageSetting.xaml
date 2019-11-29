@@ -6,6 +6,8 @@
 
 	<local:PageSettingOperation />
 	<local:PageSettingAdministration />
+    <local:PageSettingAntenna x:Name="PageAntenna"/>
+    <local:PageSettingPower x:Name="PagePowerSequencing"/>
     <local:PageAbout />
 
 </TabbedPage>

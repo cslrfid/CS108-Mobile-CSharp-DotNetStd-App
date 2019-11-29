@@ -48,13 +48,13 @@
         <Entry x:Name="entryVibrationTime" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
       </StackLayout>
 
-      <StackLayout Orientation="Horizontal">
+      <StackLayout Orientation="Horizontal" IsVisible="False">
         <Label Text="Inventory Delay Time (0-15)"  VerticalOptions="Center" />
         <Entry x:Name="entryInventoryDelay" Unfocused="entryInventoryDelayCompleted" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
       </StackLayout>
       
       <StackLayout Orientation="Horizontal">
-        <Label Text="Inventory Cycle Delay Time (0-3000)"  VerticalOptions="Center" />
+        <Label Text="Inventory Cycle Dwell Time (0-3000)"  VerticalOptions="Center" />
         <Entry x:Name="entryInventoryCycleDelay" Unfocused="entryInventoryDelayCompleted" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
       </StackLayout>
 

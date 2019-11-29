@@ -54,7 +54,7 @@ namespace CSLibrary
         //RFIDREADERCMDSTATUS _readerStatus = RFIDREADERCMDSTATUS.IDLE;
         private RFState m_state = RFState.IDLE;
         private Result m_Result;
-        private Machine m_oem_machine = Machine.UNKNOWN;
+        internal Machine m_oem_machine = Machine.UNKNOWN;
         private string m_PCBAssemblyCode;
 
         /// <summary>
@@ -228,15 +228,16 @@ namespace CSLibrary
             if (OnAsyncCallback != null)
             {
                 uint newInventoryPacketOffset = 8;
+                Byte AntennaPort = recvData[6];
 
                 while (newInventoryPacketOffset < (recvData.Length - 1))
                 {
                     CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
 
+                    info.antennaPort = AntennaPort;
+
                     info.pc = (UInt16)(recvData[newInventoryPacketOffset] << 8 | recvData[newInventoryPacketOffset + 1]);
                     int epcbytelen = ((info.pc & 0xf800) >> 11) * 2;
-                    //info.epcstrlen = (uint)((info.pc & 0xf800) >> 11) * 4;
-                    //info.epcstrlen = info.epcstrlen * 2;
 
                     if ((newInventoryPacketOffset + epcbytelen + 1) >= recvData.Length)
                         return false;
@@ -261,94 +262,6 @@ namespace CSLibrary
 
                     byte[] byteEpc = new byte[epcbytelen];
                     Array.Copy(recvData, (int)(newInventoryPacketOffset + 2 + xpcoffset), byteEpc, 0, epcbytelen);
-
-                    info.epc = new S_EPC(byteEpc);
-
-                    newInventoryPacketOffset += (uint)(2 + epcbytelen + 1);
-
-                    switch (CurrentOperation)
-                    {
-                        case Operation.TAG_RANGING:
-                            {
-                                CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_RANGING;
-                                CSLibrary.Events.OnAsyncCallbackEventArgs callBackData = new Events.OnAsyncCallbackEventArgs(info, type);
-                                if (OnAsyncCallback != null)
-                                    OnAsyncCallback(_deviceHandler, callBackData);
-                            }
-                            break;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        /*
-        bool R2000Packet_NewInventory(byte[] recvData, int offset = 0)
-        {
-            if (OnAsyncCallback != null)
-            {
-                uint newInventoryPacketOffset = 8;
-
-                while (newInventoryPacketOffset < (recvData.Length - 1))
-                {
-                    CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
-
-                    info.pc = (UInt16)(recvData[newInventoryPacketOffset] << 8 | recvData[newInventoryPacketOffset + 1]);
-                    int epcbytelen = ((info.pc & 0xf800) >> 11) * 2;
-                    //info.epcstrlen = (uint)((info.pc & 0xf800) >> 11) * 4;
-                    info.epcstrlen = info.epcstrlen * 2;
-
-                    if ((newInventoryPacketOffset + epcbytelen + 1) >= recvData.Length)
-                        return false;
-
-                    info.rssi = R2000_RssiTranslation(recvData[newInventoryPacketOffset + epcbytelen + 2]);
-
-                    byte[] byteEpc = new byte[epcbytelen];
-                    Array.Copy(recvData, (int)(newInventoryPacketOffset + 2), byteEpc, 0, epcbytelen);
-
-                    info.epc = new S_EPC(byteEpc);
-
-                    newInventoryPacketOffset += (uint)(2 + epcbytelen + 1);
-
-                    switch (CurrentOperation)
-                    {
-                        case Operation.TAG_RANGING:
-                            {
-                                CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_RANGING;
-                                CSLibrary.Events.OnAsyncCallbackEventArgs callBackData = new Events.OnAsyncCallbackEventArgs(info, type);
-                                OnAsyncCallback(_deviceHandler, callBackData);
-                            }
-                            break;
-                    }
-                }
-            }
-
-            return true;
-        }*/
-
-        bool R2000Packet_NewInventory_bug(byte[] recvData, int offset = 0)
-        {
-            if (OnAsyncCallback != null)
-            {
-                uint newInventoryPacketOffset = 8;
-
-                while (newInventoryPacketOffset < recvData.Length)
-                {
-                    CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
-
-                    info.pc = (UInt16)(recvData[newInventoryPacketOffset] << 8 | recvData[newInventoryPacketOffset + 1]);
-                    int epcbytelen = ((info.pc & 0xf800) >> 11) * 2;
-                    //info.epcstrlen = (uint)((info.pc & 0xf800) >> 11) * 4;
-                    //info.epcstrlen = info.epcstrlen * 2;
-
-                    if ((newInventoryPacketOffset + epcbytelen + 1) > recvData.Length)
-                        return false;
-
-                    info.rssi = R2000_RssiTranslation(recvData[newInventoryPacketOffset + epcbytelen + 2]);
-
-                    byte[] byteEpc = new byte[epcbytelen];
-                    Array.Copy(recvData, (int)(newInventoryPacketOffset + 2), byteEpc, 0, epcbytelen);
 
                     info.epc = new S_EPC(byteEpc);
 
@@ -571,7 +484,9 @@ namespace CSLibrary
 
 			Operation RealCurrentOperation = (Operation)(_deviceHandler._currentCmdRemark);
 
-			switch (recvData[offset + 12])
+            int packetType = recvData[offset + 12];
+
+            switch (packetType)
             {
                 case 0xc2:  // Read
                     switch (RealCurrentOperation)
@@ -726,7 +641,8 @@ namespace CSLibrary
                     return true;
 
                 // Inventory-Response Packet (Compact mode)
-                if ((pkt_ver == 0x04) && (pkt_type == 0x0005) && (reserved == 0x0000))
+                //if ((pkt_ver == 0x04) && (pkt_type == 0x0005) && (reserved == 0x0000))
+                if ((pkt_ver == 0x04) && (pkt_type == 0x0005))
                     return true;
 
                 // Tag-Access Packet 
@@ -742,6 +658,7 @@ namespace CSLibrary
                     return true;
             }
 
+            //CSLibrary.Debug.WriteLine("Packet Check Fail : pkt_ver:" +); 
             return false;
         }
 
@@ -1951,7 +1868,7 @@ namespace CSLibrary
 		/// <param name="mode">Antenna Sequence mode.</param>
 		/// <param name="sequenceSize">Sequence size. Maximum value is 48</param>
 		/// <returns></returns>
-		public Result SetOperationMode(ushort cycles, Events.AntennaSequenceMode mode = AntennaSequenceMode.NORMAL, uint sequenceSize = 0)
+		public Result SetOperationMode(ushort cycles, AntennaSequenceMode mode = AntennaSequenceMode.NORMAL, uint sequenceSize = 0)
 		{
 			uint value = 0;
 
@@ -1963,22 +1880,104 @@ namespace CSLibrary
             return Result.OK;
 		}
 
+        /// <summary>
+        /// Sets the radio's operation mode.  An RFID radio module operation mode
+        /// will remain in effect until it is explicitly changed via RadioSetOperationMode
+        /// </summary>
+        /// <param name="operationMode">The operation mode for the radio module.</param>
+        /// <param name="sequenceMode">The antenna sequence mode for the radio module.</param>
+        /// <param name="sequenceSize">The antenna sequence size for the radio module. This must be between 0 to 48.</param>
+        /// <returns></returns>
+        public Result SetOperationMode(RadioOperationMode operationMode, AntennaSequenceMode sequenceMode, int sequenceSize)
+        {
+            String __FUNCTION__ = "SetOperationMode";
 
-		/// <summary>
-		/// This is used to set inventory duration
-		/// </summary>
-		/// <param name="duration"></param>
-		/// <returns></returns>
-		public Result SetInventoryDuration(uint duration, uint antennaPort = 0)
+            if (m_state == RFState.BUSY)
+                return Result.RADIO_BUSY;
+
+            try
+            {
+                // Validate the operation mode
+                switch (operationMode)
+                {
+                    // Valid operation modes
+                    case RadioOperationMode.CONTINUOUS:
+                    case RadioOperationMode.NONCONTINUOUS:
+                        {
+                            break;
+                        }
+                    // Invalid operation modes
+                    default:
+                        {
+                            return Result.INVALID_PARAMETER;
+                        }
+                } // switch (mode)
+
+                switch (sequenceMode)
+                {
+                    case AntennaSequenceMode.NORMAL:
+                    case AntennaSequenceMode.SEQUENCE:
+                    case AntennaSequenceMode.SMART_CHECK:
+                    case AntennaSequenceMode.SEQUENCE_SMART_CHECK:
+                        break;
+                    default:
+                        {
+                            return Result.INVALID_PARAMETER;
+                        }
+                }
+
+                if (sequenceSize < 0 || sequenceSize > 48)
+                {
+                    return Result.INVALID_PARAMETER;
+                }
+
+                // Let the radio object set the operation mode
+                uint old_data = 0;
+                FreqAgileMode AgileEnable;
+
+                MacReadRegister(MACREGISTER.HST_ANT_CYCLES, ref old_data);
+
+                if ((old_data & (1 << 24)) == 0)
+                    AgileEnable = FreqAgileMode.DISABLE;
+                else
+                    AgileEnable = FreqAgileMode.ENABLE;
+
+                // Set the antenna cycles register to either perform a single cycle or to
+                // cycle until a cancel
+                UInt32 registerValue = (UInt32)(((operationMode == RadioOperationMode.CONTINUOUS) ? 0xffff : 0x00001) |
+                                                ((int)sequenceMode << 16) |
+                                                ((int)sequenceSize << 18) |
+                                                ((AgileEnable == FreqAgileMode.ENABLE) ? 1 << 24 : 0x0000));
+
+                MacWriteRegister(MACREGISTER.HST_ANT_CYCLES, registerValue);
+
+                //m_save_antenna_cycle = operationMode;
+                //m_save_antenna_cycle_sequence_mode = sequenceMode;
+                //m_save_antenna_cycle_sequence_size = sequenceSize;
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return Result.OK;
+        }
+
+        /// <summary>
+        /// This is used to set inventory duration
+        /// </summary>
+        /// <param name="duration"></param>
+        /// <returns></returns>
+        public Result SetInventoryDuration(uint duration, uint antennaPort = 0)
 		{
 			MacWriteRegister(MACREGISTER.HST_ANT_DESC_SEL, antennaPort);
 			MacWriteRegister(MACREGISTER.HST_ANT_DESC_DWELL, duration);
 
 			return Result.OK;
 		}
-#endregion
 
-	}
+        #endregion
+
+    }
 }
 
 

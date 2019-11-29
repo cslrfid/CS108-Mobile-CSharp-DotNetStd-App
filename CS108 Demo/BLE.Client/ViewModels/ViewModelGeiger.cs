@@ -54,6 +54,9 @@ namespace BLE.Client.ViewModels
             RaisePropertyChanged(() => entryEPC);
 
             BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE;
+            if (BleMvxApplication._reader.rfid.GetModelName () == "CS108")
+                BleMvxApplication._reader.rfid.SetPowerSequencing(0);
+        
             BleMvxApplication._reader.rfid.SetPowerLevel(_power);
 
             BleMvxApplication._reader.rfid.SetCurrentLinkProfile(BleMvxApplication._config.RFID_Profile);
@@ -134,6 +137,8 @@ namespace BLE.Client.ViewModels
             RaisePropertyChanged(() => entryEPC);
             RaisePropertyChanged(() => power);
 
+            if (BleMvxApplication._reader.rfid.GetModelName() == "CS108")
+                BleMvxApplication._reader.rfid.SetPowerSequencing(0);
             BleMvxApplication._reader.rfid.SetPowerLevel(_power);
             BleMvxApplication._reader.rfid.Options.TagSelected.epcMask = new CSLibrary.Structures.S_MASK(_entryEPC);
             BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskOffset = 0;

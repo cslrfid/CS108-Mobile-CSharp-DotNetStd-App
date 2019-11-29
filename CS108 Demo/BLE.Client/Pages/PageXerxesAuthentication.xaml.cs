@@ -14,7 +14,7 @@ namespace BLE.Client.Pages
         public PageXerxesAuthentication()
 		{
 			InitializeComponent();
-		}
+        }
 
         protected override void OnAppearing()
         {

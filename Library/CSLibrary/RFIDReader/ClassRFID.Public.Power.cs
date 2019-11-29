@@ -10,6 +10,8 @@ namespace CSLibrary
 {
     public partial class RFIDReader
     {
+        private uint m_oem_hipower = 0;
+
         /// <summary>
         /// Available Maximum Power you can set on specific region
         /// </summary>
@@ -42,6 +44,7 @@ namespace CSLibrary
             return Result.OK;
         }
 
+        /*
         public Result SetPowerLevel(UInt32 pwrlevel)
         {
             if (pwrlevel > 330)
@@ -52,7 +55,107 @@ namespace CSLibrary
 
             return Result.OK;
         }
+        */
 
+        public Result SetPowerLevel(UInt32 pwrlevel, int port = 0)
+        {
+            if (pwrlevel > 330)
+                pwrlevel = 330;
+
+            MacWriteRegister(MACREGISTER.HST_ANT_DESC_SEL, (uint)port);         // select antenna
+            MacWriteRegister(MACREGISTER.HST_ANT_DESC_RFPOWER, pwrlevel);
+
+            return Result.OK;
+        }
+
+        /// <summary>
+        /// Available Maximum Power you can set on specific region
+        /// </summary>
+        private uint GetSoftwareMaxPowerLevel(RegionCode region)
+        {
+            // MAX Power 32dB
+            if ((m_oem_hipower == 1) ||
+                (m_oem_machine == Machine.CS468INT) ||
+                (m_oem_machine == Machine.CS463) ||
+                (m_oem_machine == Machine.CS469) ||
+                (region == RegionCode.IN) ||
+                (region == RegionCode.G800) ||
+                (m_oem_machine == Machine.CS209) ||
+                (m_oem_machine == Machine.CS103) ||
+                (m_oem_machine == Machine.CS108)
+                )
+                return 320;
+
+            // MAX Power 27.5dB
+            if ((m_oem_machine == Machine.CS101 && region == RegionCode.ETSI) ||
+                (m_oem_machine == Machine.CS203 && region == RegionCode.JP))
+                return 275;
+
+            return 300;
+        }
+
+        /// <summary>
+        /// Set Power Sequencing (only for CS108)
+        /// </summary>
+        /// <param name="numberofPower"></param>
+        /// <param name="power"></param>
+        /// <param name="dwell"></param>
+        /// <returns></returns>
+        public Result SetPowerSequencing(int numberofPower, uint[] power = null, uint[] dwell = null)
+        {
+            int i;
+
+            if (numberofPower == 0)
+            {
+                try
+                {
+                    for (i = 0; i < m_AntennaList.Count; i++)
+                    {
+                        if (m_AntennaList[i].PowerLevel > GetSoftwareMaxPowerLevel(m_save_region_code))
+                            m_AntennaList[i].PowerLevel = GetSoftwareMaxPowerLevel(m_save_region_code);
+
+                        SetAntennaPortStatus((uint)i, m_AntennaList[i].AntennaStatus);
+                        SetAntennaPortConfiguration((uint)i, m_AntennaList[i].AntennaConfig);
+                    }
+
+                    for (; i < 16; i++)
+                    {
+                        AntennaPortSetState((uint)i, AntennaPortState.DISABLED);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    CSLibrary.Debug.WriteLine("Set Antenna Configuration Fail : " + ex.Message);
+                }
+                return Result.OK;
+            }
+
+            if (power == null || dwell == null || power.Length < numberofPower || dwell.Length < numberofPower)
+            {
+                return Result.INVALID_PARAMETER;
+            }
+
+            for (i = 0; i < numberofPower; i++)
+            {
+                SetPowerLevel(power[i], i);
+                SetInventoryDuration(dwell[i], (uint)i);
+                AntennaPortSetState((uint)i, AntennaPortState.ENABLED);
+
+                /*
+                Antenna portConf = new Antenna((uint)i, AntennaPortState.ENABLED, power[i], dwell[i], 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575);
+
+                SetAntennaPortStatus((uint)i, portConf.AntennaStatus);
+                SetAntennaPortConfiguration((uint)i, portConf.AntennaConfig);
+                */
+            }
+
+            for (; i < 16; i++)
+            {
+                AntennaPortSetState((uint)i, AntennaPortState.DISABLED);
+            }
+
+            return Result.OK;
+        }
 
     }
 }

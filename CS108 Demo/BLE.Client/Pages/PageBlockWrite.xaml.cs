@@ -36,7 +36,7 @@ namespace BLE.Client.Pages
         {
             var answer = await DisplayActionSheet("Bank", "Cancel", null, _bankOptions);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
             {
                 buttonBank.Text = answer;
             }
@@ -46,7 +46,7 @@ namespace BLE.Client.Pages
         {
             var answer = await DisplayActionSheet("Data Size", "Cancel", null, _sizeOptions);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
             {
                 buttonSize.Text = answer;
             }
@@ -56,7 +56,7 @@ namespace BLE.Client.Pages
         {
             var answer = await DisplayActionSheet("Sensor Type", "Cancel", null, _paddingOptions);
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
             {
                 buttonPadding.Text = answer;
             }

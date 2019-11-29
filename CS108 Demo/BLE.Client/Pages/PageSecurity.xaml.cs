@@ -23,7 +23,7 @@ namespace BLE.Client.Pages
 		{
 			var answer = await DisplayActionSheet(null, "Cancel", null, stringLockOprtions[0], stringLockOprtions[1], stringLockOprtions[2], stringLockOprtions[3], stringLockOprtions[4]);
 
-			if (answer != "Cancel")
+			if (answer != null && answer !="Cancel")
 				buttonEPC.Text = answer;
 		}
 
@@ -31,7 +31,7 @@ namespace BLE.Client.Pages
 		{
 			var answer = await DisplayActionSheet(null, "Cancel", null, stringLockOprtions[0], stringLockOprtions[1], stringLockOprtions[2], stringLockOprtions[3], stringLockOprtions[4]);
 
-			if (answer != "Cancel")
+			if (answer != null && answer !="Cancel")
 				buttonACCPWD.Text = answer;
 		}
 
@@ -39,7 +39,7 @@ namespace BLE.Client.Pages
 		{
 			var answer = await DisplayActionSheet(null, "Cancel", null, stringLockOprtions[0], stringLockOprtions[1], stringLockOprtions[2], stringLockOprtions[3], stringLockOprtions[4]);
 
-			if (answer != "Cancel")
+			if (answer != null && answer !="Cancel")
 				buttonKILLPWD.Text = answer;
 		}
 
@@ -47,7 +47,7 @@ namespace BLE.Client.Pages
 		{
 			var answer = await DisplayActionSheet(null, "Cancel", null, stringLockOprtions[0], stringLockOprtions[1], stringLockOprtions[2], stringLockOprtions[3], stringLockOprtions[4]);
 
-			if (answer != "Cancel")
+			if (answer != null && answer !="Cancel")
 				buttonTID.Text = answer;
 		}
 
@@ -55,7 +55,7 @@ namespace BLE.Client.Pages
 		{
 			var answer = await DisplayActionSheet(null, "Cancel", null, stringLockOprtions[0], stringLockOprtions[1], stringLockOprtions[2], stringLockOprtions[3], stringLockOprtions[4]);
 
-			if (answer != "Cancel")
+			if (answer != null && answer !="Cancel")
 				buttonUSER.Text = answer;
 		}
 

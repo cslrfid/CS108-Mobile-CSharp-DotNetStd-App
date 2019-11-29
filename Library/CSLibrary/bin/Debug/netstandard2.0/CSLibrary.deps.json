@@ -1,13 +1,13 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v2.0/",
-    "signature": "cfe1dc2a80602aef150a12815387068463a61a0d"
+    "signature": ""
   },
   "compilationOptions": {},
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "CSLibrary/3.0.2": {
+      "CSLibrary/3.0.3": {
         "dependencies": {
           "NETStandard.Library": "2.0.3",
           "Plugin.BLE.Abstractions": "1.0.0"
@@ -30,7 +30,7 @@
     }
   },
   "libraries": {
-    "CSLibrary/3.0.2": {
+    "CSLibrary/3.0.3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

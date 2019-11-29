@@ -6,18 +6,25 @@
 
   <ItemGroup>
     <Compile Remove="Pages\PageCS83045DataLog.xaml.cs" />
+    <Compile Remove="Pages\PageXerxesInventory.xaml.cs" />
+    <Compile Remove="Pages\PageXerxesSetting.xaml.cs" />
     <Compile Remove="ViewModels\ViewModelCS83045DataLog.cs" />
+    <Compile Remove="ViewModels\ViewModelXerxesInventory.cs" />
+    <Compile Remove="ViewModels\ViewModelXerxesSetting.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="BleMvxFormsApp.xaml" />
     <None Remove="Pages\DeviceListPage.xaml" />
     <None Remove="Pages\PageAbout.xaml" />
+    <None Remove="Pages\PageAxzonInventory.xaml" />
+    <None Remove="Pages\PageAxzonSetting.xaml" />
     <None Remove="Pages\PageBarcodeScan.xaml" />
     <None Remove="Pages\PageBlockWrite.xaml" />
     <None Remove="Pages\PageCS83045DataLog.xaml" />
     <None Remove="Pages\PageCS83045Inventory.xaml" />
     <None Remove="Pages\PageCS83045Setting.xaml" />
+    <None Remove="Pages\PageCS9010Inventory.xaml" />
     <None Remove="Pages\PageFilter.xaml" />
     <None Remove="Pages\PageGeiger.xaml" />
     <None Remove="Pages\PageInventory.xaml" />
@@ -38,10 +45,13 @@
     <None Remove="Pages\PageSecurity.xaml" />
     <None Remove="Pages\PageSetting.xaml" />
     <None Remove="Pages\PageSettingAdministration.xaml" />
+    <None Remove="Pages\PageSettingAntenna.xaml" />
     <None Remove="Pages\PageSettingOperation.xaml" />
+    <None Remove="Pages\PageSettingPowerSequencing.xaml" />
     <None Remove="Pages\PageSpecialFunctionsMenu.xaml" />
     <None Remove="Pages\PageUCODEDNA.xaml" />
     <None Remove="Pages\PageXerxesAuthentication.xaml" />
+    <None Remove="Pages\PageXerxesConfiguration.xaml" />
     <None Remove="Pages\PageXerxesInventory.xaml" />
     <None Remove="Pages\PageXerxesReadTemp.xaml" />
     <None Remove="Pages\PageXerxesSetting.xaml" />
@@ -68,25 +78,37 @@
     <EmbeddedResource Include="Pages\PageBarcodeScan.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageCS9010Inventory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageFilter.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageGeiger.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageAxzonSetting.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageSettingPowerSequencing.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageSettingAntenna.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageXerxesAuthentication.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pages\PageXerxesSetting.xaml">
+    <EmbeddedResource Include="Pages\PageXerxesConfiguration.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageAxzonInventory.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageXerxesTagList.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageXerxesReadTemp.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Pages\PageXerxesInventory.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageInventory.xaml">
@@ -184,12 +206,6 @@
     <ProjectReference Include="..\..\Library\BTWapper\MvvmCross.Plugins.BLE\MvvmCross.Plugins.BLE.csproj" />
     <ProjectReference Include="..\..\Library\BTWapper\Plugin.BLE.Abstractions\Plugin.BLE.Abstractions.csproj" />
     <ProjectReference Include="..\..\Library\CSLibrary\CSLibrary-NETStandard.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Pages\PageXerxesSetting.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
 
 </Project>

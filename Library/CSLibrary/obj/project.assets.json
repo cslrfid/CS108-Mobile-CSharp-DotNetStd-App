@@ -197,13 +197,13 @@
     "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "3.0.2",
+    "version": "3.0.3",
     "restore": {
-      "projectUniqueName": "/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/CSLibrary-NETStandard.csproj",
+      "projectUniqueName": "/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/CSLibrary/CSLibrary-NETStandard.csproj",
       "projectName": "CSLibrary",
-      "projectPath": "/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/CSLibrary-NETStandard.csproj",
+      "projectPath": "/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/CSLibrary/CSLibrary-NETStandard.csproj",
       "packagesPath": "/Users/TurtleMac01/.nuget/packages/",
-      "outputPath": "/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/",
+      "outputPath": "/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
@@ -220,8 +220,8 @@
       "frameworks": {
         "netstandard2.0": {
           "projectReferences": {
-            "/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/BTWapper/Plugin.BLE.Abstractions/Plugin.BLE.Abstractions.csproj": {
-              "projectPath": "/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/BTWapper/Plugin.BLE.Abstractions/Plugin.BLE.Abstractions.csproj"
+            "/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/BTWapper/Plugin.BLE.Abstractions/Plugin.BLE.Abstractions.csproj": {
+              "projectPath": "/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/BTWapper/Plugin.BLE.Abstractions/Plugin.BLE.Abstractions.csproj"
             }
           }
         }
@@ -243,10 +243,16 @@
           }
         },
         "imports": [
-          "net461"
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
         ],
         "assetTargetFallback": true,
-        "warn": true
+        "warn": true,
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.0.100/RuntimeIdentifierGraph.json"
       }
     }
   }

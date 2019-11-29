@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>CSLibrary</RootNamespace>
     <AssemblyName>CSLibrary</AssemblyName>
-    <Version>3.0.2</Version>
+    <Version>3.0.3</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -42,6 +42,7 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="RFIDReader\Antenna\" />
   </ItemGroup>
 
 </Project>

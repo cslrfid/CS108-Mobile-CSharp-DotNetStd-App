@@ -104,7 +104,10 @@ namespace CSLibrary
             }
 
             if (FServices == null)
+            {
+                CSLibrary.Debug.WriteLine("ReadServices API Fail");
                 return;
+            }
 
             //CS108Service = null;
             foreach (wclGattService Service in FServices)

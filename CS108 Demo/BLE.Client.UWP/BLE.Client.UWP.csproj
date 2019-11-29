@@ -26,6 +26,7 @@
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
     <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <AppxPackageDir>C:\1\</AppxPackageDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -121,10 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\StoreLogo.scale-200.png" />
-    <Content Include="WC2c828\mephist.siu-backup\mephist.siu_WorkPlace\CS108 RFID Reader Demo v3\CS108 Demo\BLE.Client.UWP\Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="WC2c828\mephist.siu-backup\mephist.siu_WorkPlace\CS108 RFID Reader Demo v3\CS108 Demo\BLE.Client.UWP\Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="WC2c828\mephist.siu-backup\mephist.siu_WorkPlace\CS108 RFID Reader Demo v3\CS108 Demo\BLE.Client.UWP\Assets\StoreLogo.scale-100.png" />
-    <Content Include="WC2c828\mephist.siu-backup\mephist.siu_WorkPlace\CS108 RFID Reader Demo v3\CS108 Demo\BLE.Client.UWP\Assets\Wide310x150Logo.scale-200.png" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Properties\Default.rd.xml" />
