@@ -273,7 +273,7 @@ namespace BLE.Client.ViewModels
                     break;
 
                 case 4:
-                    _Temp = temp().ToString();
+                    _Temp = temp().ToString("#0.0");
                     RaisePropertyChanged(() => _Temp);
                     //ResistorMeasurementsPort1();
                     break;

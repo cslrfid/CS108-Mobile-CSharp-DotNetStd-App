@@ -12,7 +12,19 @@ namespace CSLibrary
     {
         public uint[] GetActiveLinkProfile()
         {
-            return new uint[] { 0, 1, 2, 3, 4, 5 };
+            return GetActiveLinkProfile(m_save_region_code);
+        }
+
+        public uint[] GetActiveLinkProfile(CSLibrary.Constants.RegionCode region)
+        {
+            switch (region)
+            {
+                case RegionCode.KR:
+                    return new uint[] { 0, 1, 2 };
+
+                default:
+                    return new uint[] { 0, 1, 2, 3 };
+            }
         }
 
         /// <summary>

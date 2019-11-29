@@ -44,6 +44,7 @@ namespace CSLibrary
                     if (m_oem_freq_modification_flag == 0x00)
                     {
                         m_save_country_list.Add(RegionCode.AR);
+                        m_save_country_list.Add(RegionCode.AU);
                         m_save_country_list.Add(RegionCode.BR1);
                         m_save_country_list.Add(RegionCode.BR2);
                         m_save_country_list.Add(RegionCode.BR3);
@@ -53,20 +54,20 @@ namespace CSLibrary
                         m_save_country_list.Add(RegionCode.CO);
                         m_save_country_list.Add(RegionCode.CR);
                         m_save_country_list.Add(RegionCode.DO);
+                        m_save_country_list.Add(RegionCode.FCC);
+                        m_save_country_list.Add(RegionCode.HK);
+                        m_save_country_list.Add(RegionCode.ID);
                         m_save_country_list.Add(RegionCode.JE);  // 915-917 MHz
+                        m_save_country_list.Add(RegionCode.KR);
+                        m_save_country_list.Add(RegionCode.MY);
                         m_save_country_list.Add(RegionCode.PA);
                         m_save_country_list.Add(RegionCode.PE);
                         m_save_country_list.Add(RegionCode.PH);  // 918-920 MHz
                         m_save_country_list.Add(RegionCode.SG);
-                        m_save_country_list.Add(RegionCode.ZA);
+                        m_save_country_list.Add(RegionCode.TH);
                         m_save_country_list.Add(RegionCode.UY);
                         m_save_country_list.Add(RegionCode.VE);
-                        m_save_country_list.Add(RegionCode.AU);
-                        m_save_country_list.Add(RegionCode.HK);
-                        m_save_country_list.Add(RegionCode.MY);
-                        m_save_country_list.Add(RegionCode.TH);
-                        m_save_country_list.Add(RegionCode.ID);
-                        m_save_country_list.Add(RegionCode.FCC);
+                        m_save_country_list.Add(RegionCode.ZA);
                         m_save_country_list.Add(RegionCode.LH1);  // 
                         m_save_country_list.Add(RegionCode.LH2);  // 
                         m_save_country_list.Add(RegionCode.UH1); // 915-920 MHz
@@ -118,24 +119,24 @@ namespace CSLibrary
                     break;
                 case 4:
                     m_save_country_list.Add(RegionCode.AU);
-                    m_save_country_list.Add(RegionCode.MY);
+                    m_save_country_list.Add(RegionCode.CN);
                     m_save_country_list.Add(RegionCode.HK);
+                    m_save_country_list.Add(RegionCode.ID);
+                    m_save_country_list.Add(RegionCode.MY);
                     m_save_country_list.Add(RegionCode.SG);
                     m_save_country_list.Add(RegionCode.TW);
-                    m_save_country_list.Add(RegionCode.ID);
-                    m_save_country_list.Add(RegionCode.CN);
                     break;
                 case 6:
                     m_save_country_list.Add(RegionCode.KR);
                     break;
                 case 7:
                     m_save_country_list.Add(RegionCode.AU);
-                    m_save_country_list.Add(RegionCode.HK);
-                    m_save_country_list.Add(RegionCode.TH);
-                    m_save_country_list.Add(RegionCode.SG);
-                    m_save_country_list.Add(RegionCode.MY);
-                    m_save_country_list.Add(RegionCode.ID);
                     m_save_country_list.Add(RegionCode.CN);
+                    m_save_country_list.Add(RegionCode.HK);
+                    m_save_country_list.Add(RegionCode.ID);
+                    m_save_country_list.Add(RegionCode.MY);
+                    m_save_country_list.Add(RegionCode.SG);
+                    m_save_country_list.Add(RegionCode.TH);
                     break;
                 case 8:
                     m_save_country_list.Add(RegionCode.JP);

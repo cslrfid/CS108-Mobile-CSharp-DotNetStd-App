@@ -63,6 +63,8 @@ namespace CS108DesktopDemo
 
         private void button3_Click(object sender, EventArgs e)
         {
+            _reader.rfid.SetHoppingChannels(CSLibrary.Constants.RegionCode.HK);
+
             if (checkBox_TID.Checked)
             {
                 _reader.rfid.Options.TagRanging.multibanks = 1;
@@ -93,13 +95,18 @@ namespace CS108DesktopDemo
             if (e.type != CSLibrary.Constants.CallbackType.TAG_RANGING)
                 return;
 
+            if (textBox2.Text.Length > 30000)
+                textBox2.Text = "";
+
             if (checkBox_TID.Checked)
             {
-                textBox2.Text += "EPC:" + e.info.epc + " TID:" + CSLibrary.Tools.Hex.ToString(e.info.Bank1Data)  + Environment.NewLine;
+                //textBox2.Text += "EPC:" + e.info.epc + " TID:" + CSLibrary.Tools.Hex.ToString(e.info.Bank1Data)  + Environment.NewLine;
+                textBox2.Text = "EPC:" + e.info.epc + " TID:" + CSLibrary.Tools.Hex.ToString(e.info.Bank1Data) + Environment.NewLine + textBox2.Text;
             }
             else
             {
-                textBox2.Text += "EPC:" + e.info.epc + Environment.NewLine;
+                //textBox2.Text += "EPC:" + e.info.epc + Environment.NewLine;
+                textBox2.Text = "EPC:" + e.info.epc + Environment.NewLine + textBox2.Text;
             }
         }
 

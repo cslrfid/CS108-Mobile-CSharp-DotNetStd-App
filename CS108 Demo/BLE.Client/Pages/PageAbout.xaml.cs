@@ -18,7 +18,7 @@ namespace BLE.Client.Pages
             if (Device.RuntimePlatform == Device.iOS)
             {
                 this.Icon = new FileImageSource();
-                this.Icon.File = "icons8-Settings-50-3-30x30.png";
+                this.Icon.File = "icons8-Settings-50-4-30x30.png";
             }
 
             labelAppVer.Text = "Application Version " + DependencyService.Get<IAppVersion>().GetVersion() + "-" + DependencyService.Get<IAppVersion>().GetBuild().ToString();

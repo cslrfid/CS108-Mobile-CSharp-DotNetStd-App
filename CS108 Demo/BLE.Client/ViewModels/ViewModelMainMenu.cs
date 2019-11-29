@@ -164,12 +164,20 @@ namespace BLE.Client.ViewModels
                         break;
                 }
 
+                if (BleMvxApplication._reader.rfid.GetModelName() != "CS108")
+                for (int cnt = 0; cnt < 4; cnt++)
+                {
+                    BleMvxApplication._reader.rfid.SetAntennaPortState((uint)cnt, BleMvxApplication._config.RFID_AntennaEnable[cnt] ? CSLibrary.Constants.AntennaPortState.ENABLED : CSLibrary.Constants.AntennaPortState.DISABLED);
+                    BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[cnt], cnt);
+                    BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_Antenna_Dwell[cnt], (uint)cnt);
+                }
+
                 if ((BleMvxApplication._reader.bluetoothIC.GetFirmwareVersion() & 0x0F0000) != 0x030000) // ignore CS463
-                if (BleMvxApplication._reader.rfid.GetFirmwareVersion() < 0x00020614 || BleMvxApplication._reader.siliconlabIC.GetFirmwareVersion() < 0x00010009 || BleMvxApplication._reader.bluetoothIC.GetFirmwareVersion() < 0x0001000E)
+                if (BleMvxApplication._reader.rfid.GetFirmwareVersion() < 0x0002061D || BleMvxApplication._reader.siliconlabIC.GetFirmwareVersion() < 0x00010009 || BleMvxApplication._reader.bluetoothIC.GetFirmwareVersion() < 0x0001000E)
                 {
                     _userDialogs.AlertAsync("Firmware too old" + Environment.NewLine + 
                                             "Please upgrade firmware to at least :" + Environment.NewLine +
-                                            "RFID Processor firmware: V2.6.20" + Environment.NewLine +
+                                            "RFID Processor firmware: V2.6.29" + Environment.NewLine +
                                             "SiliconLab Firmware: V1.0.9" + Environment.NewLine +
                                             "Bluetooth Firmware: V1.0.14");
                 }

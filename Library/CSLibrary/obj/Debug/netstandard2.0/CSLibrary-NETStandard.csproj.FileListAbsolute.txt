@@ -1,12 +1,11 @@
-/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/bin/Debug/netstandard2.0/CSLibrary.deps.json
-/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/bin/Debug/netstandard2.0/CSLibrary.dll
-/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/bin/Debug/netstandard2.0/CSLibrary.pdb
-/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/bin/Debug/netstandard2.0/Plugin.BLE.Abstractions.dll
-/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/bin/Debug/netstandard2.0/Plugin.BLE.Abstractions.pdb
-/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/Debug/netstandard2.0/CSLibrary-NETStandard.csprojAssemblyReference.cache
-/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/Debug/netstandard2.0/CSLibrary-NETStandard.csproj.CoreCompileInputs.cache
-/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/Debug/netstandard2.0/CSLibrary-NETStandard.AssemblyInfoInputs.cache
-/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/Debug/netstandard2.0/CSLibrary-NETStandard.AssemblyInfo.cs
-/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/Debug/netstandard2.0/CSLibrary-NETStandard.csproj.CopyComplete
-/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/Debug/netstandard2.0/CSLibrary.dll
-/Users/TurtleMac01/Documents/CSL/CS018 Demo App/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/Debug/netstandard2.0/CSLibrary.pdb
+/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/CSLibrary/bin/Debug/netstandard2.0/CSLibrary.deps.json
+/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/CSLibrary/bin/Debug/netstandard2.0/CSLibrary.dll
+/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/CSLibrary/bin/Debug/netstandard2.0/CSLibrary.pdb
+/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/CSLibrary/bin/Debug/netstandard2.0/Plugin.BLE.Abstractions.dll
+/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/CSLibrary/bin/Debug/netstandard2.0/Plugin.BLE.Abstractions.pdb
+/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/Debug/netstandard2.0/CSLibrary-NETStandard.csprojAssemblyReference.cache
+/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/Debug/netstandard2.0/CSLibrary-NETStandard.AssemblyInfoInputs.cache
+/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/Debug/netstandard2.0/CSLibrary-NETStandard.AssemblyInfo.cs
+/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/Debug/netstandard2.0/CSLibrary-NETStandard.csproj.CopyComplete
+/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/Debug/netstandard2.0/CSLibrary.dll
+/Users/TurtleMac01/Downloads/CS108 RFID Reader Demo v3.1/Library/CSLibrary/obj/Debug/netstandard2.0/CSLibrary.pdb

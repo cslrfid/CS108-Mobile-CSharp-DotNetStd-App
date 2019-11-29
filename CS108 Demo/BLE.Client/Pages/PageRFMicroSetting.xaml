@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:BLE.Client.Pages;assembly=BLE.Client"
              x:Class="BLE.Client.Pages.PageRFMicroSetting"
-                Title="Axzon Configuration">
+                Title="Temp/Humidity Configuration">
   
     <ScrollView>
     
@@ -17,6 +17,11 @@
             <StackLayout Orientation="Horizontal">
                 <Label Text="Power" WidthRequest="100" VerticalOptions="Center"/>
                 <Button x:Name="buttonPower" Text ="{Binding buttonPowerText, Mode=OneWayToSource }" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonPowerClicked" />
+            </StackLayout>
+
+            <StackLayout IsVisible="False" Orientation="Horizontal">
+                <Label Text="Target" WidthRequest="100" VerticalOptions="Center" />
+                <Button x:Name="buttonTarget" Text ="{Binding buttonTargetText, Mode=OneWayToSource }" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonTargetClicked" />
             </StackLayout>
 
             <StackLayout Orientation="Horizontal">

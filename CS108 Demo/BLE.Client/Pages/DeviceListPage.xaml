@@ -38,7 +38,7 @@
                         </Grid.Triggers>
 
                         <StackLayout Orientation="Vertical" VerticalOptions="Center">
-                            <Label Text="{Binding Name}" FontSize="Large" />
+                            <Label Text="{Binding Name}" FontSize="Large" TextColor="Gray" />
                             <Label Text="{Binding Id, StringFormat='{0}'}" TextColor="Gray" FontSize="Small"/>
                         </StackLayout>
 

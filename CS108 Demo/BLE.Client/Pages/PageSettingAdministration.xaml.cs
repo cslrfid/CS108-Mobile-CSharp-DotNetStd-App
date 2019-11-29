@@ -126,7 +126,7 @@ namespace BLE.Client.Pages
         {
             var answer = await DisplayActionSheet("View Battery Level Format", "Cancel", null, "Voltage", "Percentage");
 
-            if (answer != "Cancel")
+            if (answer != null && answer !="Cancel")
                 buttonBatteryLevelFormat.Text = answer;
         }
 

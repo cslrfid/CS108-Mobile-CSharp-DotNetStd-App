@@ -16,6 +16,7 @@ namespace BLE.Client.ViewModels
         private readonly IUserDialogs _userDialogs;
 
         public string buttonPowerText { get; set; }
+        public string buttonTargetText { get; set; }
         public string buttonIndicatorsProfileText { get; set; }
         public string buttonSensorTypeText { get; set; }
         public string buttonSensorUnitText { get; set; }

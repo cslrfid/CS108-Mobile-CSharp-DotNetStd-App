@@ -92,7 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CS108XamarinFormsDemo\CS108XamarinFormsDemo.csproj">
-      <Project>{239F61BF-9004-4EC7-977E-C28EEF0DAE26}</Project>
+      <Project>{56C80B93-C494-4F6C-BF8F-6BA8B0A16D36}</Project>
       <Name>CS108XamarinFormsDemo</Name>
     </ProjectReference>
   </ItemGroup>

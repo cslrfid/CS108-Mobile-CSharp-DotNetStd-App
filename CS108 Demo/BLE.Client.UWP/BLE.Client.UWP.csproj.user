@@ -11,7 +11,7 @@
     <RemoveNonLayoutFiles>false</RemoveNonLayoutFiles>
   </PropertyGroup>
   <PropertyGroup>
-    <AppxShowAllApps>False</AppxShowAllApps>
+    <AppxShowAllApps>True</AppxShowAllApps>
     <AppxPackageIsForStore>True</AppxPackageIsForStore>
     <AppxBuildConfigurationSelection>x86|x64</AppxBuildConfigurationSelection>
     <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
@@ -22,7 +22,7 @@
     <UseEmulator>true</UseEmulator>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <RemoteDebugEnabled>true</RemoteDebugEnabled>
+    <RemoteDebugEnabled>false</RemoteDebugEnabled>
     <RemoteDebugMachine>DESKTOP-2MOFN78</RemoteDebugMachine>
     <AuthenticationMode>None</AuthenticationMode>
     <CreateCleanLayout>true</CreateCleanLayout>

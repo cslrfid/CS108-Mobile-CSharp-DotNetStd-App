@@ -855,6 +855,39 @@ namespace CSLibrary
         /// </summary>
         private double[] KRTableOfFreq = new double[]
         {
+            917.30,
+            917.90,
+            918.50,
+            919.10,
+            919.70,
+            920.30
+        };
+
+        /*Not same as CS101???*/
+        private uint[] krFreqTable = new uint[]
+        {
+            0x003C23E7, /*919.1 MHz   */
+            0x003C23D5, /*917.3 MHz   */
+            0x003C23F3, /*920.3 MHz   */
+            0x003C23DB, /*917.9 MHz   */
+            0x003C23ED, /*919.7 MHz   */
+            0x003C23E1, /*918.5 MHz   */
+        };
+
+        /// <summary>
+        /// Korea Frequency Channel number
+        /// </summary>
+        private const uint KR_CHN_CNT = 6;
+        private readonly uint[] krFreqSortedIdx = new uint[]{
+            3, 0, 5, 1, 4, 2
+        };
+
+#if oldvalue
+        /// <summary>
+        /// Korea Frequency Table
+        /// </summary>
+        private double[] KRTableOfFreq = new double[]
+        {
             910.20,
             910.40,
             910.60,
@@ -910,6 +943,7 @@ namespace CSLibrary
             4, 10, 0, 12, 5,
             3, 16, 6, 14
         };
+#endif
 
         /*private const uint VIRTUAL_KR_DIVRAT = 0x001E0000;
         private const uint VIRTUAL_KR_CHN_CNT = 19;
@@ -962,9 +996,9 @@ namespace CSLibrary
                                                     4, 2, 5,
                                                     };
 
-        #endregion
+#endregion
 
-        #region Taiwan
+#region Taiwan
         /// <summary>
         /// Taiwan Frequency Table
         /// </summary>
@@ -1009,9 +1043,9 @@ namespace CSLibrary
             11, 4, 8, 2,
             9, 0, 7, 3,
         };
-        #endregion
+#endregion
 
-        #region Brazil
+#region Brazil
 
         private double[] BR1TableOfFreq = new double[]
             {
@@ -1353,9 +1387,9 @@ namespace CSLibrary
             5, 3, 2, 0, 8, 9, 1, 4, 12, 13, 7, 6, 10, 11
         };
 
-        #endregion
+#endregion
 
-        #region Indonesia
+#region Indonesia
         /// <summary>
         /// Indonesia Frequency Table
         /// </summary>
@@ -1387,7 +1421,7 @@ namespace CSLibrary
             3
         };
 
-        #region UH1
+#region UH1
         /// <summary>
         /// FCC UH Frequency Table 915-920
         /// </summary>
@@ -1425,9 +1459,9 @@ namespace CSLibrary
         private readonly uint[] uh1FreqSortedIdx = new uint[]{
             1, 0, 8, 7, 5, 4, 6, 2, 9, 3
         };
-        #endregion
+#endregion
 
-        #region UH2
+#region UH2
         /// <summary>
         /// FCC UH Frequency Table 920-928
         /// </summary>
@@ -1475,9 +1509,9 @@ namespace CSLibrary
         private readonly uint[] uh2FreqSortedIdx = new uint[]{
             13, 12, 14, 0, 10, 3, 4, 9, 7, 11, 8, 2, 1, 5, 6,
         };
-        #endregion
+#endregion
 
-        #region LH
+#region LH
 
         private double[] LHTableOfFreq = new double[]
             {
@@ -1687,11 +1721,11 @@ namespace CSLibrary
 
 
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region JE
+#region JE
 
         private double[] JETableOfFreq = new double[]
         {
@@ -1721,9 +1755,9 @@ namespace CSLibrary
         0, 4, 1, 5, 2, 6, 3
         };
 
-        #endregion
+#endregion
 
-        #region BackoffTable
+#region BackoffTable
         private UInt32[] etsiBackoffTable = new uint[]
         {
             0x0000175a, /*       5978 usecs */
@@ -1753,9 +1787,9 @@ namespace CSLibrary
             0x00001388, /*       5133 usecs */
             0x00001388  /*       7853 usecs */
         };
-        #endregion
+#endregion
 
-        #region PH
+#region PH
 
         private double[] PHTableOfFreq = new double[]
             {
@@ -1787,7 +1821,7 @@ namespace CSLibrary
             0, 5, 3, 7, 1, 6, 2, 4
         };
 
-        #region ETSIUPPERBAND
+#region ETSIUPPERBAND
 
         private double[] ETSIUPPERBANDTableOfFreq = new double[]
         {
@@ -1811,9 +1845,9 @@ namespace CSLibrary
             0, 1, 2//, 3
         };
 
-        #endregion
+#endregion
 
-        #region NZ
+#region NZ
 
         private double[] NZTableOfFreq = new double[]
         {
@@ -1851,10 +1885,10 @@ namespace CSLibrary
             4, 7, 0, 9, 2, 10, 6, 1, 8, 3, 5
         };
 
-        #endregion
+#endregion
 
 
-        #region VE
+#region VE
 
         private readonly double[] VETableOfFreq = new double[]
         {
@@ -1892,11 +1926,11 @@ namespace CSLibrary
             8, 4, 2, 7, 3
         };
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
 
         /// <summary>

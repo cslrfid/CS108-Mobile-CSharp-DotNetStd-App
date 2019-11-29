@@ -970,5 +970,9 @@ namespace CSLibrary
             return Result.OK;
         }
 
+        private Result MacWriteOemData(uint address, uint [] value)
+        {
+            return Result.CURRENTLY_NOT_ALLOWED;
+        }
     }
 }

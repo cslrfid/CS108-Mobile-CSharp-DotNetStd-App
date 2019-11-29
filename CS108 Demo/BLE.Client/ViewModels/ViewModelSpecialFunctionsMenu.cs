@@ -24,6 +24,7 @@ namespace BLE.Client.ViewModels
         public ICommand OnXerxesButtonCommand { protected set; get; }
         public ICommand OnBlockWriteButtonCommand { protected set; get; }
         public ICommand OnCS83045ButtonCommand { protected set; get; }
+        public ICommand OnCS9010ButtonCommand { protected set; get; }
 
         public ViewModelSpecialFunctionsMenu (IAdapter adapter, IUserDialogs userDialogs) : base(adapter)
         {
@@ -37,6 +38,7 @@ namespace BLE.Client.ViewModels
             OnXerxesButtonCommand = new Command(OnXerxesButtonClicked);
             OnBlockWriteButtonCommand = new Command(OnBlockWriteButtonClicked);
             OnCS83045ButtonCommand = new Command(OnCS83045ButtonClicked);
+            OnCS9010ButtonCommand = new Command(OnCS9010ButtonClicked);
         }
 
         public override void Resume()
@@ -73,7 +75,8 @@ namespace BLE.Client.ViewModels
 
         void OnXerxesButtonClicked()
         {
-            ShowViewModel<ViewModelXerxesSetting>(new MvxBundle());
+            //ShowViewModel<ViewModelXerxesSetting>(new MvxBundle());
+            ShowViewModel<ViewModelAxzonSetting>(new MvxBundle());
         }
 
         void OnBlockWriteButtonClicked()
@@ -84,6 +87,11 @@ namespace BLE.Client.ViewModels
         void OnCS83045ButtonClicked()
         {
             ShowViewModel<ViewModelCS83045Setting>(new MvxBundle());
+        }
+
+        void OnCS9010ButtonClicked()
+        {
+            ShowViewModel<ViewModelCS9010Inventory>(new MvxBundle());
         }
     }
 }

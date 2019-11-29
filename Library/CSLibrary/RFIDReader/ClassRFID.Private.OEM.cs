@@ -68,7 +68,7 @@ namespace CSLibrary
                 m_oem_table_version = oemValue[1];                  // 0x0B
                 m_oem_special_country_version = (uint)oemValue[2];  // 0x8e
                 m_oem_freq_modification_flag = (int)oemValue[3];    // 0x8f
-                m_oem_machine = (Machine)oemValue[6];               // 0xA4
+                m_oem_machine = oemValue[6] == 0 ? Machine.CS108 : (Machine)oemValue[6];               // 0xA4
 
                 {
                     uint[] data = new uint[4];
@@ -83,6 +83,7 @@ namespace CSLibrary
 
                 InitDefaultChannel();
                 GenCountryList();
+                SetDefaultAntennaList();
                 FireStateChangedEvent(RFState.INITIALIZATION_COMPLETE);
                 FireStateChangedEvent(RFState.IDLE);
             }

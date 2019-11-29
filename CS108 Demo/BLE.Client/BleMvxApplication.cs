@@ -39,8 +39,9 @@ namespace BLE.Client
         public int RFID_InventoryDelayTime;
         public UInt32 RFID_InventoryCycleDelayTime;
         public CSLibrary.Constants.RadioOperationMode RFID_OperationMode;
-        public uint RFID_DWellTime;
+        //public uint RFID_DWellTime;
         public uint RFID_TagPopulation;
+        public bool RFID_ToggleTarget = true;
         public CSLibrary.Structures.TagGroup RFID_TagGroup;
         public CSLibrary.Constants.SingulationAlgorithm RFID_Algorithm;
         public CSLibrary.Structures.DynamicQParms RFID_DynamicQParms;
@@ -78,16 +79,25 @@ namespace BLE.Client
         public uint RFID_VibrationWindow = 2;      // 2 seconds
         public uint RFID_VibrationTime = 300;       // 300 ms
 
+        public bool[] RFID_AntennaEnable = new bool[16] { true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false };
+        public uint[] RFID_Antenna_Power = new uint[16] { 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300 };
+        public uint[] RFID_Antenna_Dwell = new uint[16] { 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000 };
+
+        public int RFID_PowerSequencing_NumberofPower = 0;
+        //public uint[] RFID_PowerSequencing_Level = new uint[16] {150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300 };
+        public uint[] RFID_PowerSequencing_Level = new uint[16] { 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300 };
+        public uint[] RFID_PowerSequencing_DWell = new uint[16] { 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000 };
+
         public CONFIG()
         {
             RFID_Power = 300;
-            RFID_DWellTime = 0;
+            //RFID_DWellTime = 0;
             RFID_TagPopulation = 30;
             RFID_InventoryDelayTime = 0;
             RFID_InventoryCycleDelayTime = 0;
 
             RFID_OperationMode = CSLibrary.Constants.RadioOperationMode.CONTINUOUS;
-            RFID_TagGroup = new CSLibrary.Structures.TagGroup(CSLibrary.Constants.Selected.ALL, CSLibrary.Constants.Session.S1, CSLibrary.Constants.SessionTarget.A);
+            RFID_TagGroup = new CSLibrary.Structures.TagGroup(CSLibrary.Constants.Selected.ALL, CSLibrary.Constants.Session.S0, CSLibrary.Constants.SessionTarget.A);
             RFID_Algorithm = CSLibrary.Constants.SingulationAlgorithm.DYNAMICQ;
             RFID_Profile = 1;
 
@@ -95,14 +105,14 @@ namespace BLE.Client
             RFID_DynamicQParms.minQValue = 0;
             RFID_DynamicQParms.startQValue = 6;
             RFID_DynamicQParms.maxQValue = 15;
-            RFID_DynamicQParms.toggleTarget = 0;
+            RFID_DynamicQParms.toggleTarget = 1;
             RFID_DynamicQParms.thresholdMultiplier = 4;
             RFID_DynamicQParms.retryCount = 0;
 
             RFID_FixedQParms = new CSLibrary.Structures.FixedQParms();
             RFID_FixedQParms.qValue = 6;
             RFID_FixedQParms.retryCount = 0;
-            RFID_FixedQParms.toggleTarget = 0;
+            RFID_FixedQParms.toggleTarget = 1;
             RFID_FixedQParms.repeatUntilNoTags = 0;
 
             RFID_MBI_MultiBank1Enable = false;
@@ -184,8 +194,9 @@ namespace BLE.Client
         public static bool _batteryLow = false;
 
         // for RFMicro
-        public static int _rfMicro_TagType; // 0 = S2, 1 = S3
+        public static int _rfMicro_TagType; // 0 = S2, 1 = S3, 2 = Axzon
         public static int _rfMicro_Power; // 0 ~ 4
+        public static int _rfMicro_Target; // 0 = A, 1 = B, 2 = Toggle
         public static int _rfMicro_SensorType; // 0=Sensor code, 1=Temperature
         public static int _rfMicro_SensorUnit; // 0=code, 1=f, 2=c, 3=%
         public static int _rfMicro_minOCRSSI;
@@ -211,6 +222,8 @@ namespace BLE.Client
         public static int _coldChain_LogInterval;
 
         // for Xerxes Tag
+        //public static int _xerxes_Power;
+        //public static int _xerxes_Target;
         public static int _xerxes_delay;
 
         public override void Initialize()
