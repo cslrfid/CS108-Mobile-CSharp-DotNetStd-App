@@ -114,8 +114,8 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.Options.TagRanging.flags = CSLibrary.Constants.SelectFlags.ZERO;
 
             // Setting 1
-            BleMvxApplication._reader.rfid.SetInventoryTimeDelay((uint)BleMvxApplication._config.RFID_InventoryDelayTime);
-            BleMvxApplication._reader.rfid.SetInventoryCycleDelay(BleMvxApplication._config.RFID_InventoryCycleDelayTime);
+            BleMvxApplication._reader.rfid.SetTagDelayTime((uint)BleMvxApplication._config.RFID_TagDelayTime);
+            BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_InventoryDuration);
 
             // Set Power
             if (BleMvxApplication._reader.rfid.GetModelName() == "CS108")

@@ -1,4 +1,25 @@
-﻿using System;
+﻿/*
+Copyright (c) 2018 Convergence Systems Limited
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -27,7 +48,13 @@ namespace CSLibrary
             switch (m_oem_machine)
             {
                 case Machine.CS108:
+                default:
                     m_AntennaList.Add(new Antenna(0, AntennaPortState.ENABLED, 300, 0, 0x2000, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    break;
+
+                case Machine.CS203X:
+                    m_AntennaList.Add(new Antenna(0, AntennaPortState.ENABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(1, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
                     break;
 
                 case Machine.CS463:
@@ -37,7 +64,24 @@ namespace CSLibrary
                     m_AntennaList.Add(new Antenna(3, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
                     break;
 
-                default:
+                case Machine.CS468X:
+                case Machine.CS468XJ:
+                    m_AntennaList.Add(new Antenna(0, AntennaPortState.ENABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(1, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(2, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(3, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(4, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(5, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(6, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(7, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(8, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(9, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(10, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(11, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(12, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(13, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(14, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(15, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
                     break;
             }
 

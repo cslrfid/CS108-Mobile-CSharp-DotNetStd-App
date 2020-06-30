@@ -46,7 +46,6 @@ namespace BLE.Client.Pages
             CSLibrary.Constants.RegionCode.LH,
             CSLibrary.Constants.RegionCode.LH1,
             CSLibrary.Constants.RegionCode.LH2,
-
             CSLibrary.Constants.RegionCode.VE,
             CSLibrary.Constants.RegionCode.AR,
             CSLibrary.Constants.RegionCode.CL,
@@ -56,7 +55,7 @@ namespace BLE.Client.Pages
             CSLibrary.Constants.RegionCode.PA,
             CSLibrary.Constants.RegionCode.PE,
             CSLibrary.Constants.RegionCode.UY,
-            CSLibrary.Constants.RegionCode.KR
+            CSLibrary.Constants.RegionCode.BA
         };
         string[] _regionsName = new string[] {
             "USACanada",
@@ -97,7 +96,7 @@ namespace BLE.Client.Pages
             "Panama",
             "Peru",
             "Uruguay",
-            "Korea"
+            "Bangladesh"
         };
 
         //        string[] _profileList = { "0 for Fade Resistance", "1 for Range", "2 for Range & Throughput", "3 for Max Throughput" };
@@ -110,6 +109,10 @@ namespace BLE.Client.Pages
 
         string[] _freqOrderOptions;
 
+        string[] _RFLNAcompressionmodeList = { "0", "1" };
+        string[] _RFLNAGainList = { "1", "7", "13" };
+        string[] _IFLNAGainList = { "24", "18", "12", "6" };
+        string[] _AGCGainList = { "-12", "-6", "0", "6" };
 
         public PageSettingOperation()
         {
@@ -202,6 +205,24 @@ namespace BLE.Client.Pages
             buttonProfile.Text = _profileList[BleMvxApplication._config.RFID_Profile];
 
             SetQvalue();
+
+            entryTagDelay.Text = BleMvxApplication._config.RFID_TagDelayTime.ToString();
+            entryInventoryDuration.Text = BleMvxApplication._config.RFID_InventoryDuration.ToString();
+            //switchNewTagLocation.IsToggled = BleMvxApplication._config.RFID_NewTagLocation;
+            switchFocus.IsToggled = BleMvxApplication._config.RFID_Focus;
+            buttonRFLNAcompression.Text = BleMvxApplication._config.RFID_RFLNAcompression.ToString();
+            buttonRFLNAGain.Text = BleMvxApplication._config.RFID_RFLNAGain.ToString();
+            buttonIFLNAGain.Text = BleMvxApplication._config.RFID_IFLNAGain.ToString();
+            buttonAGCGain.Text = BleMvxApplication._config.RFID_AGCGain.ToString();
+            if (buttonRFLNAGain.Text == "13")
+            {
+                buttonRFLNAcompression.Text = "0";
+                buttonRFLNAcompression.IsEnabled = false;
+            }
+            else
+            {
+                buttonRFLNAcompression.IsEnabled = true;
+            }
         }
 
         protected override void OnAppearing()
@@ -336,6 +357,15 @@ namespace BLE.Client.Pages
                     break;
             }
             */
+            
+            BleMvxApplication._config.RFID_TagDelayTime = int.Parse(entryTagDelay.Text);
+            BleMvxApplication._config.RFID_InventoryDuration = UInt32.Parse(entryInventoryDuration.Text);
+            //BleMvxApplication._config.RFID_NewTagLocation = switchNewTagLocation.IsToggled;
+            BleMvxApplication._config.RFID_Focus = switchFocus.IsToggled;
+            BleMvxApplication._config.RFID_RFLNAcompression = int.Parse(buttonRFLNAcompression.Text);
+            BleMvxApplication._config.RFID_RFLNAGain = int.Parse(buttonRFLNAGain.Text);
+            BleMvxApplication._config.RFID_IFLNAGain = int.Parse(buttonIFLNAGain.Text);
+            BleMvxApplication._config.RFID_AGCGain = int.Parse(buttonAGCGain.Text);
 
             BleMvxApplication.SaveConfig();
 
@@ -474,6 +504,42 @@ namespace BLE.Client.Pages
             }
         }
 
+        public async void entryTagDelayCompleted(object sender, EventArgs e)
+        {
+            uint value;
+
+            try
+            {
+                value = uint.Parse(entryTagDelay.Text);
+                if (value < 0 || value > 15)
+                    throw new System.ArgumentException("Value not valid", "tagPopulation");
+                entryTagDelay.Text = value.ToString();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("", "Value not valid!!!", "OK");
+                entryTagDelay.Text = "0";
+            }
+        }
+
+        public async void entryInventoryDurationCompleted(object sender, EventArgs e)
+        {
+            uint value;
+
+            try
+            {
+                value = uint.Parse(entryInventoryDuration.Text);
+                if (value < 0 || value > 3000)
+                    throw new System.ArgumentException("Value not valid", "tagPopulation");
+                entryInventoryDuration.Text = value.ToString();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("", "Value not valid!!!", "OK");
+                entryInventoryDuration.Text = "0";
+            }
+        }
+
         public async void buttonSessionClicked(object sender, EventArgs e)
         {
             var answer = await DisplayActionSheet("Session", "Cancel", null, "S0", "S1", "S2", "S3"); // S2 S3
@@ -539,6 +605,76 @@ namespace BLE.Client.Pages
 
             if (answer != null && answer !="Cancel")
                 buttonProfile.Text = answer;
+        }
+
+        public async void buttonRFLNAcompressionClicked(object sender, EventArgs e)
+        {
+            var answer = await DisplayActionSheet(null, "Cancel", null, "0", "1");
+
+            if (answer != null && answer != "Cancel")
+                buttonRFLNAcompression.Text = answer;
+        }
+
+        public async void buttonRFLNAGainClicked(object sender, EventArgs e)
+        {
+            var answer = await DisplayActionSheet(null, "Cancel", null, "1", "7", "13");
+
+            if (answer != null && answer != "Cancel")
+            {
+                buttonRFLNAGain.Text = answer;
+
+                if (answer == "13")
+                {
+                    buttonRFLNAcompression.Text = "0";
+                    buttonRFLNAcompression.IsEnabled = false;
+                }
+                else
+                {
+                    buttonRFLNAcompression.IsEnabled = true;
+                }
+            }
+        }
+
+        public async void buttonIFLNAGainClicked(object sender, EventArgs e)
+        {
+            var answer = await DisplayActionSheet(null, "Cancel", null, "24", "18", "12", "6");
+
+            if (answer != null && answer != "Cancel")
+                buttonIFLNAGain.Text = answer;
+        }
+
+        public async void buttonAGCGainClicked(object sender, EventArgs e)
+        {
+            var answer = await DisplayActionSheet(null, "Cancel", null, "-12", "-6", "0", "6");
+
+            if (answer != null && answer != "Cancel")
+                buttonAGCGain.Text = answer;
+        }
+
+        public async void switchFocusPropertyChanged(object sender, EventArgs e)
+        {
+            if (switchFocus == null)
+                return;
+
+            if (switchFocus.IsToggled)
+            {
+                buttonSession.Text = "S1";
+                buttonTarget.Text = "A";
+                entryTagDelay.Text = "0";
+                entryInventoryDuration.Text = "2000";
+                buttonSession.IsEnabled = false;
+                buttonTarget.IsEnabled = false;
+                entryTagDelay.IsEnabled = false;
+                entryInventoryDuration.IsEnabled = false;
+            }
+            else
+            {
+                buttonSession.IsEnabled = true;
+                buttonTarget.IsEnabled = true;
+                entryTagDelay.IsEnabled = true;
+                entryInventoryDuration.IsEnabled = true;
+            }
+
         }
 
     }

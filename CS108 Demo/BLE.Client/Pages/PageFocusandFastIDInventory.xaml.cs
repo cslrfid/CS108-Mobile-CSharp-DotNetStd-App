@@ -25,30 +25,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CSLibrary
+using Xamarin.Forms;
+
+namespace BLE.Client.Pages
 {
-    public class GATT
+    public partial class PageFocusandFastIDInventory
     {
-        enum RESULT
-        {
-            SUCCESS,
-            FAIL,
-            READYCONNECTED,
-        }
-
-
-        public GATT()
-        {
-        }
-
-        ~GATT ()
-        {
-
-        }
-
-        public bool Disconnect ()
-        {
-            return false;
-        }
+		public PageFocusandFastIDInventory()
+		{
+			InitializeComponent();
+		}
     }
 }

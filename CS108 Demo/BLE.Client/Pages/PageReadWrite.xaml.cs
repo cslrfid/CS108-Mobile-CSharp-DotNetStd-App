@@ -9,14 +9,18 @@ using Xamarin.Forms.Xaml;
 
 namespace BLE.Client.Pages
 {
-	public partial class PageReadWrite
+    public partial class PageReadWrite
 	{
+        static string[] _bankSelectionItems = new string[] { "Security (Bank 0)", "EPC (Bank 1)", "TID (Bank 2)", "User (Bank 3)" };
         int _EPCLength = 24;
 
         public PageReadWrite()
 		{
 			InitializeComponent();
-		}
+
+            BleMvxApplication._geiger_Bank = 1;
+            buttonBank.Text = _bankSelectionItems[1];
+        }
 
         protected override void OnAppearing()
         {
@@ -26,6 +30,31 @@ namespace BLE.Client.Pages
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
+        }
+
+        public async void buttonBankClicked(object sender, EventArgs e)
+        {
+            var answer = await DisplayActionSheet("", "Cancel", null, _bankSelectionItems);
+
+            if (answer != null && answer != "Cancel")
+            {
+                if (buttonBank.Text != answer)
+                {
+                    buttonBank.Text = answer;
+                    BleMvxApplication._geiger_Bank = int.Parse(buttonBank.Text.Substring(buttonBank.Text.Length - 2, 1));
+                    switch (BleMvxApplication._geiger_Bank)
+                    {
+                        case 1: // EPC
+                            entrySelectedMask.Text = BleMvxApplication._SELECT_EPC;
+                            break;
+
+                        case 2: // TID
+                            if (BleMvxApplication._SELECT_TID.Length != 0)
+                                entrySelectedMask.Text = BleMvxApplication._SELECT_TID;
+                            break;
+                    }
+                }
+            }
         }
 
         void InputFocused(object sender, EventArgs args)
@@ -112,8 +141,8 @@ namespace BLE.Client.Pages
 
             await DisplayAlert("Changing EPC Length will automatically modify to " + (_EPCLength * 4).ToString() + " bits", "", null, "OK");
 
-            if (editorSelectedEPC.Text.Length > _EPCLength)
-                editorSelectedEPC.Text = editorSelectedEPC.Text.Substring(0, _EPCLength);
+            if (entrySelectedMask.Text.Length > _EPCLength)
+                entrySelectedMask.Text = entrySelectedMask.Text.Substring(0, _EPCLength);
         }
 
         public async void onentryEPCTextChanged(object sender, EventArgs e)

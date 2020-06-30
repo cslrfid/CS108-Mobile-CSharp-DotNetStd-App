@@ -163,7 +163,7 @@ namespace BLE.Client.ViewModels
 
         bool _tagCount = false;
 
-        private string _tagPerSecondText = "0 tags/s     ";
+        private string _tagPerSecondText = "0/0 new/tags/s     ";
         public string tagPerSecondText { get { return _tagPerSecondText; } }
         private string _numberOfTagsText = "     0 tags";
         public string numberOfTagsText { get { return _numberOfTagsText; } }
@@ -327,7 +327,7 @@ namespace BLE.Client.ViewModels
                     RaisePropertyChanged(() => numberOfTagsText);
 
                     _tagCount4Display = 0;
-                    _tagPerSecondText = _tagCount4Display.ToString() + " tags/s     ";
+                    _tagPerSecondText = _newTagPerSecond.ToString() + "/" + _tagCount4Display.ToString() + " new/tags/s     ";
 
                     RaisePropertyChanged(() => tagPerSecondText);
                 }
@@ -341,8 +341,8 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.Options.TagRanging.flags = CSLibrary.Constants.SelectFlags.ZERO;
 
             // Setting 1
-            BleMvxApplication._reader.rfid.SetInventoryTimeDelay((uint)BleMvxApplication._config.RFID_InventoryDelayTime);
-            BleMvxApplication._reader.rfid.SetInventoryCycleDelay(BleMvxApplication._config.RFID_InventoryCycleDelayTime);
+            BleMvxApplication._reader.rfid.SetTagDelayTime((uint)BleMvxApplication._config.RFID_TagDelayTime);
+            BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_InventoryDuration);
 
             if (BleMvxApplication._reader.rfid.GetModelName() == "CS108")
             {
@@ -373,10 +373,20 @@ namespace BLE.Client.ViewModels
             if (BleMvxApplication._PREFILTER_Enable)
             {
                 BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE;
-                BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.EPC;
-                BleMvxApplication._reader.rfid.Options.TagSelected.epcMask = new CSLibrary.Structures.S_MASK(BleMvxApplication._PREFILTER_MASK_EPC);
-                BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskOffset = 0;
-                BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskLength = (uint)(BleMvxApplication._PREFILTER_MASK_EPC.Length) * 4;
+                if (BleMvxApplication._PREFILTER_Bank == 1) // if EPC
+                {
+                    BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.EPC;
+                    BleMvxApplication._reader.rfid.Options.TagSelected.epcMask = new CSLibrary.Structures.S_MASK(BleMvxApplication._PREFILTER_MASK_EPC);
+                    BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskOffset = 0;
+                    BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskLength = (uint)(BleMvxApplication._PREFILTER_MASK_EPC.Length) * 4;
+                }
+                else
+                {
+                    BleMvxApplication._reader.rfid.Options.TagSelected.bank = (CSLibrary.Constants.MemoryBank)(BleMvxApplication._PREFILTER_Bank);
+                    BleMvxApplication._reader.rfid.Options.TagSelected.Mask = CSLibrary.Tools.Hex.ToBytes(BleMvxApplication._PREFILTER_MASK_EPC);
+                    BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
+                    BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = (uint)(BleMvxApplication._PREFILTER_MASK_EPC.Length) * 4;
+                }
                 BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PREFILTER);
 
                 BleMvxApplication._reader.rfid.Options.TagRanging.flags |= CSLibrary.Constants.SelectFlags.SELECT;
@@ -398,6 +408,7 @@ namespace BLE.Client.ViewModels
             // Multi bank inventory
             BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 0;
             BleMvxApplication._reader.rfid.Options.TagRanging.compactmode = true;
+            BleMvxApplication._reader.rfid.Options.TagRanging.focus = BleMvxApplication._config.RFID_Focus;
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PRERANGING);
 
             //ShowDialog("Configuring RFID");
@@ -628,7 +639,7 @@ namespace BLE.Client.ViewModels
                 _numberOfTagsText = "     " + _TagInfoList.Count.ToString() + " tags";
                 RaisePropertyChanged(() => numberOfTagsText);
 
-                _tagPerSecondText = _newTagPerSecond.ToString() + @"\" + _tagCount4Display.ToString() + " tags/s     ";
+                _tagPerSecondText = _newTagPerSecond.ToString() + "/" + _tagCount4Display.ToString() + " new/tags/s     ";
                 //_tagPerSecondText = _tagCount4Display.ToString() + " tags/s     ";
                 RaisePropertyChanged(() => tagPerSecondText);
                 _tagCount4Display = 0;
@@ -777,9 +788,12 @@ namespace BLE.Client.ViewModels
                         item.PC = info.pc.ToUshorts()[0];
 
                         //TagInfoList.Add(item);
-                        TagInfoList.Insert(0, item);
+                        if (BleMvxApplication._config.RFID_NewTagLocation)
+                            TagInfoList.Insert(0, item);
+                        else
+                            TagInfoList.Add(item);
 
-                        _newtagCount4BeepSound ++;
+                        _newtagCount4BeepSound++;
                         _newtagCount4Vibration ++;
                         _newTagPerSecond ++;
 
@@ -859,7 +873,7 @@ namespace BLE.Client.ViewModels
                             break;
 
                         default:
-                            _labelVoltage = "CS108 Bat. " + ClassBattery.Voltage2Percent(voltage).ToString("0") + "%"; //			%
+                            _labelVoltage = voltage.ToString("0.000") + "v " + ClassBattery.Voltage2Percent(voltage).ToString("0") + "%"; //			%
                                                                                                                        //_labelVoltage = ClassBattery.Voltage2Percent((double)e.Voltage / 1000).ToString("0") + "% " + ((double)e.Voltage / 1000).ToString("0.000") + "v"; //			%
                             break;
                     }

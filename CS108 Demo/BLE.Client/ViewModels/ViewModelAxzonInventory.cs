@@ -157,10 +157,12 @@ namespace BLE.Client.ViewModels
             OnConfigurationButtonCommand = new Command(ConfigurationButtonClick);
             OnReadTempButtonCommand = new Command(ReadTempButtonClick);
 
-            InventorySetting();
-            SetPowerString();
+            //InventorySetting();
+            //SetPowerString();
 
-            SetEvent(true);
+            //SetEvent(true);
+
+            Setup();
         }
 
         ~ViewModelAxzonInventory()
@@ -190,13 +192,20 @@ namespace BLE.Client.ViewModels
         public override void Resume()
         {
             base.Resume();
-            SetEvent(true);
+            Setup();
         }
 
         public override void Suspend()
         {
             SetEvent(false);
             base.Suspend();
+        }
+
+        void Setup()
+        {
+            InventorySetting();
+            SetPowerString();
+            SetEvent(true);
         }
 
         protected override void InitFromBundle(IMvxBundle parameters)
@@ -236,8 +245,8 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.Options.TagRanging.flags = CSLibrary.Constants.SelectFlags.ZERO;
 
             // Setting 1
-            BleMvxApplication._reader.rfid.SetInventoryTimeDelay((uint)BleMvxApplication._config.RFID_InventoryDelayTime);
-            BleMvxApplication._reader.rfid.SetInventoryCycleDelay(BleMvxApplication._config.RFID_InventoryCycleDelayTime);
+            BleMvxApplication._reader.rfid.SetTagDelayTime((uint)BleMvxApplication._config.RFID_TagDelayTime);
+            BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_InventoryDuration);
             SetPower(BleMvxApplication._rfMicro_Power);
 
             // Setting 3

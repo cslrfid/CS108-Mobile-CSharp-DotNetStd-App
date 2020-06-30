@@ -25,7 +25,10 @@
     <None Remove="Pages\PageCS83045Inventory.xaml" />
     <None Remove="Pages\PageCS83045Setting.xaml" />
     <None Remove="Pages\PageCS9010Inventory.xaml" />
+    <None Remove="Pages\PageCTESIUSTempInventory.xaml" />
     <None Remove="Pages\PageFilter.xaml" />
+    <None Remove="Pages\PageFocusandFastIDInventory.xaml" />
+    <None Remove="Pages\PageFocusandFastIDSetting.xaml" />
     <None Remove="Pages\PageGeiger.xaml" />
     <None Remove="Pages\PageInventory.xaml" />
     <None Remove="Pages\PageInventorynScan.xaml" />
@@ -57,6 +60,18 @@
     <None Remove="Pages\PageXerxesSetting.xaml" />
     <None Remove="Pages\PageXerxesTagList.xaml" />
     <None Remove="Pages\ServiceListPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\PageCTESIUSTempInventory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageFocusandFastIDSetting.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageFocusandFastIDInventory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

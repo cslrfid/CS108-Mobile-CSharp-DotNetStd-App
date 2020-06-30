@@ -11,6 +11,13 @@ namespace BLE.Client.Pages
 {
 	public partial class PageSettingAntenna
 	{
+        class ANTENNAOPTION
+        {
+            private global::Xamarin.Forms.Switch switchAntennaEnable;
+            private global::Xamarin.Forms.Entry entryPower;
+            private global::Xamarin.Forms.Entry entryDwell;
+        }
+
         public PageSettingAntenna()
         {
             InitializeComponent();
@@ -20,6 +27,8 @@ namespace BLE.Client.Pages
                 this.Icon = new FileImageSource();
                 this.Icon.File = "icons8-Settings-50-3-30x30.png";
             }
+
+            ANTENNAOPTION[] antennaOptions = new ANTENNAOPTION[BleMvxApplication._reader.rfid.AntennaList.Count];
 
             switchAntenna1Enable.IsToggled = BleMvxApplication._config.RFID_AntennaEnable[0];
             switchAntenna2Enable.IsToggled = BleMvxApplication._config.RFID_AntennaEnable[1];

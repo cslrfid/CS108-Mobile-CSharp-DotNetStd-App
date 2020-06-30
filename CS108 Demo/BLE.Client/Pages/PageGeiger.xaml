@@ -7,10 +7,15 @@
   
     <StackLayout Margin="0,0,0,0">
 
-        <Label Text="Selected EPC" />
-        <Entry Text="{ Binding entryEPC, Mode=TwoWay }" />
+		<StackLayout Orientation="Horizontal">
+			<Label Text="Bank " WidthRequest="100" VerticalOptions="Center" />
+			<Button x:Name="buttonBank" HorizontalOptions="FillAndExpand" Clicked="buttonBankClicked" TextColor="Black" BackgroundColor="#C3C3C3" />
+		</StackLayout>
 
-        <StackLayout Orientation="Horizontal">
+		<Label Text="Selected Mask" />
+		<Entry x:Name ="entryMask" Text="{ Binding entryEPC, Mode=TwoWay }" />
+
+		<StackLayout Orientation="Horizontal">
             <Label Text="Power (0-300)" WidthRequest="100" VerticalOptions="Center" />
             <Entry x:Name="entryPower" Text="{ Binding power, Mode=TwoWay }" Unfocused="entryPowerCompleted" HorizontalOptions="FillAndExpand" />
         </StackLayout>

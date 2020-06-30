@@ -1,4 +1,25 @@
-﻿using System;
+﻿/*
+Copyright (c) 2018 Convergence Systems Limited
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Acr.UserDialogs;
@@ -25,6 +46,8 @@ namespace BLE.Client.ViewModels
         public ICommand OnBlockWriteButtonCommand { protected set; get; }
         public ICommand OnCS83045ButtonCommand { protected set; get; }
         public ICommand OnCS9010ButtonCommand { protected set; get; }
+        public ICommand OnTagFocusandFastIDButtonCommand { protected set; get; }
+        public ICommand OnCTESIUSTempButtonCommand { protected set; get; }
 
         public ViewModelSpecialFunctionsMenu (IAdapter adapter, IUserDialogs userDialogs) : base(adapter)
         {
@@ -39,6 +62,8 @@ namespace BLE.Client.ViewModels
             OnBlockWriteButtonCommand = new Command(OnBlockWriteButtonClicked);
             OnCS83045ButtonCommand = new Command(OnCS83045ButtonClicked);
             OnCS9010ButtonCommand = new Command(OnCS9010ButtonClicked);
+            OnTagFocusandFastIDButtonCommand = new Command(OnTagFocusandFastIDButtonClicked);
+            OnCTESIUSTempButtonCommand = new Command(OnCTESIUSTempButtonClicked);
         }
 
         public override void Resume()
@@ -75,7 +100,6 @@ namespace BLE.Client.ViewModels
 
         void OnXerxesButtonClicked()
         {
-            //ShowViewModel<ViewModelXerxesSetting>(new MvxBundle());
             ShowViewModel<ViewModelAxzonSetting>(new MvxBundle());
         }
 
@@ -92,6 +116,16 @@ namespace BLE.Client.ViewModels
         void OnCS9010ButtonClicked()
         {
             ShowViewModel<ViewModelCS9010Inventory>(new MvxBundle());
+        }
+
+        void OnTagFocusandFastIDButtonClicked()
+        {
+            ShowViewModel<ViewModelFocusandFastIDSetting>(new MvxBundle());
+        }
+
+        void OnCTESIUSTempButtonClicked()
+        {
+            ShowViewModel< ViewModelCTESIUSTempInventory>(new MvxBundle());
         }
     }
 }

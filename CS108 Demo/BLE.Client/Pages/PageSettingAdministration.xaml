@@ -22,19 +22,31 @@
         <Button x:Name="buttonBatteryLevelFormat" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonBatteryLevelFormatClicked" />
       </StackLayout>
 
-      <StackLayout Orientation="Horizontal">
-        <Label Text="Inventory Alert Sound"  VerticalOptions="Center" />
-        <Switch x:Name="switchInventoryAlertSound"  />
-      </StackLayout>
+			<StackLayout Orientation="Horizontal">
+				<Label Text="New Tag Location" WidthRequest="100" VerticalOptions="Center" />
+				<Label Text="Last" VerticalOptions="Center" />
+				<Switch x:Name="switchNewTagLocation"/>
+				<Label Text="Head" VerticalOptions="Center" />
+			</StackLayout>
+		
+		<StackLayout Orientation="Horizontal">
+				<Label Text="Inventory Alert Sound" WidthRequest="100" VerticalOptions="Center" />
+				<Label Text="Off" VerticalOptions="Center" />
+				<Switch x:Name="switchInventoryAlertSound"  />
+				<Label Text="On" VerticalOptions="Center" />
+			</StackLayout>
 
       <StackLayout Orientation="Horizontal">
-        <Label Text="Vibration"  VerticalOptions="Center" />
-        <Switch x:Name="switchVibration"  />
-      </StackLayout>
+				<Label Text="Vibration" WidthRequest="100" VerticalOptions="Center" />
+				<Label Text="Off" VerticalOptions="Center" />
+				<Switch x:Name="switchVibration"  />
+				<Label Text="On" VerticalOptions="Center" />
+			</StackLayout>
 
       <StackLayout Orientation="Horizontal">
-        <Label Text="Vibration Tag : New"  VerticalOptions="Center" />
-        <Switch x:Name="switchVibrationTag"  />
+				<Label Text="Vibration Tag" WidthRequest="100" VerticalOptions="Center" />
+				<Label Text="New" VerticalOptions="Center" />
+				<Switch x:Name="switchVibrationTag"  />
         <Label Text="All"  VerticalOptions="Center" />
       </StackLayout>
 
@@ -46,16 +58,6 @@
       <StackLayout Orientation="Horizontal">
         <Label Text="Vibration Time "  VerticalOptions="Center" />
         <Entry x:Name="entryVibrationTime" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
-      </StackLayout>
-
-      <StackLayout Orientation="Horizontal" IsVisible="False">
-        <Label Text="Inventory Delay Time (0-15)"  VerticalOptions="Center" />
-        <Entry x:Name="entryInventoryDelay" Unfocused="entryInventoryDelayCompleted" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
-      </StackLayout>
-      
-      <StackLayout Orientation="Horizontal">
-        <Label Text="Inventory Cycle Dwell Time (0-3000)"  VerticalOptions="Center" />
-        <Entry x:Name="entryInventoryCycleDelay" Unfocused="entryInventoryDelayCompleted" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
       </StackLayout>
 
       <Button Text="Set New Barcode Format 2.0" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" Clicked="btnBarcodeResetClicked" TextColor="Black" />

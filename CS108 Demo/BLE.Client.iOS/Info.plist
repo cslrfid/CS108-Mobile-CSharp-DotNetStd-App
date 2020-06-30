@@ -31,24 +31,22 @@
 	<key>CFBundleName</key>
 	<string>BLE.Client</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.1.7</string>
+	<string>3.1.9</string>
 	<key>UIMainStoryboardFile</key>
 	<string>LaunchScreen</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>the program will detected location of device and send the location to cloud server</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Get tag location to server</string>
-	<key>XSLaunchImageAssets</key>
-	<string>Media.xcassets/LaunchImages.launchimage</string>
-	<key>XSAppIconAssets</key>
-	<string>Media.xcassets/AppIcon.appiconset</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>RFID Reader will send TAGs data, control command from/to iphone via Bluetooth</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>$(PRODUCT_NAME) user your calendar.</string>
 	<key>CFBundleVersion</key>
-	<string>215</string>
+	<string>233</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Get tag location to server</string>
+	<key>XSAppIconAssets</key>
+	<string>Media.xcassets/AppIcon.appiconset</string>
 </dict>
 </plist>

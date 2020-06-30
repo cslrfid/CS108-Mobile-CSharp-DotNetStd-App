@@ -457,6 +457,10 @@ namespace CSLibrary.Constants
         /// </summary>
         UY,
         /// <summary>
+        /// Bangladesh
+        /// </summary>
+        BA,
+        /// <summary>
         /// Unknow Country
         /// </summary>
         UNKNOWN = 0,
@@ -1315,7 +1319,7 @@ ISO/IEC 24730 (WhereNet)	48	0000 0000	0000 0000	xxxx xxxx xxxx xxxx xxxx xxxx xx
         CS203,
         CS333,
         CS468,
-        CS206,
+        CS206_OLD,
         CS468INT,
         CS463,
         CS469,
@@ -1323,6 +1327,10 @@ ISO/IEC 24730 (WhereNet)	48	0000 0000	0000 0000	xxxx xxxx xxxx xxxx xxxx xxxx xx
         CS209,
         CS103,
         CS108,
+        CS206,
+        CS468X,
+        CS203X,
+        CS468XJ,
         MACHINE_CODE_END,
         UNKNOWN = 0xff
     }
