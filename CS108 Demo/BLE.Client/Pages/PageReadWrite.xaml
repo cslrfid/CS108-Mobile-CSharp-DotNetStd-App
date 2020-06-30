@@ -5,11 +5,17 @@
                 x:Class="BLE.Client.Pages.PageReadWrite"
                 Title="Read Write">
 
-  <ScrollView>
-    <StackLayout Padding="5, 3, 5, 0">
+  
+    <ScrollView>
+        <StackLayout Padding="5, 3, 5, 0">
 
-      <Label Text="Selected EPC"/>
-      <Editor x:Name="editorSelectedEPC" Text="{ Binding entrySelectedEPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand"/>
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Bank " WidthRequest="100" VerticalOptions="Center" />
+				<Button x:Name="buttonBank" HorizontalOptions="FillAndExpand" Clicked="buttonBankClicked" TextColor="Black" BackgroundColor="#C3C3C3" />
+			</StackLayout>
+
+			<Label Text="Selected Mask"/>
+			<Entry x:Name="entrySelectedMask" Text="{ Binding entrySelectedEPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand"/>
 
       <StackLayout Orientation="Horizontal">
         <Label Text="Access PWD" WidthRequest="70" />
@@ -33,7 +39,7 @@
         <Label Text="{ Binding labelEPCStatus }" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" />
       </StackLayout>
 
-      <Editor x:Name="entryEPC" Text="{ Binding entryEPC, Mode=TwoWay }" TextChanged="onentryEPCTextChanged" Unfocused="onentryEPCUnfocused" HorizontalOptions="FillAndExpand"/>
+      <Entry x:Name="entryEPC" Text="{ Binding entryEPC, Mode=TwoWay }" TextChanged="onentryEPCTextChanged" Unfocused="onentryEPCUnfocused" HorizontalOptions="FillAndExpand"/>
 
       <StackLayout Orientation="Horizontal">
         <Switch IsToggled="{Binding switchACCPWDIsToggled, Mode=TwoWay }" />
@@ -71,7 +77,7 @@
         <Label Text="{ Binding labelTIDUIDStatus , Mode=TwoWay }" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" />		
       </StackLayout> 
 
-      <Entry x:Name="entryTIDUID" Text="{ Binding entryTIDUID, Mode=TwoWay , Mode=TwoWay }" Focused="InputFocused" Unfocused="InputUnfocused" />
+      <Entry x:Name="entryTIDUID" Text="{ Binding entryTIDUID, Mode=TwoWay }" Focused="InputFocused" Unfocused="InputUnfocused" />
         
       <StackLayout Orientation="Horizontal">
         <Switch IsToggled="{Binding switchUSERIsToggled, Mode=TwoWay }" />

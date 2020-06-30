@@ -281,6 +281,49 @@ namespace BLE.Client.ViewModels
 
                         break;
 
+                        /*
+                    default: // S3
+                             // Customer 
+                        {
+                            // Step 2.0
+                            {
+                                //CSLibrary.Structures.SelectCriterion extraSlecetion = new CSLibrary.Structures.SelectCriterion();
+
+                                extraSlecetion.action = new CSLibrary.Structures.SelectAction(CSLibrary.Constants.Target.SELECTED, CSLibrary.Constants.Action.DSLINVB_NOTHING, 0);
+                                extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.BANK3, 0xe0, 0, new byte[] { 0x00 });
+                                BleMvxApplication._reader.rfid.SetSelectCriteria(0, extraSlecetion);
+                            }
+
+                            // Setp 3.0
+                            {
+                                //CSLibrary.Structures.SelectCriterion extraSlecetion = new CSLibrary.Structures.SelectCriterion();
+
+                                extraSlecetion.action = new CSLibrary.Structures.SelectAction(CSLibrary.Constants.Target.SELECTED, CSLibrary.Constants.Action.ASLINVA_DSLINVB, 0);
+                                extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.BANK3, 0xb0, 8, new byte[] { (byte)(0x20 | BleMvxApplication._rfMicro_minOCRSSI) });
+                                BleMvxApplication._reader.rfid.SetSelectCriteria(1, extraSlecetion);
+                            }
+
+                            // Setp 4
+                            {
+                                //CSLibrary.Structures.SelectCriterion extraSlecetion = new CSLibrary.Structures.SelectCriterion();
+
+                                extraSlecetion.action = new CSLibrary.Structures.SelectAction(CSLibrary.Constants.Target.SELECTED, CSLibrary.Constants.Action.NOTHING_DSLINVB, 0);
+                                extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.BANK3, 0xd0, 8, new byte[] { (byte)(BleMvxApplication._rfMicro_maxOCRSSI) });
+                                BleMvxApplication._reader.rfid.SetSelectCriteria(2, extraSlecetion);
+                            }
+
+                            //Step 5
+                            {
+                                //CSLibrary.Structures.SelectCriterion extraSlecetion = new CSLibrary.Structures.SelectCriterion();
+
+                                extraSlecetion.action = new CSLibrary.Structures.SelectAction(CSLibrary.Constants.Target.SELECTED, CSLibrary.Constants.Action.NOTHING_DSLINVB, 0);
+                                extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.BANK3, 0x00, 28, new byte[] { 0xE2, 0x82, 0x40, 0x30 });
+                                BleMvxApplication._reader.rfid.SetSelectCriteria(3, extraSlecetion);
+                            }
+                        }
+                        break;
+*/
+
                     default: // S3
                         extraSlecetion.action = new CSLibrary.Structures.SelectAction(CSLibrary.Constants.Target.SELECTED, CSLibrary.Constants.Action.ASLINVA_DSLINVB, 0);
                         extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.TID, 0, 28, new byte[] { 0xe2, 0x82, 0x40, 0x30 });

@@ -43,12 +43,14 @@ namespace BLE.Client.Pages
             F2MinTime.Text = BleMvxApplication._config.RFID_Shortcut[1].DurationMin.ToString();
             F2MaxTime.Text = BleMvxApplication._config.RFID_Shortcut[1].DurationMax.ToString();
 
-            entryInventoryDelay.Text = BleMvxApplication._config.RFID_InventoryDelayTime.ToString();
-            entryInventoryCycleDelay.Text = BleMvxApplication._config.RFID_InventoryCycleDelayTime.ToString();
+            //entryTagDelay.Text = BleMvxApplication._config.RFID_TagDelayTime.ToString();
+            //entryInventoryDuration.Text = BleMvxApplication._config.RFID_InventoryDuration.ToString();
 
             entryReaderName.Text = BleMvxApplication._reader.ReaderName;
 
             labelReaderModel.Text = "Reader Model : " + BleMvxApplication._reader.rfid.GetModelName() + BleMvxApplication._reader.rfid.GetCountryCode();
+
+            switchNewTagLocation.IsToggled = BleMvxApplication._config.RFID_NewTagLocation;
 
             switchRSSIDBm.IsToggled = BleMvxApplication._config.RFID_DBm;
             //switchSavetoFile.IsToggled = BleMvxApplication._config.RFID_SavetoFile;
@@ -104,8 +106,9 @@ namespace BLE.Client.Pages
             BleMvxApplication._config.RFID_CloudProtocol = switchhttpProtocol.IsToggled ? 1 : 0;
             BleMvxApplication._config.RFID_IPAddress = entryServerIP.Text;
 
-            BleMvxApplication._config.RFID_InventoryDelayTime = int.Parse(entryInventoryDelay.Text);
-            BleMvxApplication._config.RFID_InventoryCycleDelayTime = UInt32.Parse(entryInventoryCycleDelay.Text);
+            BleMvxApplication._config.RFID_NewTagLocation = switchNewTagLocation.IsToggled;
+            //BleMvxApplication._config.RFID_TagDelayTime = int.Parse(entryTagDelay.Text);
+            //BleMvxApplication._config.RFID_InventoryDuration = UInt32.Parse(entryInventoryDuration.Text);
 
             BleMvxApplication._config.RFID_Vibration = switchVibration.IsToggled;
             BleMvxApplication._config.RFID_VibrationTag = switchVibrationTag.IsToggled;
@@ -189,42 +192,43 @@ namespace BLE.Client.Pages
             entryServerIP.Text = "https://democloud.convergence.com.hk:29090/WebServiceRESTs/1.0/req";
         }
 
-        public async void entryInventoryDelayCompleted(object sender, EventArgs e)
+        /*
+        public async void entryTagDelayCompleted(object sender, EventArgs e)
         {
             uint value;
 
             try
             {
-                value = uint.Parse(entryInventoryDelay.Text);
+                value = uint.Parse(entryTagDelay.Text);
                 if (value < 0 || value > 15)
                     throw new System.ArgumentException("Value not valid", "tagPopulation");
-                entryInventoryDelay.Text = value.ToString();
+                entryTagDelay.Text = value.ToString();
             }
             catch (Exception ex)
             {
                 await DisplayAlert("", "Value not valid!!!", "OK");
-                entryInventoryDelay.Text = "0";
+                entryTagDelay.Text = "0";
             }
         }
 
-        public async void entryInventoryCycleDelayCompleted(object sender, EventArgs e)
+        public async void entryInventoryDurationCompleted(object sender, EventArgs e)
         {
             uint value;
 
             try
             {
-                value = uint.Parse(entryInventoryCycleDelay.Text);
+                value = uint.Parse(entryInventoryDuration.Text);
                 if (value < 0 || value > 3000)
                     throw new System.ArgumentException("Value not valid", "tagPopulation");
-                entryInventoryCycleDelay.Text = value.ToString();
+                entryInventoryDuration.Text = value.ToString();
             }
             catch (Exception ex)
             {
                 await DisplayAlert("", "Value not valid!!!", "OK");
-                entryInventoryCycleDelay.Text = "0";
+                entryInventoryDuration.Text = "0";
             }
         }
-
+        */
 
     }
 }

@@ -71,6 +71,7 @@
     <Compile Include="RFIDReader\Antenna\AntennaStatus.cs" />
     <Compile Include="RFIDReader\Antenna\AntennaTypeConverter.cs" />
     <Compile Include="RFIDReader\ClassRFID.cs" />
+    <Compile Include="RFIDReader\ClassRFID.Private.ByPassRegister.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.Country.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.FrequencyChannel.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="RFIDReader\ClassRFID.Public.Operation.cs" />
     <Compile Include="RFIDReader\ClassRFID.Public.Power.cs" />
     <Compile Include="RFIDReader\ClassRFID.Public.Profile.cs" />
+    <Compile Include="RFIDReader\ClassRFID.Public.SetLNA.cs" />
     <Compile Include="RFIDReader\Constants\AntennaPort.cs" />
     <Compile Include="RFIDReader\Constants\AntennaSequenceMode.cs" />
     <Compile Include="RFIDReader\Constants\CSLibrary.Constants.cs" />

@@ -26,6 +26,12 @@ namespace BLE.Client.Pages
 
 				BleMvxApplication._SELECT_EPC = Items.EPC;
                 BleMvxApplication._SELECT_PC = Items.PC;
+
+                if ((BleMvxApplication._config.RFID_MBI_MultiBank1Enable && BleMvxApplication._config.RFID_MBI_MultiBank1 == CSLibrary.Constants.MemoryBank.TID) ||
+                    (!BleMvxApplication._config.RFID_MBI_MultiBank1Enable && BleMvxApplication._config.RFID_MBI_MultiBank2Enable && BleMvxApplication._config.RFID_MBI_MultiBank2 == CSLibrary.Constants.MemoryBank.TID))
+                    BleMvxApplication._SELECT_TID = Items.Bank1Data;
+                else if (BleMvxApplication._config.RFID_MBI_MultiBank2Enable && BleMvxApplication._config.RFID_MBI_MultiBank2 == CSLibrary.Constants.MemoryBank.TID)
+                    BleMvxApplication._SELECT_TID = Items.Bank2Data;
             }
         }
     }

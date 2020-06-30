@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CS108RFIDFullDemo-XamarinFormsMvvmCross", "CS108RFIDFullDemo-XamarinFormsMvvmCross", "{A06042F5-F69D-4191-875E-5ADE9CF42075}"
 EndProject
@@ -651,6 +651,7 @@ Global
 		{D0FBE2BA-799B-4071-A45D-8FB037006C9C}.Debug|ARM64.ActiveCfg = Debug|iPhoneSimulator
 		{D0FBE2BA-799B-4071-A45D-8FB037006C9C}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{D0FBE2BA-799B-4071-A45D-8FB037006C9C}.Debug|iPhone.Build.0 = Debug|iPhone
+		{D0FBE2BA-799B-4071-A45D-8FB037006C9C}.Debug|iPhone.Deploy.0 = Debug|iPhone
 		{D0FBE2BA-799B-4071-A45D-8FB037006C9C}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
 		{D0FBE2BA-799B-4071-A45D-8FB037006C9C}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
 		{D0FBE2BA-799B-4071-A45D-8FB037006C9C}.Debug|x64.ActiveCfg = Debug|iPhone

@@ -1,4 +1,25 @@
-﻿using System;
+﻿/*
+Copyright (c) 2018 Convergence Systems Limited
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -1926,11 +1947,39 @@ namespace CSLibrary
             8, 4, 2, 7, 3
         };
 
-#endregion
+        #endregion
 
-#endregion
+        #region BA
 
-#endregion
+        private readonly double[] BATableOfFreq = new double[]
+        {
+            925.25,
+            925.75,
+            926.25,
+            926.75
+        };
+
+        private uint[] baFreqTable = new uint[]
+        {
+            0x00180E75, /*925.25 MHz  0 */
+            0x00180E77, /*925.75 MHz  1 */
+            0x00180E79, /*926.25 MHz  2 */
+            0x00180E7B, /*926.75 MHz  3 */
+        };
+
+        /// <summary>
+        /// BA Frequency Channel number
+        /// </summary>
+        private const uint BA_CHN_CNT = 4;
+        private readonly uint[] baFreqSortedIdx = new uint[]{
+            0, 1, 2, 3
+        };
+
+        #endregion
+        
+        #endregion
+
+        #endregion
 
 
         /// <summary>
@@ -2027,6 +2076,8 @@ namespace CSLibrary
                     return LH2_CHN_CNT;
                 case RegionCode.VE:
                     return VE_CHN_CNT;
+                case RegionCode.BA:
+                    return BA_CHN_CNT;
                 default:
                     return 0;
                     //break;
@@ -2111,6 +2162,8 @@ namespace CSLibrary
                     return lh2FreqTable;
                 case RegionCode.VE:
                     return veFreqTable;
+                case RegionCode.BA:
+                    return baFreqTable;
                 default:
                     return null;
                     //break;
@@ -2236,6 +2289,8 @@ namespace CSLibrary
                     return lh2FreqSortedIdx;
                 case RegionCode.VE:
                     return veFreqSortedIdx;
+                case RegionCode.BA:
+                    return baFreqSortedIdx;
             }
 
             return null;
@@ -2332,6 +2387,8 @@ namespace CSLibrary
                     return LH2TableOfFreq;
                 case RegionCode.VE:
                     return VETableOfFreq;
+                case RegionCode.BA:
+                    return BATableOfFreq;
                 default:
                     return new double[0];
             }

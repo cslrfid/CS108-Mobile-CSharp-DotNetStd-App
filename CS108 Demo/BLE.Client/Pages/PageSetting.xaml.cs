@@ -10,11 +10,11 @@ namespace BLE.Client.Pages
 
             switch (BleMvxApplication._reader.rfid.GetModelName())
             {
-                default:
+                case "CS108":
                     this.Children.RemoveAt(2);
                     break;
 
-                case "CS463":
+                default:
                     this.Children.RemoveAt(3);
                     break;
             }

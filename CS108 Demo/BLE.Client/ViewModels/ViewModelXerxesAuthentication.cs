@@ -1,4 +1,24 @@
-﻿using System;
+﻿/*
+Copyright (c) 2018 Convergence Systems Limited
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Acr.UserDialogs;
@@ -55,11 +75,12 @@ namespace BLE.Client.ViewModels
         public ICommand OnWriteKey1ButtonCommand { protected set; get; }
         public ICommand OnAuthenticateTAM1ButtonCommand { protected set; get; }
         public ICommand OnAuthenticateTAM2ButtonCommand { protected set; get; }
-        public ICommand OnAuthenticateTAM3ButtonCommand { protected set; get; }
+        
 
         uint accessPwd;
         int _currentProcess;
-
+        int protMode;
+        
         enum CURRENTOPERATION
         {
             READKEY0,
@@ -83,7 +104,6 @@ namespace BLE.Client.ViewModels
             OnWriteKey1ButtonCommand = new Command(OnWriteKey1ButtonButtonClick);
             OnAuthenticateTAM1ButtonCommand = new Command(OnAuthenticateTAM1ButtonButtonClick);
             OnAuthenticateTAM2ButtonCommand = new Command(OnAuthenticateTAM2ButtonButtonClick);
-            OnAuthenticateTAM3ButtonCommand = new Command(OnAuthenticateTAM3ButtonButtonClick);
 
             entryOffsetText = "0";
             entryProtectMode1Text = "0";
@@ -122,7 +142,7 @@ namespace BLE.Client.ViewModels
 
             entrySelectedEPC = BleMvxApplication._SELECT_EPC;
             entrySelectedPWD = "00000000";
-            entryChallenge = "FD5D8048F48DD09AAD22";
+            entryChallenge = "96564402375796C69664";
             entrySelectedKey0 = "";
             entrySelectedKey1 = "";
 
@@ -154,13 +174,13 @@ namespace BLE.Client.ViewModels
 
         void OnSetKey1ButtonButtonClick()
         {
-            entrySelectedKey0 = "0123456789ABCDEF0123456789ABCDEF";
+            entrySelectedKey0 = "000102030405060708090A0B0C0D0E0F";
             RaisePropertyChanged(() => entrySelectedKey0);
         }
 
         void OnSetKey2ButtonButtonClick()
         {
-            entrySelectedKey1 = "0123456789ABCDEF0123456789ABCDEF";
+            entrySelectedKey1 = "2B7E151628AED2A6ABF7158809CF4F3C";
             RaisePropertyChanged(() => entrySelectedKey1);
         }
 
@@ -203,14 +223,16 @@ namespace BLE.Client.ViewModels
 
         void OnAuthenticateTAM2ButtonButtonClick()
         {
-            int protMode;
-
             labelResponseStatus = "R";
+            entryResponse = "";
             RaisePropertyChanged(() => labelResponseStatus);
+            RaisePropertyChanged(() => entryResponse);
 
             labelResult2Text = "Reading...";
+            labelResult2DateText = "";
             RaisePropertyChanged(() => labelResult2Text);
             RaisePropertyChanged(() => entryProtectMode1Text);
+            RaisePropertyChanged(() => labelResult2DateText);
 
             TagSelected();
 
@@ -220,104 +242,27 @@ namespace BLE.Client.ViewModels
 
             //BleMvxApplication._reader.rfid.Options.TagAuthenticate.Message = TAM2Message(0, true, 0, 1, entryChallenge, 0, 0, 1, int.Parse(entryProtectMode1Text));
 
+            _currentProcess = 1;
             if (!switchEncryptionIsToggled && !switchDataValidityIsToggled)
             {
-                _currentProcess = 1;
                 protMode = 0;
             }
             else if (switchEncryptionIsToggled && !switchDataValidityIsToggled)
             {
-                _currentProcess = 1;
                 protMode = 1;
             }
             else if (!switchEncryptionIsToggled && switchDataValidityIsToggled)
             {
-                _currentProcess = 2;
                 protMode = 2;
             }
             else // if (switchEncryptionIsToggled && switchDataValidityIsToggled)
             {
-                _currentProcess = 2;
                 protMode = 3;
             }
 
-            BleMvxApplication._reader.rfid.Options.TagAuthenticate.Message = TAM2Message(0, true, 0, 1, entryChallenge, 0, 0, 1, protMode);
+            //BleMvxApplication._reader.rfid.Options.TagAuthenticate.Message = TAM2Message(0, true, 0, 1, entryChallenge, 0, int.Parse(entryOffsetText), 1, protMode);
+            BleMvxApplication._reader.rfid.Options.TagAuthenticate.Message = TAM2Message(0, true, 0, 0, entryChallenge, 0, int.Parse(entryOffsetText), 1, protMode);
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_AUTHENTICATE);
-        }
-
-        void OnAuthenticateTAM3ButtonButtonClick()
-        {
-            _currentProcess = 2;
-            labelResponseStatus = "R";
-            RaisePropertyChanged(() => labelResponseStatus);
-
-            RaisePropertyChanged(() => entryProtectMode2Text);
-
-            labelResult3Text = "Reading...";
-            RaisePropertyChanged(() => labelResult3Text);
-
-            TagSelected();
-
-            BleMvxApplication._reader.rfid.Options.TagAuthenticate.SenRep = CSLibrary.Structures.SENREP.SEND;
-            BleMvxApplication._reader.rfid.Options.TagAuthenticate.IncRepLen = CSLibrary.Structures.INCREPLEN.INCLUDE;
-            BleMvxApplication._reader.rfid.Options.TagAuthenticate.Length = 0x78;
-
-            //BleMvxApplication._reader.rfid.Options.TagAuthenticate.Message = "2001" + entryChallenge + "00001100";
-            //BleMvxApplication._reader.rfid.Options.TagAuthenticate.Message = TAM2Message(0, true, 0, 1, entryChallenge, 0, 0, 1, 1) + "00";
-            BleMvxApplication._reader.rfid.Options.TagAuthenticate.Message = TAM2Message(0, true, 0, 1, entryChallenge, 0, 0, 1, int.Parse(entryProtectMode2Text));
-            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_AUTHENTICATE);
-        }
-
-        void OnAuthenticateTAM2wProtectModeButtonButtonClick()
-        {
-            _currentProcess = 2;
-            labelResponseStatus = "R";
-            RaisePropertyChanged(() => labelResponseStatus);
-
-            RaisePropertyChanged(() => entryOffsetText);
-
-            TagSelected();
-
-            BleMvxApplication._reader.rfid.Options.TagAuthenticate.SenRep = CSLibrary.Structures.SENREP.SEND;
-            BleMvxApplication._reader.rfid.Options.TagAuthenticate.IncRepLen = CSLibrary.Structures.INCREPLEN.INCLUDE;
-            BleMvxApplication._reader.rfid.Options.TagAuthenticate.Length = 0x78;
-
-            //BleMvxApplication._reader.rfid.Options.TagAuthenticate.Message = "2001" + entryChallenge + "00001100";
-            //BleMvxApplication._reader.rfid.Options.TagAuthenticate.Message = TAM2Message(0, true, 0, 1, entryChallenge, 0, 0, 1, 1) + "00";
-            BleMvxApplication._reader.rfid.Options.TagAuthenticate.Message = TAM2Message(0, true, 0, 1, entryChallenge, 0, int.Parse(entryOffsetText), 1, 1);
-            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_AUTHENTICATE);
-        }
-
-        public static byte[] ToByteArray(String hexString)
-        {
-            byte[] retval = new byte[hexString.Length / 2];
-            for (int i = 0; i < hexString.Length; i += 2)
-                retval[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
-            return retval;
-        }
-
-        public static byte [] Decrypt1(string toDecrypt, string key)
-        {
-            byte[] keyArray = ToByteArray(key);
-            byte[] toEncryptArray = ToByteArray(toDecrypt);
-
-            SymmetricAlgorithm crypt = Aes.Create();
-            crypt.Key = ToByteArray(key);
-            crypt.Mode = CipherMode.ECB;
-            crypt.Padding = PaddingMode.None;
-
-            using (MemoryStream memoryStream = new MemoryStream(toEncryptArray))
-            {
-                using (CryptoStream cryptoStream = new CryptoStream(memoryStream, crypt.CreateDecryptor(), CryptoStreamMode.Read))
-                {
-                    byte[] decryptedBytes = new byte[toEncryptArray.Length];
-                    cryptoStream.Read(decryptedBytes, 0, decryptedBytes.Length);
-
-                    return decryptedBytes;
-                }
-            }
-
-            return null;
         }
 
         string TAM1Message(int authMethod, bool customerData, int RFU, int keyId, string challenge)
@@ -366,7 +311,7 @@ namespace BLE.Client.ViewModels
             if (profile > 15)
                 return "";
 
-            if (offset > 7)
+            if (offset > 4095)
                 return "";
 
             if (blockCount > 15)
@@ -378,289 +323,19 @@ namespace BLE.Client.ViewModels
             value = (authMethod << 14) | (customerData ? 0x2000 : 0) | (RFU << 8) | (keyId);
 
             msg = value.ToString("X4");
-
+            
             msg += challenge;
 
-            value = (profile << 12) | (offset);
+            msg += profile.ToString("X1");
 
-            msg += value.ToString("X4");
+            msg += offset.ToString("X3");
 
-            value = (blockCount << 4) | (portMode);
+            msg += blockCount.ToString("X1");
 
-            msg += value.ToString("X2");
+            msg += portMode.ToString("X1");
 
             return msg;
         }
-
-        static string DecryptStringFromBytes_Aes(string cipherTexts, string Keys)
-        {
-
-            byte[] cipherText = ToByteArray(cipherTexts);
-            byte[] key = ToByteArray(Keys);
-
-
-
-            // Check arguments.
-            if (cipherText == null || cipherText.Length <= 0)
-                throw new ArgumentNullException("cipherText");
-            if (key == null || key.Length <= 0)
-                throw new ArgumentNullException("Key");
-
-            // Declare the string used to hold
-            // the decrypted text.
-            string plaintext = null;
-
-            // Create an AesCryptoServiceProvider object
-            // with the specified key and IV.
-            using (AesCryptoServiceProvider aesAlg = new AesCryptoServiceProvider())
-            {
-                aesAlg.Key = key;
-                aesAlg.Mode = CipherMode.ECB;
-
-                // Create a decryptor to perform the stream transform.
-                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-
-                // Create the streams used for decryption.
-                using (MemoryStream msDecrypt = new MemoryStream(cipherText))
-                {
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
-                        {
-
-                            // Read the decrypted bytes from the decrypting stream
-                            // and place them in a string.
-                            plaintext = srDecrypt.ReadToEnd();
-                        }
-                    }
-                }
-
-            }
-
-            return plaintext;
-
-        }
-
-
-        public static string aesDecrypt(string SourceStr, string CryptoKey)
-        {
-            string decrypt = "";
-
-            try
-            {
-                AesCryptoServiceProvider aes = new AesCryptoServiceProvider();
-
-
-                byte[] key = ToByteArray(CryptoKey);
-                byte[] dataByteArray = ToByteArray(SourceStr);
-
-                aes.Key = key;
-                aes.Mode = CipherMode.ECB;
-                aes.KeySize = 128;
-
-                //byte[] dataByteArray = Convert.FromBase64String(SourceStr);
-                using (MemoryStream ms = new MemoryStream(dataByteArray))
-                {
-                    using (CryptoStream cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(dataByteArray, 0, dataByteArray.Length);
-                        cs.FlushFinalBlock();
-                        decrypt = System.Text.Encoding.UTF8.GetString(ms.ToArray());
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                CSLibrary.Debug.WriteLine(e.Message);
-            }
-            return decrypt;
-        }
-
-
-
-        /// <summary>
-        /// 字串解密(非對稱式)
-        /// </summary>
-        /// <param name="Source">解密前字串</param>
-        /// <param name="CryptoKey">解密金鑰</param>
-        /// <returns>解密後字串</returns>
-        public static string aesDecryptBase64(string SourceStr, string CryptoKey)
-        {
-            string decrypt = "";
-            try
-            {
-                AesCryptoServiceProvider aes = new AesCryptoServiceProvider();
-                MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-                SHA256CryptoServiceProvider sha256 = new SHA256CryptoServiceProvider();
-                byte[] key = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(CryptoKey));
-                byte[] iv = md5.ComputeHash(System.Text.Encoding.UTF8.GetBytes(CryptoKey));
-                aes.Key = key;
-                aes.IV = iv;
-
-                //byte[] dataByteArray = Convert.FromBase64String(SourceStr);
-                byte[] dataByteArray = ToByteArray(SourceStr);
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    using (CryptoStream cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write))
-                    {
-                        cs.Write(dataByteArray, 0, dataByteArray.Length);
-                        cs.FlushFinalBlock();
-                        decrypt = System.Text.Encoding.UTF8.GetString(ms.ToArray());
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                CSLibrary.Debug.WriteLine(e.Message);
-            }
-            return decrypt;
-        }
-
-        private byte[] CreateKey(string password, int keyBytes = 32)
-        {
-            byte[] salt = new byte[] { 80, 70, 60, 50, 40, 30, 20, 10 };
-            int iterations = 300;
-            var keyGenerator = new Rfc2898DeriveBytes(password, salt, iterations);
-            return keyGenerator.GetBytes(keyBytes);
-        }
-
-        public string Decrypt(string encryptedValue, string encryptionKey)
-        {
-            string iv = encryptedValue.Substring(encryptedValue.IndexOf(';') + 1, encryptedValue.Length - encryptedValue.IndexOf(';') - 1);
-            encryptedValue = encryptedValue.Substring(0, encryptedValue.IndexOf(';'));
-
-            return AesDecryptStringFromBytes(Convert.FromBase64String(encryptedValue), CreateKey(encryptionKey), Convert.FromBase64String(iv));
-        }
-
-        private string AesDecryptStringFromBytes(byte[] cipherText, byte[] key, byte[] iv)
-        {
-            if (cipherText == null || cipherText.Length <= 0)
-                throw new ArgumentNullException($"{nameof(cipherText)}");
-            if (key == null || key.Length <= 0)
-                throw new ArgumentNullException($"{nameof(key)}");
-            if (iv == null || iv.Length <= 0)
-                throw new ArgumentNullException($"{nameof(iv)}");
-
-            string plaintext = null;
-
-            using (Aes aes = Aes.Create())
-            {
-                aes.Key = key;
-                aes.IV = iv;
-
-                using (MemoryStream memoryStream = new MemoryStream(cipherText))
-                using (ICryptoTransform decryptor = aes.CreateDecryptor())
-                using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
-                using (StreamReader streamReader = new StreamReader(cryptoStream))
-                    plaintext = streamReader.ReadToEnd();
-
-            }
-            return plaintext;
-        }
-
-        // AES CMAC
-
-        byte[] AESEncrypt(byte[] key, byte[] iv, byte[] data)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                AesCryptoServiceProvider aes = new AesCryptoServiceProvider();
-
-                aes.Mode = CipherMode.CBC;
-                aes.Padding = PaddingMode.None;
-
-                using (CryptoStream cs = new CryptoStream(ms, aes.CreateEncryptor(key, iv), CryptoStreamMode.Write))
-                {
-                    cs.Write(data, 0, data.Length);
-                    cs.FlushFinalBlock();
-
-                    return ms.ToArray();
-                }
-            }
-        }
-
-        byte[] Rol(byte[] b)
-        {
-            byte[] r = new byte[b.Length];
-            byte carry = 0;
-
-            for (int i = b.Length - 1; i >= 0; i--)
-            {
-                ushort u = (ushort)(b[i] << 1);
-                r[i] = (byte)((u & 0xff) + carry);
-                carry = (byte)((u & 0xff00) >> 8);
-            }
-
-            return r;
-        }
-
-
-        byte[] AESCMAC(string  key, string  data)
-        {
-            byte[] keyArray = ToByteArray(key);
-            byte[] dataArray = ToByteArray(data);
-
-            return AESCMAC(keyArray, dataArray);
-        }
-
-        byte[] AESCMAC(byte[] key, byte[] data)
-        {
-            // SubKey generation
-            // step 1, AES-128 with key K is applied to an all-zero input block.
-            byte[] L = AESEncrypt(key, new byte[16], new byte[16]);
-
-            // step 2, K1 is derived through the following operation:
-            byte[] FirstSubkey = Rol(L); //If the most significant bit of L is equal to 0, K1 is the left-shift of L by 1 bit.
-            if ((L[0] & 0x80) == 0x80)
-                FirstSubkey[15] ^= 0x87; // Otherwise, K1 is the exclusive-OR of const_Rb and the left-shift of L by 1 bit.
-
-            // step 3, K2 is derived through the following operation:
-            byte[] SecondSubkey = Rol(FirstSubkey); // If the most significant bit of K1 is equal to 0, K2 is the left-shift of K1 by 1 bit.
-            if ((FirstSubkey[0] & 0x80) == 0x80)
-                SecondSubkey[15] ^= 0x87; // Otherwise, K2 is the exclusive-OR of const_Rb and the left-shift of K1 by 1 bit.
-
-            // MAC computing
-            if (((data.Length != 0) && (data.Length % 16 == 0)) == true)
-            {
-                // If the size of the input message block is equal to a positive multiple of the block size (namely, 128 bits),
-                // the last block shall be exclusive-OR'ed with K1 before processing
-                for (int j = 0; j < FirstSubkey.Length; j++)
-                    data[data.Length - 16 + j] ^= FirstSubkey[j];
-            }
-            else
-            {
-                // Otherwise, the last block shall be padded with 10^i
-                byte[] padding = new byte[16 - data.Length % 16];
-                padding[0] = 0x80;
-
-
-                byte[] newdata = new byte[data.Length + padding.Length];
-
-                Array.Copy(data, newdata, data.Length);
-                Array.Copy(padding, 0, newdata, data.Length, padding.Length);
-
-                data = newdata;
-
-                //data = data.Concat<byte>(padding.AsEnumerable()).ToArray();
-                //data = data.con   .Concat<byte>(padding.AsEnumerable()).ToArray();
-
-                // and exclusive-OR'ed with K2
-                for (int j = 0; j < SecondSubkey.Length; j++)
-                    data[data.Length - 16 + j] ^= SecondSubkey[j];
-            }
-
-            // The result of the previous process will be the input of the last encryption.
-            byte[] encResult = AESEncrypt(key, new byte[16], data);
-
-            byte[] HashValue = new byte[16];
-            Array.Copy(encResult, encResult.Length - HashValue.Length, HashValue, 0, HashValue.Length);
-
-            CSLibrary.Debug.WriteLine(HashValue.ToHexString());
-
-            return HashValue;
-        }
-
-        // AES CMAC END
 
 
         void TagSelected()
@@ -726,35 +401,24 @@ namespace BLE.Client.ViewModels
             {
                 if (e.success)
                 {
-                    /*
-                                        var Response = BleMvxApplication._reader.rfid.Options.TagAuthenticate.pData.ToString();
-                                        CSLibrary.Debug.WriteLine("Response Length : " + Response.Length);
-                                        byte [] DecResponse = Decrypt1(Response, entrySelectedKey0);
-                                        string result;
-
-                                        entryResponse = DecResponse.ToHexString();
-                                        result = CSLibrary.Tools.Hex.ToString(DecResponse, 6);
-
-                                        labelResponseStatus = "Ok";
-                                        RaisePropertyChanged(() => entryResponse);
-                    */
                     switch (_currentProcess)
                     {
                         case 0:
                             {
                                 var Response = BleMvxApplication._reader.rfid.Options.TagAuthenticate.pData.ToString();
-                                CSLibrary.Debug.WriteLine("Response Length : " + Response.Length);
-                                byte[] DecResponse = Decrypt1(Response, entrySelectedKey0);
-                                string result;
+                                string decChallenge;
 
-                                entryResponse = DecResponse.ToHexString();
-                                result = CSLibrary.Tools.Hex.ToString(DecResponse, 6);
-
-                                labelResponseStatus = "Ok";
+                                if (TAM1Decrypt(Response, entrySelectedKey0, out decChallenge))
+                                {
+                                    labelResponseStatus = "Ok";
+                                }
+                                else
+                                {
+                                    labelResponseStatus = "Decode Error";
+                                }
                                 RaisePropertyChanged(() => entryResponse);
 
-                                result = CSLibrary.Tools.Hex.ToString(DecResponse, 6, 10);
-                                if (result == entryChallenge)
+                                if (decChallenge == entryChallenge)
                                     labelResult1Text = "Challenge Match, Success !";
                                 else
                                     labelResult1Text = "Challenge NOT match, Fail !";
@@ -766,102 +430,146 @@ namespace BLE.Client.ViewModels
                                 var Response = BleMvxApplication._reader.rfid.Options.TagAuthenticate.pData.ToString();
                                 CSLibrary.Debug.WriteLine("Response Length : " + Response.Length);
                                 byte[] DecResponse = null;
-                                string result="";
+                                string result = "";
 
                                 try
                                 {
-                                    DecResponse = Decrypt1(Response, entrySelectedKey0);
-                                    entryResponse = DecResponse.ToHexString();
-                                    labelResponseStatus = "Ok";
-                                    result = CSLibrary.Tools.Hex.ToString(DecResponse, 6, 10);
-                                }
+                                    switch (protMode)
+                                    {
+                                        case 0:
+                                            {
+                                                string decChallenge;
+                                                string data;
+
+                                                if (TAM2ProtMode0Decrypt(Response, entrySelectedKey0, out decChallenge, out data))
+                                                {
+                                                    labelResponseStatus = "Ok";
+                                                    entryResponse = Response;
+                                                }
+                                                else
+                                                {
+                                                    labelResponseStatus = "Decode Error";
+                                                    entryResponse = "";
+                                                }
+                                                RaisePropertyChanged(() => entryResponse);
+
+                                                if (decChallenge == entryChallenge)
+                                                {
+                                                    labelResult2Text = "Challenge Match, Success !";
+                                                    labelResult2DateText = data;
+                                                }
+                                                else
+                                                {
+                                                    labelResult2Text = "Challenge NOT match, Fail !";
+                                                    labelResult2DateText = "";
+                                                }
+                                            }
+                                            break;
+
+                                        case 1:
+                                            {
+                                                string decChallenge;
+                                                string data;
+
+                                                if (TAM2ProtMode1Decrypt(Response, entrySelectedKey0, out decChallenge, out data))
+                                                {
+                                                    labelResponseStatus = "Ok";
+                                                        entryResponse = Response;
+                                                    }
+                                                    else
+                                                {
+                                                    labelResponseStatus = "Decode Error";
+                                                        entryResponse = "";
+                                                    }
+                                                    RaisePropertyChanged(() => entryResponse);
+
+                                                if (decChallenge == entryChallenge)
+                                                {
+                                                    labelResult2Text = "Challenge Match, Success !";
+                                                    labelResult2DateText = data;
+                                                }
+                                                else
+                                                {
+                                                    labelResult2Text = "Challenge NOT match, Fail !";
+                                                    labelResult2DateText = "";
+                                                }
+                                            }
+                                            break;
+
+                                        case 2:
+                                            {
+                                                string decChallenge;
+                                                string data;
+
+                                                if (TAM2ProtMode2Decrypt(Response, entrySelectedKey0, out decChallenge, out data))
+                                                {
+                                                    labelResponseStatus = "Ok";
+                                                        entryResponse = Response;
+                                                    }
+                                                    else
+                                                {
+                                                    labelResponseStatus = "Decode Error";
+                                                        entryResponse = "";
+                                                    }
+                                                    RaisePropertyChanged(() => entryResponse);
+
+                                                if (decChallenge == entryChallenge)
+                                                {
+                                                    labelResult2Text = "Challenge Match, Success !";
+                                                    labelResult2DateText = data;
+                                                }
+                                                else
+                                                {
+                                                    labelResult2Text = "Challenge NOT match, Fail !";
+                                                    labelResult2DateText = "";
+                                                }
+                                            }
+                                            break;
+
+                                        case 3:
+                                            {
+                                                string decChallenge;
+                                                string data;
+
+                                                if (TAM2ProtMode3Decrypt(Response, entrySelectedKey0, out decChallenge, out data))
+                                                {
+                                                    labelResponseStatus = "Ok";
+                                                        entryResponse = Response;
+                                                    }
+                                                    else
+                                                {
+                                                    labelResponseStatus = "Decode Error";
+                                                        entryResponse = "";
+                                                    }
+                                                    RaisePropertyChanged(() => entryResponse);
+
+                                                if (decChallenge == entryChallenge)
+                                                {
+                                                    labelResult2Text = "Challenge Match, Success !";
+                                                    labelResult2DateText = data;
+                                                }
+                                                else
+                                                {
+                                                    labelResult2Text = "Challenge NOT match, Fail !";
+                                                    labelResult2DateText = "";
+                                                }
+                                            }
+                                            break;
+                                        }
+
+                                    }
                                 catch (Exception ex)
                                 {
                                 }
 
-                                if (result == entryChallenge)
-                                {
-                                    labelResult2Text = "Challenge Match, Success !";
-                                    labelResult2DateText = CSLibrary.Tools.Hex.ToString(DecResponse, 32);
-                                }
-                                else
-                                {
-                                    labelResult2Text = "Challenge NOT match, Fail !";
-                                    labelResult2DateText = "";
-                                }
-
                                 RaisePropertyChanged(() => entryResponse);
                                 RaisePropertyChanged(() => labelResponseStatus);
                                 RaisePropertyChanged(() => labelResult2Text);
                                 RaisePropertyChanged(() => labelResult2DateText);
                             }
-                            break;
-                        case 2:
-                            {
-                                var ResponseFull = BleMvxApplication._reader.rfid.Options.TagAuthenticate.pData.ToString();
-                                entryResponse = BleMvxApplication._reader.rfid.Options.TagAuthenticate.pData.ToBytes().ToHexString();
-                                string Response = "1";
-                                string mac = "2";
-                                byte[] DecResponse = null;
-                                string result = "";
 
-                                labelResponseStatus = "Ok";
-
-                                try
-                                {
-                                    Response = ResponseFull.Substring(0, 64);
-                                    mac = ResponseFull.Substring(64, 24);
-                                    DecResponse = AESCMAC(entrySelectedKey1, Response);
-                                    result = CSLibrary.Tools.Hex.ToString(DecResponse, 0, 12);
-                                }
-                                catch(Exception ex)
-                                {
-                                }
-
-                                if (result == mac)
-                                {
-                                    labelResult2Text = "MAC Match, Success !";
-                                    labelResult2DateText = ResponseFull.Substring(64);
-                                }
-                                else
-                                {
-                                    labelResult2Text = "MAC NOT match, Fail !";
-                                    labelResult2DateText = "";
-                                }
-
-                                RaisePropertyChanged(() => entryResponse);
-                                RaisePropertyChanged(() => labelResponseStatus);
-                                RaisePropertyChanged(() => labelResult2Text);
-                                RaisePropertyChanged(() => labelResult2DateText);
-                            }
-                            break;
-                        case 3:
-                            {
-                                var ResponseFull = BleMvxApplication._reader.rfid.Options.TagAuthenticate.pData.ToString();
-                                entryResponse = BleMvxApplication._reader.rfid.Options.TagAuthenticate.pData.ToBytes().ToHexString();
-
-                                labelResponseStatus = "Ok";
-                                RaisePropertyChanged(() => entryResponse);
-
-                                string Response = ResponseFull.Substring(0, 64);
-                                string mac = ResponseFull.Substring(64, 24);
-                                byte[] DecResponse = AESCMAC(entrySelectedKey1, Response);
-                                string result = CSLibrary.Tools.Hex.ToString(DecResponse, 0, 12);
-                                if (result == mac)
-                                {
-                                    labelResult3Text = "MAC Match, Success !";
-                                    labelResult3DateText = ResponseFull.Substring(64);
-                                }
-                                else
-                                {
-                                    labelResult3Text = "MAC NOT match, Fail !";
-                                    labelResult3DateText = "";
-                                }
-                                RaisePropertyChanged(() => labelResult3Text);
-                                RaisePropertyChanged(() => labelResult3DateText);
-                            }
-                            break;
-                    }
+                                break;
+                        }
                 }
                 else
                 {
@@ -880,14 +588,7 @@ namespace BLE.Client.ViewModels
                             RaisePropertyChanged(() => labelResult2Text);
                             RaisePropertyChanged(() => labelResult2DateText);
                             break;
-
-                        case 2:
-                            labelResult3Text = "Read error";
-                            labelResult3DateText = "";
-                            RaisePropertyChanged(() => labelResult3Text);
-                            RaisePropertyChanged(() => labelResult3DateText);
-                            break;
-                    }
+                        }
                 }
                 RaisePropertyChanged(() => labelResponseStatus);
             }
@@ -1022,6 +723,150 @@ namespace BLE.Client.ViewModels
                 }
             }
             });
+        }
+
+
+        public static byte[] ToByteArray(String hexString)
+        {
+            byte[] retval = new byte[hexString.Length / 2];
+            for (int i = 0; i < hexString.Length; i += 2)
+                retval[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
+            return retval;
+        }
+
+
+        // return decode success
+        bool TAM1Decrypt(string toDecrypt, string key, out string Challenge)
+        {
+            try
+            {
+                var result = ASEDecrypt(ToByteArray(toDecrypt), ToByteArray(key), CipherMode.ECB);
+                Challenge = CSLibrary.Tools.Hex.ToString(result, 6, 10);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("ASE decode error : " + ex.Message);
+            }
+
+            Challenge = null;
+            return false;
+        }
+
+        bool TAM2ProtMode0Decrypt(string toDecrypt, string key, out string Challenge, out string Data)
+        {
+            try
+            {
+                byte[] Decrypt = ToByteArray(toDecrypt);
+                var result = ASEDecrypt(Decrypt, ToByteArray(key), CipherMode.ECB);
+                Challenge = CSLibrary.Tools.Hex.ToString(result, 6, 10);
+                Data = CSLibrary.Tools.Hex.ToString(Decrypt, 16, 16);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("ASE decode error : " + ex.Message);
+            }
+
+            Challenge = Data = null;
+            return false;
+        }
+
+        bool TAM2ProtMode1Decrypt(string toDecrypt, string key, out string Challenge, out string Data)
+        {
+            try
+            {
+                byte[] Decrypt = ToByteArray(toDecrypt);
+                var result = ASEDecrypt(Decrypt, ToByteArray(key), CipherMode.ECB);
+                var result1 = ASEDecrypt(Decrypt, ToByteArray(key), CipherMode.CBC);
+
+                Challenge = CSLibrary.Tools.Hex.ToString(result, 6, 10);
+                Data = CSLibrary.Tools.Hex.ToString(result1, 16, 16);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("ASE decode error : " + ex.Message);
+            }
+
+            Challenge = Data = null;
+            return false;
+        }
+
+        bool TAM2ProtMode2Decrypt(string toDecrypt, string key, out string Challenge, out string Data)
+        {
+            try
+            {
+                toDecrypt = toDecrypt.Substring(0, 64);
+
+                byte[] Decrypt = ToByteArray(toDecrypt);
+                var result = ASEDecrypt(ToByteArray(toDecrypt), ToByteArray(key), CipherMode.ECB);
+                Challenge = CSLibrary.Tools.Hex.ToString(result, 6, 10);
+                Data = CSLibrary.Tools.Hex.ToString(Decrypt, 16, 16);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("ASE decode error : " + ex.Message);
+            }
+
+            Challenge = Data = null;
+            return false;
+        }
+
+        bool TAM2ProtMode3Decrypt(string toDecrypt, string key, out string Challenge, out string Data)
+        {
+            try
+            {
+                toDecrypt = toDecrypt.Substring(0, 64);
+
+                byte[] Decrypt = ToByteArray(toDecrypt);
+                var result = ASEDecrypt(Decrypt, ToByteArray(key), CipherMode.ECB);
+                var result1 = ASEDecrypt(Decrypt, ToByteArray(key), CipherMode.CBC);
+
+                Challenge = CSLibrary.Tools.Hex.ToString(result, 6, 10);
+                Data = CSLibrary.Tools.Hex.ToString(result1, 16, 16);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("ASE decode error : " + ex.Message);
+            }
+
+            Challenge = Data = null;
+            return false;
+        }
+
+        byte[] ASEDecrypt(byte[] toDecrypt, byte[] key, CipherMode mode)
+        {
+            try
+            {
+                SymmetricAlgorithm crypt = Aes.Create();
+                crypt.Key = key;
+                crypt.Mode = mode;
+                crypt.Padding = PaddingMode.None;
+
+                using (MemoryStream memoryStream = new MemoryStream(toDecrypt))
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, crypt.CreateDecryptor(), CryptoStreamMode.Read))
+                    {
+                        byte[] decryptedBytes = new byte[toDecrypt.Length];
+                        cryptoStream.Read(decryptedBytes, 0, decryptedBytes.Length);
+                        return decryptedBytes;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("ASE Decrypt Error : " + ex.Message);
+            }
+
+            return null;
         }
     }
 }

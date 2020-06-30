@@ -95,6 +95,8 @@ namespace BLE.Client.ViewModels
             CheckConnection();
 
             BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
+            BleMvxApplication._reader.rfid.Options.TagRanging.focus = false;
+            BleMvxApplication._reader.rfid.Options.TagRanging.fastid = false;
         }
 
         public override void Suspend()

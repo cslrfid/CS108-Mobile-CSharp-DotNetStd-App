@@ -527,11 +527,21 @@ namespace BLE.Client.ViewModels
 
             BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
 
-            BleMvxApplication._reader.rfid.Options.TagSelected.epcMask = new CSLibrary.Structures.S_MASK(/*m_record.pc.ToString() + */entrySelectedEPC);
-
             BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE;
-            BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskOffset = 0;
-            BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskLength = (uint)BleMvxApplication._reader.rfid.Options.TagSelected.epcMask.Length * 8;
+            if (BleMvxApplication._geiger_Bank == 1) // if EPC
+            {
+                BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.EPC;
+                BleMvxApplication._reader.rfid.Options.TagSelected.epcMask = new CSLibrary.Structures.S_MASK(entrySelectedEPC);
+                BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskOffset = 0;
+                BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskLength = (uint)BleMvxApplication._reader.rfid.Options.TagSelected.epcMask.Length * 8;
+            }
+            else
+            {
+                BleMvxApplication._reader.rfid.Options.TagSelected.bank = (CSLibrary.Constants.MemoryBank)(BleMvxApplication._geiger_Bank);
+                BleMvxApplication._reader.rfid.Options.TagSelected.Mask = CSLibrary.Tools.Hex.ToBytes(entrySelectedEPC);
+                BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
+                BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = (uint)BleMvxApplication._reader.rfid.Options.TagSelected.epcMask.Length * 8;
+            }
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_SELECTED);
 
             BleMvxApplication._reader.rfid.SetCurrentLinkProfile(BleMvxApplication._config.RFID_Profile);

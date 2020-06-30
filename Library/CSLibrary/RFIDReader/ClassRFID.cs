@@ -1,4 +1,25 @@
-﻿using System;
+﻿/*
+Copyright (c) 2018 Convergence Systems Limited
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -263,6 +284,18 @@ namespace CSLibrary
                     byte[] byteEpc = new byte[epcbytelen];
                     Array.Copy(recvData, (int)(newInventoryPacketOffset + 2 + xpcoffset), byteEpc, 0, epcbytelen);
 
+                    if (Options.TagRanging.fastid && info.pc.EPCLength >= 6 && byteEpc[byteEpc.Length - 12] == 0xe2 && byteEpc[byteEpc.Length - 11] == 0x80 && byteEpc[byteEpc.Length - 10] == 0x11)
+                    {
+                        byte[] newbyteEpc = new byte[byteEpc.Length - 12];
+                        UInt16[] newbyteTid = new UInt16[6];
+
+                        Array.Copy(byteEpc, 0, newbyteEpc, 0, newbyteEpc.Length);
+                        ArrayCopy (byteEpc, byteEpc.Length - 12, newbyteTid, 0, 12);
+
+                        info.FastTid = newbyteTid;
+                        byteEpc = newbyteEpc;
+                    }
+
                     info.epc = new S_EPC(byteEpc);
 
                     newInventoryPacketOffset += (uint)(2 + epcbytelen + 1);
@@ -407,7 +440,17 @@ namespace CSLibrary
                 byte[] byteEpc = new byte[info.pc.EPCLength * 2];
                 Array.Copy(recvData, (int)(offset + 22 + xpcoffset), byteEpc, 0, (int)info.pc.EPCLength * 2);
 
-                //info.epcstrlen = (UInt16)epcbytelen;
+                if (Options.TagRanging.fastid && info.pc.EPCLength >= 6 && byteEpc[byteEpc.Length - 12] == 0xe2 && byteEpc[byteEpc.Length - 11] == 0x80 && byteEpc[byteEpc.Length - 10] == 0x11)
+                {
+                    byte[] newbyteEpc = new byte[byteEpc.Length - 12];
+                    UInt16[] newbyteTid = new UInt16[6];
+
+                    Array.Copy(byteEpc, 0, newbyteEpc, 0, newbyteEpc.Length);
+                    ArrayCopy(byteEpc, byteEpc.Length - 12, newbyteTid, 0, 12);
+
+                    info.FastTid = newbyteTid;
+                    byteEpc = newbyteEpc;
+                }
 
                 info.epc = new S_EPC(byteEpc);
 
@@ -586,6 +629,9 @@ namespace CSLibrary
                     break;
 
                 case 0xe2: // Untraceable
+                    break;
+
+                case 0xd5: // Authenticate
                     break;
 
                 default:
@@ -1681,43 +1727,25 @@ namespace CSLibrary
         internal UInt32 _INVENTORYDELAYTIME = (7 << 20);
         internal UInt32 _InventoryCycleDelay = 0x00;
 
-        public bool SetInventoryTimeDelay(UInt32 ms)
-		{
-			if (ms > 0x3f)
-				return false;
+
+        public bool SetTagDelayTime(UInt32 ms)
+        {
+            if (ms > 0x3f)
+                return false;
 
             _INVENTORYDELAYTIME = (ms << 20);
 
-        /*
             UInt32 value = 0;
 
-			MacReadRegister(MACREGISTER.HST_INV_CFG, ref value);
+            MacReadRegister(MACREGISTER.HST_INV_CFG, ref value);
 
-			value &= ~(0x03f00000U);
-			value |= (ms << 20);
+            value &= ~(0x03f00000U);
+            value |= (ms << 20);
 
-			MacWriteRegister(MACREGISTER.HST_INV_CFG, value);
-        */
-			return true;
-		}
+            MacWriteRegister(MACREGISTER.HST_INV_CFG, value);
 
-        public bool SetInventoryCycleDelay(UInt32 ms)
-        {
-            _InventoryCycleDelay = ms;
-
-            /*
-                UInt32 value = 0;
-
-                MacReadRegister(MACREGISTER.HST_INV_CFG, ref value);
-
-                value &= ~(0x03f00000U);
-                value |= (ms << 20);
-
-                MacWriteRegister(MACREGISTER.HST_INV_CFG, value);
-            */
             return true;
         }
-
 
         #region Public Functions
 
@@ -1978,9 +2006,4 @@ namespace CSLibrary
         #endregion
 
     }
-}
-
-
-class MACREGISTER
-{
 }

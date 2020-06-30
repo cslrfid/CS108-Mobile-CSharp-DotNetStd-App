@@ -1,4 +1,25 @@
-﻿using System;
+﻿/*
+Copyright (c) 2018 Convergence Systems Limited
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using System;
 using System.IO;
 using System.Collections.Generic;
 
@@ -36,8 +57,8 @@ namespace BLE.Client
 
         public int RFID_Power;
         public uint RFID_Profile;
-        public int RFID_InventoryDelayTime;
-        public UInt32 RFID_InventoryCycleDelayTime;
+        public int RFID_TagDelayTime;
+        public UInt32 RFID_InventoryDuration;
         public CSLibrary.Constants.RadioOperationMode RFID_OperationMode;
         //public uint RFID_DWellTime;
         public uint RFID_TagPopulation;
@@ -88,13 +109,22 @@ namespace BLE.Client
         public uint[] RFID_PowerSequencing_Level = new uint[16] { 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300 };
         public uint[] RFID_PowerSequencing_DWell = new uint[16] { 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000 };
 
+        public bool RFID_NewTagLocation = false;
+        public bool RFID_Focus = false; 
+
+        // LNA setting
+        public int RFID_RFLNAcompression = 1;
+        public int RFID_RFLNAGain = 1;
+        public int RFID_IFLNAGain = 24;
+        public int RFID_AGCGain = -6;
+
         public CONFIG()
         {
             RFID_Power = 300;
             //RFID_DWellTime = 0;
             RFID_TagPopulation = 30;
-            RFID_InventoryDelayTime = 0;
-            RFID_InventoryCycleDelayTime = 0;
+            RFID_TagDelayTime = 0;
+            RFID_InventoryDuration = 0;
 
             RFID_OperationMode = CSLibrary.Constants.RadioOperationMode.CONTINUOUS;
             RFID_TagGroup = new CSLibrary.Structures.TagGroup(CSLibrary.Constants.Selected.ALL, CSLibrary.Constants.Session.S0, CSLibrary.Constants.SessionTarget.A);
@@ -167,13 +197,15 @@ namespace BLE.Client
         public static CONFIG _config;
 
         // for Geiger and Read/Write
-        public static string _SELECT_EPC;
-        public static UInt16 _SELECT_PC;
+        public static string _SELECT_EPC = "";
+        public static string _SELECT_TID = "";
+        public static UInt16 _SELECT_PC = 0x0000;
 
         // for PreFilter
         public static string _PREFILTER_MASK_EPC = "";
         public static uint _PREFILTER_MASK_Offset = 0;
         public static int _PREFILTER_MASK_Truncate = 0;
+        public static int _PREFILTER_Bank = 1;
         public static bool _PREFILTER_Enable = false;
 
         // for Post Filter
@@ -226,7 +258,15 @@ namespace BLE.Client
         //public static int _xerxes_Target;
         public static int _xerxes_delay;
 
-        public override void Initialize()
+        // for Focus and Fast ID
+        public static Boolean _focus = false;
+        public static Boolean _fastID = false;
+
+        // for Geiger Demo 
+        public static int _geiger_Bank = 1;
+
+
+    public override void Initialize()
         {
             RFMicroTagNicknameViewModel item;
             item = new RFMicroTagNicknameViewModel(); item.EPC = "000000000000000000000417"; item.Nickname = "Test Tag 1"; ViewModelRFMicroNickname._TagNicknameList.Add(item);

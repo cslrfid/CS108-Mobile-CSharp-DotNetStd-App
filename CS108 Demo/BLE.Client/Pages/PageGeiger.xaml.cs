@@ -5,12 +5,13 @@ using Xamarin.Forms;
 namespace BLE.Client.Pages
 {
     public partial class PageGeiger
-	{
-		static uint _rssi;
+    {
+        static string[] _bankSelectionItems = new string[] { "Security (Bank 0)", "EPC (Bank 1)", "TID (Bank 2)", "User (Bank 3)" };
+        static uint _rssi;
 
-		public PageGeiger()
-		{
-			InitializeComponent();
+        public PageGeiger()
+        {
+            InitializeComponent();
 
             if (BleMvxApplication._config.RFID_DBm)
             {
@@ -23,6 +24,34 @@ namespace BLE.Client.Pages
                 sliderThreshold.Minimum = 17;
                 sliderThreshold.Maximum = 97;
                 sliderThreshold.Value = 60;
+            }
+
+            BleMvxApplication._geiger_Bank = 1;
+            buttonBank.Text = _bankSelectionItems[1];
+        }
+
+        public async void buttonBankClicked(object sender, EventArgs e)
+        {
+            var answer = await DisplayActionSheet("", "Cancel", null, _bankSelectionItems);
+
+            if (answer != null && answer != "Cancel")
+            {
+                if (buttonBank.Text != answer)
+                {
+                    buttonBank.Text = answer;
+                    BleMvxApplication._geiger_Bank = int.Parse(buttonBank.Text.Substring(buttonBank.Text.Length - 2, 1));
+                    switch (BleMvxApplication._geiger_Bank)
+                    {
+                        case 1: // EPC
+                            entryMask.Text = BleMvxApplication._SELECT_EPC;
+                            break;
+
+                        case 2: // TID
+                            if (BleMvxApplication._SELECT_TID.Length != 0)
+                                entryMask.Text = BleMvxApplication._SELECT_TID;
+                            break;
+                    }
+                }
             }
         }
 
@@ -48,5 +77,6 @@ namespace BLE.Client.Pages
         {
             labelThreshold.Text = ((int)(sliderThreshold.Value)).ToString();
         }
+
     }
 }
