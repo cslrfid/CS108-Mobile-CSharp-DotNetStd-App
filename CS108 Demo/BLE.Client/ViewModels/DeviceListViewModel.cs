@@ -419,6 +419,7 @@ namespace BLE.Client.ViewModels
 
             //bool LoadSuccess = await BleMvxApplication.LoadConfig(_device.Name);
             //BleMvxApplication._config.readerID = _device.Name;
+            //bool LoadSuccess = await BleMvxApplication.LoadConfig(_device.Id.ToString(), BleMvxApplication._reader.rfid.GetAntennaPort());
             bool LoadSuccess = await BleMvxApplication.LoadConfig(_device.Id.ToString());
             BleMvxApplication._config.readerID = _device.Id.ToString();
         }

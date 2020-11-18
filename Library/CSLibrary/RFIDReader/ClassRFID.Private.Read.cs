@@ -29,6 +29,8 @@ namespace CSLibrary
 {
     public partial class RFIDReader
     {
+        const int MAX_RD_CNT = 253; // max 253, old version 0x20
+
         void Setup18K6CReadRegisters(UInt32 bank, UInt32 offset, UInt32 count)
         {
             // Set up the access bank register
@@ -59,8 +61,6 @@ namespace CSLibrary
 
         bool CUST_18K6CTagRead(CSLibrary.Constants.MemoryBank bank, int offset, int count, UInt16[] data, UInt32 password, /*UInt32 retry, */CSLibrary.Constants.SelectFlags flags)
         {
-            const int MAX_RD_CNT = 0x20;
-
             if (count > MAX_RD_CNT)
                 return false;       // too many data
 

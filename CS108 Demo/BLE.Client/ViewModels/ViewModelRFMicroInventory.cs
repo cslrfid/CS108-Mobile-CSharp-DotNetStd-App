@@ -395,6 +395,27 @@ namespace BLE.Client.ViewModels
             RaisePropertyChanged(() => currentPower);
         }
 
+        void SetConfigPower()
+        {
+            if (BleMvxApplication._reader.rfid.GetAntennaPort() == 1)
+            {
+                if (BleMvxApplication._config.RFID_PowerSequencing_NumberofPower == 0)
+                {
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(0);
+                    BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[0]);
+                }
+                else
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(BleMvxApplication._config.RFID_PowerSequencing_NumberofPower, BleMvxApplication._config.RFID_PowerSequencing_Level, BleMvxApplication._config.RFID_PowerSequencing_DWell);
+            }
+            else
+            {
+                for (uint cnt = BleMvxApplication._reader.rfid.GetAntennaPort() - 1; cnt >= 0; cnt--)
+                {
+                    BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[cnt], cnt);
+                }
+            }
+        }
+
         void SetPower(int index)
         {
             switch (index)
@@ -415,17 +436,7 @@ namespace BLE.Client.ViewModels
                     SetPower(_powerRunning);
                     break;
                 case 4:
-                    //                    BleMvxApplication._reader.rfid.SetPowerLevel((uint)BleMvxApplication._config.RFID_Power);
-                    if (BleMvxApplication._reader.rfid.GetModelName() == "CS108")
-                    {
-                        if (BleMvxApplication._config.RFID_PowerSequencing_NumberofPower == 0)
-                        {
-                            BleMvxApplication._reader.rfid.SetPowerSequencing(0);
-                            BleMvxApplication._reader.rfid.SetPowerLevel((uint)BleMvxApplication._config.RFID_Power);
-                        }
-                        else
-                            BleMvxApplication._reader.rfid.SetPowerSequencing(BleMvxApplication._config.RFID_PowerSequencing_NumberofPower, BleMvxApplication._config.RFID_PowerSequencing_Level, BleMvxApplication._config.RFID_PowerSequencing_DWell);
-                    }
+                    SetConfigPower();
                     break;
             }
         }
@@ -659,7 +670,16 @@ namespace BLE.Client.ViewModels
                                                 default: // Range Allocation
                                                     {
                                                         SensorAvgValue = sensorCode;
+                                                        if (sensorCode >= BleMvxApplication._rfMicro_WetDryThresholdValue)
+                                                        {
+                                                            TagInfoList[cnt].SensorAvgValue = "Dry";
+                                                        }
+                                                        else
+                                                        {
+                                                            TagInfoList[cnt].SensorAvgValue = "Wet";
+                                                        }
 
+                                                        /*
                                                         if (sensorCode >= BleMvxApplication._rfMicro_MinWet && sensorCode <= BleMvxApplication._rfMicro_MaxWet)
                                                         {
                                                             TagInfoList[cnt].SensorAvgValue = "Wet";
@@ -674,6 +694,7 @@ namespace BLE.Client.ViewModels
                                                         }
                                                         else
                                                             TagInfoList[cnt].SensorAvgValue = "";
+                                                        */
                                                     }
                                                     break;
                                             }
@@ -706,43 +727,50 @@ namespace BLE.Client.ViewModels
                                             TagInfoList[cnt].SucessCount++;
                                             UInt64 caldata = (UInt64)(((UInt64)info.Bank2Data[0] << 48) | ((UInt64)info.Bank2Data[1] << 32) | ((UInt64)info.Bank2Data[2] << 16) | ((UInt64)info.Bank2Data[3]));
 
-                                            switch (BleMvxApplication._rfMicro_SensorUnit)
+                                            if (caldata == 0)
                                             {
-                                                case 0: // code
-                                                    TagInfoList[cnt]._sensorValueSum += temp;
-                                                    SensorAvgValue = Math.Round(TagInfoList[cnt]._sensorValueSum / TagInfoList[cnt].SucessCount, 2);
-                                                    TagInfoList[cnt].SensorAvgValue = SensorAvgValue.ToString();
-                                                    break;
-
-                                                case 1: // F
-                                                    TagInfoList[cnt]._sensorValueSum += getTempF(temp, caldata);
-                                                    SensorAvgValue = Math.Round(TagInfoList[cnt]._sensorValueSum / TagInfoList[cnt].SucessCount, 2);
-                                                    TagInfoList[cnt].SensorAvgValue = SensorAvgValue.ToString();
-                                                    break;
-
-                                                default: // C
-                                                    TagInfoList[cnt]._sensorValueSum += getTempC(temp, caldata);
-                                                    SensorAvgValue = Math.Round(TagInfoList[cnt]._sensorValueSum / TagInfoList[cnt].SucessCount, 2);
-                                                    TagInfoList[cnt].SensorAvgValue = SensorAvgValue.ToString();
-                                                    break;
+                                                TagInfoList[cnt].SensorAvgValue = "NoCalData";
                                             }
-
-                                            if (TagInfoList[cnt].SucessCount >= 3)
+                                            else
                                             {
-                                                switch (BleMvxApplication._rfMicro_thresholdComparison)
+                                                switch (BleMvxApplication._rfMicro_SensorUnit)
                                                 {
-                                                    case 0: // >
-                                                        if (SensorAvgValue > BleMvxApplication._rfMicro_thresholdValue)
-                                                            TagInfoList[cnt].valueColor = BleMvxApplication._rfMicro_thresholdColor;
-                                                        else
-                                                            TagInfoList[cnt].valueColor = "Green";
+                                                    case 0: // code
+                                                        TagInfoList[cnt]._sensorValueSum += temp;
+                                                        SensorAvgValue = Math.Round(TagInfoList[cnt]._sensorValueSum / TagInfoList[cnt].SucessCount, 2);
+                                                        TagInfoList[cnt].SensorAvgValue = SensorAvgValue.ToString();
                                                         break;
-                                                    default: // <
-                                                        if (SensorAvgValue < BleMvxApplication._rfMicro_thresholdValue)
-                                                            TagInfoList[cnt].valueColor = BleMvxApplication._rfMicro_thresholdColor;
-                                                        else
-                                                            TagInfoList[cnt].valueColor = "Green";
+
+                                                    case 1: // F
+                                                        TagInfoList[cnt]._sensorValueSum += getTempF(temp, caldata);
+                                                        SensorAvgValue = Math.Round(TagInfoList[cnt]._sensorValueSum / TagInfoList[cnt].SucessCount, 2);
+                                                        TagInfoList[cnt].SensorAvgValue = SensorAvgValue.ToString();
                                                         break;
+
+                                                    default: // C
+                                                        TagInfoList[cnt]._sensorValueSum += getTempC(temp, caldata);
+                                                        SensorAvgValue = Math.Round(TagInfoList[cnt]._sensorValueSum / TagInfoList[cnt].SucessCount, 2);
+                                                        TagInfoList[cnt].SensorAvgValue = SensorAvgValue.ToString();
+                                                        break;
+                                                }
+
+                                                if (TagInfoList[cnt].SucessCount >= 3)
+                                                {
+                                                    switch (BleMvxApplication._rfMicro_thresholdComparison)
+                                                    {
+                                                        case 0: // >
+                                                            if (SensorAvgValue > BleMvxApplication._rfMicro_thresholdValue)
+                                                                TagInfoList[cnt].valueColor = BleMvxApplication._rfMicro_thresholdColor;
+                                                            else
+                                                                TagInfoList[cnt].valueColor = "Green";
+                                                            break;
+                                                        default: // <
+                                                            if (SensorAvgValue < BleMvxApplication._rfMicro_thresholdValue)
+                                                                TagInfoList[cnt].valueColor = BleMvxApplication._rfMicro_thresholdColor;
+                                                            else
+                                                                TagInfoList[cnt].valueColor = "Green";
+                                                            break;
+                                                    }
                                                 }
                                             }
                                         }
@@ -833,6 +861,15 @@ namespace BLE.Client.ViewModels
                                                 break;
 
                                             default:
+                                                if (sensorCode >= BleMvxApplication._rfMicro_WetDryThresholdValue)
+                                                {
+                                                    item.SensorAvgValue = "Dry";
+                                                }
+                                                else
+                                                {
+                                                    item.SensorAvgValue = "Wet";
+                                                }
+                                                /*
                                                 if (sensorCode >= BleMvxApplication._rfMicro_MinWet && sensorCode <= BleMvxApplication._rfMicro_MaxWet)
                                                 {
                                                     item.SensorAvgValue = "Wet";
@@ -847,7 +884,7 @@ namespace BLE.Client.ViewModels
                                                 }
                                                 else
                                                     item.SensorAvgValue = "";
-
+                                                */
                                                 break;
                                         }
                                     }
@@ -859,23 +896,26 @@ namespace BLE.Client.ViewModels
                                         item.SucessCount++;
                                         UInt64 caldata = (UInt64)(((UInt64)info.Bank2Data[0] << 48) | ((UInt64)info.Bank2Data[1] << 32) | ((UInt64)info.Bank2Data[2] << 16) | ((UInt64)info.Bank2Data[3]));
 
-                                        switch (BleMvxApplication._rfMicro_SensorUnit)
-                                        {
-                                            case 0: // code
-                                                item._sensorValueSum = temp;
-                                                item.SensorAvgValue = item._sensorValueSum.ToString();
-                                                break;
+                                        if (caldata == 0)
+                                            item.SensorAvgValue = "NoCalData";
+                                        else
+                                            switch (BleMvxApplication._rfMicro_SensorUnit)
+                                            {
+                                                case 0: // code
+                                                    item._sensorValueSum = temp;
+                                                    item.SensorAvgValue = item._sensorValueSum.ToString();
+                                                    break;
 
-                                            case 1: // F
-                                                item._sensorValueSum = getTempF(temp, caldata);
-                                                item.SensorAvgValue = Math.Round(item._sensorValueSum, 2).ToString();
-                                                break;
+                                                case 1: // F
+                                                    item._sensorValueSum = getTempF(temp, caldata);
+                                                    item.SensorAvgValue = Math.Round(item._sensorValueSum, 2).ToString();
+                                                    break;
 
-                                            default: // C
-                                                item._sensorValueSum = getTempC(temp, caldata);
-                                                item.SensorAvgValue = Math.Round(item._sensorValueSum, 2).ToString();
-                                                break;
-                                        }
+                                                default: // C
+                                                    item._sensorValueSum = getTempC(temp, caldata);
+                                                    item.SensorAvgValue = Math.Round(item._sensorValueSum, 2).ToString();
+                                                    break;
+                                            }
                                     }
                                     break;
                             }

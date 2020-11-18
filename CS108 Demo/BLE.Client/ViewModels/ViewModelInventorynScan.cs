@@ -334,6 +334,29 @@ namespace BLE.Client.ViewModels
             });
         }
 
+        void SetConfigPower ()
+        {
+            if (BleMvxApplication._reader.rfid.GetAntennaPort() == 1)
+            {
+                if (BleMvxApplication._config.RFID_PowerSequencing_NumberofPower == 0)
+                {
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(0);
+                    BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[0]);
+                }
+                else
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(BleMvxApplication._config.RFID_PowerSequencing_NumberofPower, BleMvxApplication._config.RFID_PowerSequencing_Level, BleMvxApplication._config.RFID_PowerSequencing_DWell);
+            }
+            else
+            {
+                uint port = BleMvxApplication._reader.rfid.GetAntennaPort();
+
+                for (uint cnt = 0; cnt < port; cnt++)
+                {
+                    BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[cnt], cnt);
+                }
+            }
+        }
+
         void InventorySetting()
         {
             BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
@@ -342,18 +365,10 @@ namespace BLE.Client.ViewModels
 
             // Setting 1
             BleMvxApplication._reader.rfid.SetTagDelayTime((uint)BleMvxApplication._config.RFID_TagDelayTime);
-            BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_InventoryDuration);
+            BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_Antenna_Dwell);
 
-            if (BleMvxApplication._reader.rfid.GetModelName() == "CS108")
-            {
-                if (BleMvxApplication._config.RFID_PowerSequencing_NumberofPower == 0)
-                {
-                    BleMvxApplication._reader.rfid.SetPowerSequencing(0);
-                    BleMvxApplication._reader.rfid.SetPowerLevel((uint)BleMvxApplication._config.RFID_Power);
-                }
-                else
-                    BleMvxApplication._reader.rfid.SetPowerSequencing(BleMvxApplication._config.RFID_PowerSequencing_NumberofPower, BleMvxApplication._config.RFID_PowerSequencing_Level, BleMvxApplication._config.RFID_PowerSequencing_DWell);
-            }
+            // Set Power
+            SetConfigPower();
 
             // Setting 3
             BleMvxApplication._config.RFID_DynamicQParms.toggleTarget = BleMvxApplication._config.RFID_ToggleTarget ? 1U : 0;
@@ -807,8 +822,11 @@ namespace BLE.Client.ViewModels
 
                         if (TagInfoListSpeedup.TryGetValue(epcstr, out index))
                         {
-                            index = TagInfoList.Count - index;
-                            index--;
+                            if (BleMvxApplication._config.RFID_NewTagLocation)
+                            {
+                                index = TagInfoList.Count - index;
+                                index--;
+                            }
 
                             TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
                             TagInfoList[index].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
@@ -957,11 +975,19 @@ namespace BLE.Client.ViewModels
             CSLibrary.Debug.WriteLine("BackupData : {0}", result.ToString());
         }
 
+/*        private void ShareDataButtonClick(object ind)
+        {
+            if (ind == null || (int)ind != 1)
+                return;
+
+            var result = ShareData();
+            CSLibrary.Debug.WriteLine("Share Data : {0}", result.ToString());
+        }
+*/
         private void ShareDataButtonClick()
         {
             var result = ShareData();
-
-            CSLibrary.Debug.WriteLine("BackupData : {0}", result.ToString());
+            CSLibrary.Debug.WriteLine("Share Data : {0}", result.ToString());
         }
 
         void BarcodeStart ()
@@ -988,7 +1014,6 @@ namespace BLE.Client.ViewModels
                 BleMvxApplication._reader.barcode.VibratorOff();
             //Vibrator(false);
             _startBarcodeScanButtonText = "Start Scan";
-            RaisePropertyChanged(() => startBarcodeScanButtonText);
         }
 
         void Linkage_CaptureCompleted(object sender, CSLibrary.Barcode.BarcodeEventArgs e)
@@ -1148,45 +1173,81 @@ namespace BLE.Client.ViewModels
             }
         }
 
+        string GetCSVData()
+        {
+            try
+            {
+                string CSVdata = "";
+
+                foreach (var tagitem in _TagInfoList)
+                {
+                    CSVdata += "\"" + tagitem.PC.ToString("X4") + "\",";
+                    CSVdata += "\"" + tagitem.EPC.ToString() + "\",";
+                    CSVdata += tagitem.timeOfRead.ToString("yyyy/MM/dd HH:mm:ss.fff") + "\",";
+                    CSVdata += "\"" + tagitem.timeOfRead.ToString("zzz") + "\"";
+                    CSVdata += System.Environment.NewLine;
+                }
+
+                return CSVdata;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         async System.Threading.Tasks.Task<bool> ShareData()
         {
-            var r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
+            bool r = false;
+
+            switch (BleMvxApplication._config.RFID_ShareFormat)
             {
-                Text = GetJsonData(),
-                Title = "CS108 tags list"
-            });
-            
+                case 0: // JSON
+                    r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
+                    {
+                        Text = GetJsonData(),
+                        Title = "CS108 tags list"
+                    });
+                    break;
+
+                case 1:
+                    r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
+                    {
+                        Text = GetCSVData(),
+                        Title = "CS108 tags list"
+                    });
+                    break;
+
+            }
+
             return r;
 
-            /*
-            var r = await CrossShare.Current.Share(new ShareMessage
-            {
-                Text = "Follow @JamesMontemagno on Twitter",
-                Title = "Share"
-            },
-            new ShareOptions
-            {
-                ChooserTitle = "Chooser Title",
-                ExcludedUIActivityTypes = new[] { ShareUIActivityType.PostToFacebook }
-            });
-
-            return r;
-            */
 
             /*
-                        var r = await CrossShare.Current.Share(new ShareMessage
-            {
-                Text = "Follow @JamesMontemagno on Twitter",
-                Title = "Share"
-            },
-            new ShareOptions
-            {
-                ChooserTitle = "Chooser Title",
-                ExcludedUIActivityTypes = new[] { ShareUIActivityType.PostToFacebook },
-                PopoverAnchorRectangle = button.GetScreenRect()
-            });
+                        bool r = false;
 
-            
+                        var z = await _userDialogs.ActionSheetAsync("Share Data Format", "Cancel", null, null, new string [] {"JSON", "CSV" });
+
+                        switch (z)
+                        {
+                            case "JSON":
+                                r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
+                                {
+                                    Text = GetJsonData(),
+                                    Title = "CS108 tags list"
+                                });
+                                break;
+
+                            case "CSV":
+                                r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
+                                {
+                                    Text = GetCSVData(),
+                                    Title = "CS108 tags list"
+                                });
+                                break;
+                        }
+
+                        return r;
             */
         }
 

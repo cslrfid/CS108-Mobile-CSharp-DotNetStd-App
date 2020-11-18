@@ -31,7 +31,7 @@
 	<key>CFBundleName</key>
 	<string>BLE.Client</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.1.9</string>
+	<string>3.1.10</string>
 	<key>UIMainStoryboardFile</key>
 	<string>LaunchScreen</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -43,10 +43,12 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>$(PRODUCT_NAME) user your calendar.</string>
 	<key>CFBundleVersion</key>
-	<string>233</string>
+	<string>239</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Get tag location to server</string>
 	<key>XSAppIconAssets</key>
 	<string>Media.xcassets/AppIcon.appiconset</string>
+	<key>XSLaunchImageAssets</key>
+	<string>Media.xcassets/LaunchImages.launchimage</string>
 </dict>
 </plist>

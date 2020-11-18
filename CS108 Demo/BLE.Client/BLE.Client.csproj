@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,9 +6,11 @@
 
   <ItemGroup>
     <Compile Remove="Pages\PageCS83045DataLog.xaml.cs" />
+    <Compile Remove="Pages\PageInventory-cvs.xaml.cs" />
     <Compile Remove="Pages\PageXerxesInventory.xaml.cs" />
     <Compile Remove="Pages\PageXerxesSetting.xaml.cs" />
     <Compile Remove="ViewModels\ViewModelCS83045DataLog.cs" />
+    <Compile Remove="ViewModels\ViewModelInventorynScan-cvs.cs" />
     <Compile Remove="ViewModels\ViewModelXerxesInventory.cs" />
     <Compile Remove="ViewModels\ViewModelXerxesSetting.cs" />
   </ItemGroup>
@@ -26,10 +28,18 @@
     <None Remove="Pages\PageCS83045Setting.xaml" />
     <None Remove="Pages\PageCS9010Inventory.xaml" />
     <None Remove="Pages\PageCTESIUSTempInventory.xaml" />
+    <None Remove="Pages\PageEM4152Inventory.xaml" />
+    <None Remove="Pages\PageEM4152SenseCalibrate.xaml" />
+    <None Remove="Pages\PageEM4152SensorCalibrationWord.xaml" />
+    <None Remove="Pages\PageEM4152SensorControlWord1.xaml" />
+    <None Remove="Pages\PageEM4152SensorDataStored.xaml" />
+    <None Remove="Pages\PageEM4152SystemConfigurationWord1.xaml" />
+    <None Remove="Pages\PageEM4152TamperLockWord.xaml" />
     <None Remove="Pages\PageFilter.xaml" />
     <None Remove="Pages\PageFocusandFastIDInventory.xaml" />
     <None Remove="Pages\PageFocusandFastIDSetting.xaml" />
     <None Remove="Pages\PageGeiger.xaml" />
+    <None Remove="Pages\PageInventory-cvs.xaml" />
     <None Remove="Pages\PageInventory.xaml" />
     <None Remove="Pages\PageInventorynScan.xaml" />
     <None Remove="Pages\PageMainMenu.xaml" />
@@ -39,10 +49,13 @@
     <None Remove="Pages\PagePhaseChannelInventory.xaml" />
     <None Remove="Pages\PagePostFilter.xaml" />
     <None Remove="Pages\PagePreFilter.xaml" />
+    <None Remove="Pages\PageRead.xaml" />
     <None Remove="Pages\PageReadWrite.xaml" />
     <None Remove="Pages\PageRegisterTag.xaml" />
     <None Remove="Pages\PageRFMicronInventory.xaml" />
     <None Remove="Pages\PageRFMicronNickname.xaml" />
+    <None Remove="Pages\PageRFMicronS2Inventory.xaml" />
+    <None Remove="Pages\PageRFMicronS3Inventory.xaml" />
     <None Remove="Pages\PageRFMicroReadTemp.xaml" />
     <None Remove="Pages\PageRFMicroSetting.xaml" />
     <None Remove="Pages\PageSecurity.xaml" />
@@ -53,6 +66,7 @@
     <None Remove="Pages\PageSettingPowerSequencing.xaml" />
     <None Remove="Pages\PageSpecialFunctionsMenu.xaml" />
     <None Remove="Pages\PageUCODEDNA.xaml" />
+    <None Remove="Pages\PageViewPage.xaml" />
     <None Remove="Pages\PageXerxesAuthentication.xaml" />
     <None Remove="Pages\PageXerxesConfiguration.xaml" />
     <None Remove="Pages\PageXerxesInventory.xaml" />
@@ -63,7 +77,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Pages\PageRead.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageViewPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageEM4152Inventory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageCTESIUSTempInventory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageEM4152SenseCalibrate.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageFocusandFastIDSetting.xaml">
@@ -105,6 +131,12 @@
     <EmbeddedResource Include="Pages\PageAxzonSetting.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageRFMicronS3Inventory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageRFMicronS2Inventory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageSettingPowerSequencing.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -118,6 +150,21 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageAxzonInventory.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageEM4152SensorControlWord1.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageEM4152SensorDataStored.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageEM4152SystemConfigurationWord1.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageEM4152TamperLockWord.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\PageEM4152SensorCalibrationWord.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\PageXerxesTagList.xaml">

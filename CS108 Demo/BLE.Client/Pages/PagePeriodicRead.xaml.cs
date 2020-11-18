@@ -69,6 +69,26 @@ namespace BLE.Client.Pages
                 BleMvxApplication._reader.rfid.OnAsyncCallback -= new EventHandler<CSLibrary.Events.OnAsyncCallbackEventArgs>(TagInventoryEvent);
         }
 
+        void SetConfigPower()
+        {
+            if (BleMvxApplication._reader.rfid.GetAntennaPort() == 1)
+            {
+                if (BleMvxApplication._config.RFID_PowerSequencing_NumberofPower == 0)
+                {
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(0);
+                    BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[0]);
+                }
+                else
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(BleMvxApplication._config.RFID_PowerSequencing_NumberofPower, BleMvxApplication._config.RFID_PowerSequencing_Level, BleMvxApplication._config.RFID_PowerSequencing_DWell);
+            }
+            else
+            {
+                for (uint cnt = BleMvxApplication._reader.rfid.GetAntennaPort() - 1; cnt >= 0; cnt--)
+                {
+                    BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[cnt], cnt);
+                }
+            }
+        }
 
         void InventorySetting()
         {
@@ -76,7 +96,8 @@ namespace BLE.Client.Pages
 
             // Setting 1
             //BleMvxApplication._reader.rfid.SetInventoryDuration((uint)BleMvxApplication._config.RFID_DWellTime);
-            BleMvxApplication._reader.rfid.SetPowerLevel((uint)BleMvxApplication._config.RFID_Power);
+            //BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power);
+            SetConfigPower();
 
             // Setting 3
             BleMvxApplication._reader.rfid.SetDynamicQParms(BleMvxApplication._config.RFID_DynamicQParms);

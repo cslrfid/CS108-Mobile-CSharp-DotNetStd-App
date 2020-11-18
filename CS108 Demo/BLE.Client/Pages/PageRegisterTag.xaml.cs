@@ -18,13 +18,16 @@ namespace BLE.Client.Pages
         UInt16 _automatic = 0;
         bool _alreadySelect = false;
 
+
+
         public PageRegisterTag()
 		{
             InitializeComponent();
             buttonSelectBank.Text = stringSlectMaskBankSelectionList[0];
             buttonWriteBank.Text = stringWriteBankSelectionList[1];
 
-            BleMvxApplication._reader.rfid.SetPowerLevel((uint)BleMvxApplication._config.RFID_Power);
+            //BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[0]);
+            SetConfigPower();
             BleMvxApplication._reader.rfid.SetCurrentLinkProfile((uint)BleMvxApplication._config.RFID_Profile);
 
             //entryMask.Text = BleMvxApplication._config.SELECT_EPC;
@@ -34,6 +37,27 @@ namespace BLE.Client.Pages
         {
             BleMvxApplication._reader.rfid.OnAccessCompleted -= new EventHandler<CSLibrary.Events.OnAccessCompletedEventArgs>(TagCompletedEvent);
             StopScanBarcode();
+        }
+
+        void SetConfigPower()
+        {
+            if (BleMvxApplication._reader.rfid.GetAntennaPort() == 1)
+            {
+                if (BleMvxApplication._config.RFID_PowerSequencing_NumberofPower == 0)
+                {
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(0);
+                    BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[0]);
+                }
+                else
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(BleMvxApplication._config.RFID_PowerSequencing_NumberofPower, BleMvxApplication._config.RFID_PowerSequencing_Level, BleMvxApplication._config.RFID_PowerSequencing_DWell);
+            }
+            else
+            {
+                for (uint cnt = BleMvxApplication._reader.rfid.GetAntennaPort() - 1; cnt >= 0; cnt--)
+                {
+                    BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[cnt], cnt);
+                }
+            }
         }
 
         void Barcode_CaptureCompleted(object sender, CSLibrary.Barcode.BarcodeEventArgs e)

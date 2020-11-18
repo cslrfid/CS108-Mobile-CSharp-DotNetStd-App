@@ -89,6 +89,7 @@ namespace CSLibrary
                         m_save_country_list.Add(RegionCode.TH);
                         m_save_country_list.Add(RegionCode.UY);
                         m_save_country_list.Add(RegionCode.VE);
+                        m_save_country_list.Add(RegionCode.VI);
                         m_save_country_list.Add(RegionCode.ZA);
                         m_save_country_list.Add(RegionCode.LH1);  // 
                         m_save_country_list.Add(RegionCode.LH2);  // 

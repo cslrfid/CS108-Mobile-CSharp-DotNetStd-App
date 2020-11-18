@@ -15,10 +15,9 @@ namespace BLE.Client.Pages
         string[] _powerOptions = { "Low (16dBm)", "Mid (23dBm)", "High (30dBm)", "Cycle Power by Trigger Button", "Follow system Setting" };
         string[] _targetOptions = { "A", "B", "Toggle A/B"};
         string[] _indicatorsProfileOptions = { "Hot temperature", "Cold temperature", "Moisture detection" };
-        string[] _sensorTypeOptions = { "Sensor Code", "Temperature" };
-        string[] _sensorCodeUnitOptions = { "code", "%" };
-        string[] _sensorCodeS2UnitOptions = { "code", "%", "RAW", "Range Allocation" };
-        string[] _temperatureUnitOptions = { "code", "ºF", "ºC" };
+        string[] _sensorTypeOptions = { "Humidity", "Temperature" };
+        string[] _sensorCodeUnitOptions = { "RAW Sensor Code", "Dry / Wet" };
+        string[] _temperatureUnitOptions = { "RAW Average", "ºF", "ºC" };
         int[] _minOCRSSIs = { 0, 5, 10, 10 };
         int [] _maxOCRSSIs = { 21, 18, 21, 21 };
         string[] _thresholdComparisonOptions = { ">", "<" };
@@ -33,13 +32,6 @@ namespace BLE.Client.Pages
             buttonPower.Text = _powerOptions[2];
             buttonTarget.Text = _targetOptions[2];
             SetIndicatorsProfile(0);
-
-            entryMinWet.Text = "0";
-            entryMaxWet.Text = "15";
-            entryMinDamp.Text = "15";
-            entryMaxDamp.Text = "21";
-            entryMinDry.Text = "21";
-            entryMaxDry.Text = "31";
         }
 
         protected override void OnAppearing()
@@ -59,25 +51,24 @@ namespace BLE.Client.Pages
             var answer = await DisplayActionSheet("Tag Type", "Cancel", null, _tagTypeOptions);
 
             if (answer != null && answer !="Cancel")
-            {
                 buttonTagType.Text = answer;
+        }
 
+        public async void buttonTagTypePropertyChanged(object sender, EventArgs e)
+        {
+            if (buttonTagType != null)
+            {
                 switch (Array.IndexOf(_tagTypeOptions, buttonTagType.Text))
                 {
                     case 0: // S2
                         SetIndicatorsProfile(2);
-                        buttonIndicatorsProfile.IsEnabled = false;
-                        buttonSensorType.IsEnabled = false;
+                        stackLayoutS3Options.IsVisible = false;
+                        entryWetDryThreshold.Text = "13";
                         break;
 
                     case 1: // S3
-                        buttonIndicatorsProfile.IsEnabled = true;
-                        buttonSensorType.IsEnabled = true;
-                        break;
-
-                    default: // Xerxes
-
-
+                        stackLayoutS3Options.IsVisible = true;
+                        entryWetDryThreshold.Text = "160";
                         break;
                 }
             }
@@ -111,6 +102,27 @@ namespace BLE.Client.Pages
             }
         }
 
+        public async void buttonSensorTypePropertyChanged(object sender, EventArgs e)
+        {
+            if (buttonTagType != null)
+            {
+                switch (Array.IndexOf(_sensorTypeOptions, buttonSensorType.Text))
+                {
+                    case 0: // Sensor type
+                        entryMinOCRSSI.Text = _minOCRSSIs[0].ToString();
+                        entryMaxOCRSSI.Text = _maxOCRSSIs[0].ToString();
+                        buttonSensorUnit.Text = _sensorCodeUnitOptions[1];
+                        break;
+
+                    case 1: // Temperature
+                        entryMinOCRSSI.Text = _minOCRSSIs[1].ToString();
+                        entryMaxOCRSSI.Text = _maxOCRSSIs[1].ToString();
+                        buttonSensorUnit.Text = _temperatureUnitOptions[2];
+                        break;
+                }
+            }
+        }
+
         public async void buttonIndicatorsProfileClicked(object sender, EventArgs e)
         {
             var answer = await DisplayActionSheet("Indicators Profile", "Cancel", null, _indicatorsProfileOptions);
@@ -126,14 +138,7 @@ namespace BLE.Client.Pages
             string answer;
 
             if (buttonSensorType.Text == _sensorTypeOptions[0])
-            {
-                if (Array.IndexOf(_tagTypeOptions, buttonTagType.Text) == 0)
-                {
-                    answer = await DisplayActionSheet("Sensor Unit", "Cancel", null, _sensorCodeS2UnitOptions);
-                }
-                else
-                    answer = await DisplayActionSheet("Sensor Unit", "Cancel", null, _sensorCodeUnitOptions);
-            }
+                answer = await DisplayActionSheet("Sensor Unit", "Cancel", null, _sensorCodeUnitOptions);
             else
                 answer = await DisplayActionSheet("Sensor Unit", "Cancel", null, _temperatureUnitOptions);
 
@@ -147,32 +152,10 @@ namespace BLE.Client.Pages
         {
             if (buttonTagType != null)
             {
-                if (Array.IndexOf(_tagTypeOptions, buttonTagType.Text) == 0)
-                {
-                    if (Array.IndexOf(_sensorCodeS2UnitOptions, buttonSensorUnit.Text) == 3)
-                    {
-                        entryMinOCRSSI.Text = _minOCRSSIs[2].ToString();
-                        entryMaxOCRSSI.Text = _maxOCRSSIs[2].ToString();
-
-                        stacklayoutMinWet.IsVisible = true;
-                        stacklayoutMaxWet.IsVisible = true;
-                        stacklayoutMinDamp.IsVisible = true;
-                        stacklayoutMaxDamp.IsVisible = true;
-                        stacklayoutMinDry.IsVisible = true;
-                        stacklayoutMaxDry.IsVisible = true;
-
-                    }
-                    else
-                    {
-                        stacklayoutMinWet.IsVisible = false;
-                        stacklayoutMaxWet.IsVisible = false;
-                        stacklayoutMinDamp.IsVisible = false;
-                        stacklayoutMaxDamp.IsVisible = false;
-                        stacklayoutMinDry.IsVisible = false;
-                        stacklayoutMaxDry.IsVisible = false;
-
-                    }
-                }
+                if (Array.IndexOf(_sensorTypeOptions, buttonSensorType.Text) == 0 && Array.IndexOf(_sensorCodeUnitOptions, buttonSensorUnit.Text) == 1)
+                    stacklayoutWetDryThreshold.IsVisible = true;
+                else
+                    stacklayoutWetDryThreshold.IsVisible = false;
             }
         }
 
@@ -204,13 +187,33 @@ namespace BLE.Client.Pages
             BleMvxApplication._rfMicro_SensorType = Array.IndexOf(_sensorTypeOptions, buttonSensorType.Text);
             switch (BleMvxApplication._rfMicro_SensorType)
             {
-                case 0:
-                    BleMvxApplication._rfMicro_SensorUnit = Array.IndexOf(_sensorCodeS2UnitOptions, buttonSensorUnit.Text);
-                    if (BleMvxApplication._rfMicro_SensorUnit != 0)
-                        BleMvxApplication._rfMicro_SensorUnit += 2;
+                case 0: // Sensor code
+                    switch (Array.IndexOf(_sensorCodeUnitOptions, buttonSensorUnit.Text))
+                    {
+                        case 0: // RAW
+                            BleMvxApplication._rfMicro_SensorUnit = 1;
+                            break;
+
+                        default: // Dry / Wet
+                            BleMvxApplication._rfMicro_SensorUnit = 4;
+                            break;
+                    }
                     break;
-                default:
-                    BleMvxApplication._rfMicro_SensorUnit = Array.IndexOf(_temperatureUnitOptions, buttonSensorUnit.Text);
+                default: // Temperature
+                    switch (Array.IndexOf(_temperatureUnitOptions, buttonSensorUnit.Text))
+                    {
+                        case 0: // Ave Sensor code
+                            BleMvxApplication._rfMicro_SensorUnit = 0;
+                            break;
+
+                        case 1: // Temperature F
+                            BleMvxApplication._rfMicro_SensorUnit = 2;
+                            break;
+
+                        default: // Temperature C
+                            BleMvxApplication._rfMicro_SensorUnit = 3;
+                            break;
+                    }
                     break;
             }
             BleMvxApplication._rfMicro_minOCRSSI = int.Parse(entryMinOCRSSI.Text);
@@ -218,13 +221,7 @@ namespace BLE.Client.Pages
             BleMvxApplication._rfMicro_thresholdComparison = Array.IndexOf(_thresholdComparisonOptions, buttonThresholdComparison.Text);
             BleMvxApplication._rfMicro_thresholdValue = int.Parse(entryThresholdValue.Text);
             BleMvxApplication._rfMicro_thresholdColor = buttonThresholdColor.Text;
-
-            BleMvxApplication._rfMicro_MinWet = int.Parse(entryMinWet.Text);
-            BleMvxApplication._rfMicro_MaxWet = int.Parse(entryMaxWet.Text);
-            BleMvxApplication._rfMicro_MinDamp = int.Parse(entryMinDamp.Text);
-            BleMvxApplication._rfMicro_MaxDamp = int.Parse(entryMaxDamp.Text);
-            BleMvxApplication._rfMicro_MinDry = int.Parse(entryMinDry.Text);
-            BleMvxApplication._rfMicro_MaxDry = int.Parse(entryMaxDry.Text);
+            BleMvxApplication._rfMicro_WetDryThresholdValue = int.Parse(entryWetDryThreshold.Text);
 
             buttonOK.SetBinding(Button.CommandProperty, new Binding("OnOKButtonCommand"));
             buttonOK.Command.Execute(1);
@@ -278,7 +275,7 @@ namespace BLE.Client.Pages
             switch (index)
             {
                 case 0:
-                    buttonSensorUnit.Text = _sensorCodeUnitOptions[0];
+                    buttonSensorUnit.Text = _sensorCodeUnitOptions[1];
                     break;
                 default:
                     buttonSensorUnit.Text = _temperatureUnitOptions[2];

@@ -82,20 +82,19 @@ namespace BLE.Client.ViewModels
         {
             get
             {
-                switch (BleMvxApplication._rfMicro_SensorUnit)
+                // 0 = Average value, 1 = RAW, 2 = Temperature F, 3 = Temperature C, 4 = Dry/Wet
+               switch (BleMvxApplication._rfMicro_SensorUnit)
                 {
                     case 0:
-                        return "code";
-                    case 1:
-                        return "ºF";
-                    case 2:
-                        return "ºC";
-                    case 3:
-                        return "%";
-                    case 4:
                         return "RAW";
-                    case 5:
-                        return "H";
+                    case 1:
+                        return "RAW";
+                    case 2:
+                        return "ºF";
+                    case 3:
+                        return "ºC";
+                    case 4:
+                        return "D/W";
                 }
                 return "Value";
             }
@@ -246,7 +245,7 @@ namespace BLE.Client.ViewModels
 
             // Setting 1
             BleMvxApplication._reader.rfid.SetTagDelayTime((uint)BleMvxApplication._config.RFID_TagDelayTime);
-            BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_InventoryDuration);
+            BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_Antenna_Dwell);
             SetPower(BleMvxApplication._rfMicro_Power);
 
             // Setting 3
@@ -310,6 +309,27 @@ namespace BLE.Client.ViewModels
             RaisePropertyChanged(() => currentPower);
         }
 
+        void SetConfigPower()
+        {
+            if (BleMvxApplication._reader.rfid.GetAntennaPort() == 1)
+            {
+                if (BleMvxApplication._config.RFID_PowerSequencing_NumberofPower == 0)
+                {
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(0);
+                    BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[0]);
+                }
+                else
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(BleMvxApplication._config.RFID_PowerSequencing_NumberofPower, BleMvxApplication._config.RFID_PowerSequencing_Level, BleMvxApplication._config.RFID_PowerSequencing_DWell);
+            }
+            else
+            {
+                for (uint cnt = BleMvxApplication._reader.rfid.GetAntennaPort() - 1; cnt >= 0; cnt--)
+                {
+                    BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[cnt], cnt);
+                }
+            }
+        }
+
         void SetPower(int index)
         {
             switch (index)
@@ -330,18 +350,8 @@ namespace BLE.Client.ViewModels
                     SetPower(_powerRunning);
                     break;
                 case 4:
-                    //                    BleMvxApplication._reader.rfid.SetPowerLevel((uint)BleMvxApplication._config.RFID_Power);
-                    if (BleMvxApplication._reader.rfid.GetModelName() == "CS108")
-                    {
-                        if (BleMvxApplication._config.RFID_PowerSequencing_NumberofPower == 0)
-                        {
-                            BleMvxApplication._reader.rfid.SetPowerSequencing(0);
-                            BleMvxApplication._reader.rfid.SetPowerLevel((uint)BleMvxApplication._config.RFID_Power);
-                        }
-                        else
-                            BleMvxApplication._reader.rfid.SetPowerSequencing(BleMvxApplication._config.RFID_PowerSequencing_NumberofPower, BleMvxApplication._config.RFID_PowerSequencing_Level, BleMvxApplication._config.RFID_PowerSequencing_DWell);
-                    }
-                    break;
+                    SetConfigPower();
+					break;
             }
         }
 
@@ -584,11 +594,11 @@ namespace BLE.Client.ViewModels
                                 item.TemperatureValue = info.Bank2Data[4].ToString();
                                 break;
 
-                            case 1:
+                            case 2:
                                 item.TemperatureValue = tempF(info.Bank2Data[4], info.Bank1Data[0], info.Bank1Data[1], info.Bank1Data[2], info.Bank1Data[3]).ToString("#0.0");
                                 break;
 
-                            case 2:
+                            case 3:
                                 item.TemperatureValue = temp(info.Bank2Data[4], info.Bank1Data[0], info.Bank1Data[1], info.Bank1Data[2], info.Bank1Data[3]).ToString("#0.0");
                                 break;
                         }
@@ -635,11 +645,11 @@ namespace BLE.Client.ViewModels
                                     TagInfoList[index].TemperatureValue = info.Bank2Data[4].ToString();
                                     break;
 
-                                case 1:
+                                case 2:
                                     TagInfoList[index].TemperatureValue = tempF(info.Bank2Data[4], info.Bank1Data[0], info.Bank1Data[1], info.Bank1Data[2], info.Bank1Data[3]).ToString("#0.0");
                                     break;
 
-                                case 2:
+                                case 3:
                                     TagInfoList[index].TemperatureValue = temp(info.Bank2Data[4], info.Bank1Data[0], info.Bank1Data[1], info.Bank1Data[2], info.Bank1Data[3]).ToString("#0.0");
                                     break;
                             }
