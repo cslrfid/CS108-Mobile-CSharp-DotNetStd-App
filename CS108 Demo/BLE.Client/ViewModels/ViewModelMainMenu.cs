@@ -94,7 +94,8 @@ namespace BLE.Client.ViewModels
 
             CheckConnection();
 
-            BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
+            if (BleMvxApplication._reader.rfid.GetModel() != CSLibrary.Constants.Machine.UNKNOWN)
+                BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
             BleMvxApplication._reader.rfid.Options.TagRanging.focus = false;
             BleMvxApplication._reader.rfid.Options.TagRanging.fastid = false;
         }
@@ -133,12 +134,10 @@ namespace BLE.Client.ViewModels
                 BleMvxApplication._batteryLow = false;
                 RaisePropertyChanged(() => labelVoltageTextColor);
 
-                // for cloud server
-                //BleMvxApplication._reader.siliconlabIC.GetSerialNumber();
-
                 // Set Country and Region information
-                if (BleMvxApplication._config.RFID_Region == CSLibrary.Constants.RegionCode.UNKNOWN)
+                if (BleMvxApplication._config.RFID_Region == CSLibrary.Constants.RegionCode.UNKNOWN || BleMvxApplication._config.readerModel != BleMvxApplication._reader.rfid.GetModel())
                 {
+                    BleMvxApplication._config.readerModel = BleMvxApplication._reader.rfid.GetModel();
                     BleMvxApplication._config.RFID_Region = BleMvxApplication._reader.rfid.SelectedRegionCode;
 
                     if (BleMvxApplication._reader.rfid.IsFixedChannel)
@@ -166,12 +165,12 @@ namespace BLE.Client.ViewModels
                         break;
                 }
 
-                if (BleMvxApplication._reader.rfid.GetModelName() != "CS108")
-                for (int cnt = 0; cnt < 4; cnt++)
+                uint portNum = BleMvxApplication._reader.rfid.GetAntennaPort();
+                for (uint cnt = 0; cnt < portNum; cnt++)
                 {
-                    BleMvxApplication._reader.rfid.SetAntennaPortState((uint)cnt, BleMvxApplication._config.RFID_AntennaEnable[cnt] ? CSLibrary.Constants.AntennaPortState.ENABLED : CSLibrary.Constants.AntennaPortState.DISABLED);
+                    BleMvxApplication._reader.rfid.SetAntennaPortState(cnt, BleMvxApplication._config.RFID_AntennaEnable[cnt] ? CSLibrary.Constants.AntennaPortState.ENABLED : CSLibrary.Constants.AntennaPortState.DISABLED);
                     BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[cnt], cnt);
-                    BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_Antenna_Dwell[cnt], (uint)cnt);
+                    BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_Antenna_Dwell[cnt], cnt);
                 }
 
                 if ((BleMvxApplication._reader.bluetoothIC.GetFirmwareVersion() & 0x0F0000) != 0x030000) // ignore CS463
@@ -307,13 +306,20 @@ namespace BLE.Client.ViewModels
 
         void OnInventoryButtonClicked()
         {
-            if (BleMvxApplication._reader.Status == CSLibrary.HighLevelInterface.READERSTATE.DISCONNECT)
+            if (BleMvxApplication._reader.BLEBusy)
             {
-                ShowConnectionWarringMessage();
-                return;
+                _userDialogs.ShowSuccess("Configuring Reader, Please Wait", 1000);
             }
+            else
+            {
+                if (BleMvxApplication._reader.Status == CSLibrary.HighLevelInterface.READERSTATE.DISCONNECT)
+                {
+                    ShowConnectionWarringMessage();
+                    return;
+                }
 
-            ShowViewModel<ViewModelInventorynScan>(new MvxBundle());
+                ShowViewModel<ViewModelInventorynScan>(new MvxBundle());
+            }
         }
 
         public ICommand OnReadWriteButtonCommand { protected set; get; }

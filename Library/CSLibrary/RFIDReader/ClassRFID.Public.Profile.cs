@@ -43,6 +43,9 @@ namespace CSLibrary
                 case RegionCode.KR:
                     return new uint[] { 0, 1, 2 };
 
+                case RegionCode.JP:
+                    return new uint[] { 1, 2 };
+
                 default:
                     return new uint[] { 0, 1, 2, 3 };
             }

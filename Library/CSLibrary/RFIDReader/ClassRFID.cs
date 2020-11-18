@@ -122,6 +122,11 @@ namespace CSLibrary
             return m_oem_machine.ToString();
         }
 
+        public Machine GetModel()
+        {
+            return m_oem_machine;
+        }
+
         public string GetCountryCode()
         {
             string country = "-" + m_save_country_code.ToString();
@@ -298,7 +303,7 @@ namespace CSLibrary
 
                     info.epc = new S_EPC(byteEpc);
 
-                    newInventoryPacketOffset += (uint)(2 + epcbytelen + 1);
+                    newInventoryPacketOffset += (uint)(2 + xpcoffset + epcbytelen + 1);
 
                     switch (CurrentOperation)
                     {
@@ -2002,6 +2007,17 @@ namespace CSLibrary
 
 			return Result.OK;
 		}
+
+        public Result SetInventoryDuration(uint [] duration)
+        {
+            Result r;
+
+			for (uint cnt = 0; cnt < duration.Length; cnt++)
+                if ((r = SetInventoryDuration(duration[cnt], cnt)) != Result.OK)
+                    return r;
+
+            return Result.OK;
+        }
 
         #endregion
 

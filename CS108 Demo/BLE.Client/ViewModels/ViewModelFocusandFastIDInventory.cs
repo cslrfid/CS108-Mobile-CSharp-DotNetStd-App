@@ -102,6 +102,7 @@ namespace BLE.Client.ViewModels
             OnClearButtonCommand = new Command(ClearClick);
 
             SetEvent(true);
+            InventorySetting(); // reset inventory setting
         }
 
         ~ViewModelFocusandFastIDInventory()
@@ -178,8 +179,31 @@ namespace BLE.Client.ViewModels
             }
         }
 
+        void SetConfigPower()
+        {
+            if (BleMvxApplication._reader.rfid.GetAntennaPort() == 1)
+            {
+                if (BleMvxApplication._config.RFID_PowerSequencing_NumberofPower == 0)
+                {
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(0);
+                    BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[0]);
+                }
+                else
+                    BleMvxApplication._reader.rfid.SetPowerSequencing(BleMvxApplication._config.RFID_PowerSequencing_NumberofPower, BleMvxApplication._config.RFID_PowerSequencing_Level, BleMvxApplication._config.RFID_PowerSequencing_DWell);
+            }
+            else
+            {
+                for (uint cnt = BleMvxApplication._reader.rfid.GetAntennaPort() - 1; cnt >= 0; cnt--)
+                {
+                    BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[cnt], cnt);
+                }
+            }
+        }
+
         void InventorySetting()
         {
+            BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
+
             switch (BleMvxApplication._config.RFID_FrequenceSwitch)
             {
                 case 0:
@@ -195,39 +219,29 @@ namespace BLE.Client.ViewModels
 
             BleMvxApplication._reader.rfid.Options.TagRanging.flags = CSLibrary.Constants.SelectFlags.ZERO;
 
+            BleMvxApplication._reader.rfid.SetTagDelayTime((uint)BleMvxApplication._config.RFID_TagDelayTime);
+            BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_Antenna_Dwell);
+
             // Setting 1
-            if (BleMvxApplication._reader.rfid.GetModelName() == "CS108")
+            SetConfigPower();
+
+            if (BleMvxApplication._focus)
             {
-                if (BleMvxApplication._config.RFID_PowerSequencing_NumberofPower == 0)
-                {
-                    BleMvxApplication._reader.rfid.SetPowerSequencing(0);
-                    BleMvxApplication._reader.rfid.SetPowerLevel((uint)BleMvxApplication._config.RFID_Power);
-                }
-                else
-                    BleMvxApplication._reader.rfid.SetPowerSequencing(BleMvxApplication._config.RFID_PowerSequencing_NumberofPower, BleMvxApplication._config.RFID_PowerSequencing_Level, BleMvxApplication._config.RFID_PowerSequencing_DWell);
-            }
-
-            // Setting 3  // MUST SET for RFMicro
-            if (BleMvxApplication._reader.rfid.Options.TagRanging.focus)
                 BleMvxApplication._config.RFID_DynamicQParms.toggleTarget = 0;
-            else
-                BleMvxApplication._config.RFID_DynamicQParms.toggleTarget = BleMvxApplication._config.RFID_ToggleTarget ? 1U : 0;
-            BleMvxApplication._reader.rfid.SetDynamicQParms(BleMvxApplication._config.RFID_DynamicQParms);
-
-            // Setting 4
-            if (BleMvxApplication._reader.rfid.Options.TagRanging.focus)
                 BleMvxApplication._config.RFID_FixedQParms.toggleTarget = 0;
-            else
-                BleMvxApplication._config.RFID_FixedQParms.toggleTarget = BleMvxApplication._config.RFID_ToggleTarget ? 1U : 0;
-            BleMvxApplication._reader.rfid.SetFixedQParms(BleMvxApplication._config.RFID_FixedQParms);
-
-            // Setting 2
-            if (BleMvxApplication._reader.rfid.Options.TagRanging.focus)
                 BleMvxApplication._reader.rfid.SetTagGroup(CSLibrary.Constants.Selected.ASSERTED, CSLibrary.Constants.Session.S1, CSLibrary.Constants.SessionTarget.A);
+            }
+            else
+            {
+                BleMvxApplication._config.RFID_DynamicQParms.toggleTarget = BleMvxApplication._config.RFID_ToggleTarget ? 1U : 0;
+                BleMvxApplication._config.RFID_FixedQParms.toggleTarget = BleMvxApplication._config.RFID_ToggleTarget ? 1U : 0;
+                BleMvxApplication._reader.rfid.SetTagGroup(BleMvxApplication._config.RFID_TagGroup);
+            }
+            BleMvxApplication._reader.rfid.SetDynamicQParms(BleMvxApplication._config.RFID_DynamicQParms);
+            BleMvxApplication._reader.rfid.SetFixedQParms(BleMvxApplication._config.RFID_FixedQParms);
+            BleMvxApplication._reader.rfid.SetCurrentSingulationAlgorithm(BleMvxApplication._config.RFID_Algorithm);
 
             BleMvxApplication._reader.rfid.SetOperationMode(BleMvxApplication._config.RFID_OperationMode);
-            //BleMvxApplication._reader.rfid.SetTagGroup(CSLibrary.Constants.Selected.ASSERTED, CSLibrary.Constants.Session.S1, CSLibrary.Constants.SessionTarget.A);
-            BleMvxApplication._reader.rfid.SetCurrentSingulationAlgorithm(BleMvxApplication._config.RFID_Algorithm);
             BleMvxApplication._reader.rfid.SetCurrentLinkProfile(BleMvxApplication._config.RFID_Profile);
 
             // Set Post Filter
@@ -256,8 +270,6 @@ namespace BLE.Client.ViewModels
         {
             if (_startInventory == false)
                 return;
-
-            InventorySetting(); // reset inventory setting
 
             StartTagCount();
             {

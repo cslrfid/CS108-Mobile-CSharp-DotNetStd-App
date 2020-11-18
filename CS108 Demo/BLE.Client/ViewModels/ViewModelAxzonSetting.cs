@@ -60,9 +60,12 @@ namespace BLE.Client.ViewModels
                 {
                     switch(BleMvxApplication._rfMicro_TagType)
                     {
-                        case 0:
-                        case 1:
-                            ShowViewModel<ViewModelRFMicroInventory>(new MvxBundle());
+                        case 0: // S2
+                            ShowViewModel<ViewModelRFMicroS2Inventory>(new MvxBundle());
+                            break;
+
+                        case 1: // S3
+                            ShowViewModel<ViewModelRFMicroS3Inventory>(new MvxBundle());
                             break;
 
                         case 2:

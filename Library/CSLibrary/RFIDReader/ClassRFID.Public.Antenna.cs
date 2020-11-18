@@ -575,6 +575,10 @@ namespace CSLibrary
             return Result.OK;
         }
 
+        public uint GetAntennaPort()
+        {
+            return (uint)m_AntennaList.Count;
+		}
 
     }
 }

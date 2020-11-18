@@ -52,15 +52,15 @@ namespace BLE.Client
         }
 
         public string readerID = "";
+        public CSLibrary.Constants.Machine readerModel = CSLibrary.Constants.Machine.UNKNOWN;
 
         public int BatteryLevelIndicatorFormat = 1; // 0 = voltage, other = percentage 
 
-        public int RFID_Power;
+        //public int RFID_Power;
         public uint RFID_Profile;
         public int RFID_TagDelayTime;
-        public UInt32 RFID_InventoryDuration;
+        //public UInt32 RFID_InventoryDuration;
         public CSLibrary.Constants.RadioOperationMode RFID_OperationMode;
-        //public uint RFID_DWellTime;
         public uint RFID_TagPopulation;
         public bool RFID_ToggleTarget = true;
         public CSLibrary.Structures.TagGroup RFID_TagGroup;
@@ -105,12 +105,12 @@ namespace BLE.Client
         public uint[] RFID_Antenna_Dwell = new uint[16] { 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000 };
 
         public int RFID_PowerSequencing_NumberofPower = 0;
-        //public uint[] RFID_PowerSequencing_Level = new uint[16] {150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300 };
         public uint[] RFID_PowerSequencing_Level = new uint[16] { 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300 };
         public uint[] RFID_PowerSequencing_DWell = new uint[16] { 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000 };
 
         public bool RFID_NewTagLocation = false;
-        public bool RFID_Focus = false; 
+        public int RFID_ShareFormat = 0;  // 0 = JSON, 1 = CSV
+        public bool RFID_Focus = false;
 
         // LNA setting
         public int RFID_RFLNAcompression = 1;
@@ -120,11 +120,32 @@ namespace BLE.Client
 
         public CONFIG()
         {
-            RFID_Power = 300;
-            //RFID_DWellTime = 0;
+            int port = 16;
+
             RFID_TagPopulation = 30;
             RFID_TagDelayTime = 0;
-            RFID_InventoryDuration = 0;
+
+            RFID_AntennaEnable = new bool[port];
+            RFID_Antenna_Power = new uint[port];
+            RFID_Antenna_Dwell = new uint[port];
+            for (uint cnt = 0; cnt < port; cnt ++)
+            {
+                RFID_Antenna_Power[cnt] = 300;
+
+                if (cnt == 0)
+                {
+                    RFID_AntennaEnable[0] = true;
+					if (port == 1)
+						RFID_Antenna_Dwell[0] = 0;
+					else
+                        RFID_Antenna_Dwell[0] = 2000;
+                }
+                else
+                {
+                    RFID_AntennaEnable[cnt] = false;
+                    RFID_Antenna_Dwell[cnt] = 2000;
+                }
+            }
 
             RFID_OperationMode = CSLibrary.Constants.RadioOperationMode.CONTINUOUS;
             RFID_TagGroup = new CSLibrary.Structures.TagGroup(CSLibrary.Constants.Selected.ALL, CSLibrary.Constants.Session.S0, CSLibrary.Constants.SessionTarget.A);
@@ -230,18 +251,13 @@ namespace BLE.Client
         public static int _rfMicro_Power; // 0 ~ 4
         public static int _rfMicro_Target; // 0 = A, 1 = B, 2 = Toggle
         public static int _rfMicro_SensorType; // 0=Sensor code, 1=Temperature
-        public static int _rfMicro_SensorUnit; // 0=code, 1=f, 2=c, 3=%
+        public static int _rfMicro_SensorUnit; // 0 = Average value, 1 = RAW, 2 = Temperature F, 3 = Temperature C, 4 = Dry/Wet
         public static int _rfMicro_minOCRSSI;
         public static int _rfMicro_maxOCRSSI;
         public static int _rfMicro_thresholdComparison; // 0 ~ 1
         public static int _rfMicro_thresholdValue;
         public static string _rfMicro_thresholdColor;
-        public static int _rfMicro_MinWet;
-        public static int _rfMicro_MaxWet;
-        public static int _rfMicro_MinDamp;
-        public static int _rfMicro_MaxDamp;
-        public static int _rfMicro_MinDry;
-        public static int _rfMicro_MaxDry;
+        public static int _rfMicro_WetDryThresholdValue;
 
         //for ColdChain
         public static int _coldChain_TempOffset;
@@ -265,6 +281,8 @@ namespace BLE.Client
         // for Geiger Demo 
         public static int _geiger_Bank = 1;
 
+        // for Large Content
+        public static string _LargeContent = "";
 
     public override void Initialize()
         {
@@ -288,8 +306,6 @@ namespace BLE.Client
         {
             try
             {
-                _config = new CONFIG();
-
                 IFolder rootFolder = FileSystem.Current.LocalStorage;
                 IFolder sourceFolder = await FileSystem.Current.LocalStorage.CreateFolderAsync("CSLReader", CreationCollisionOption.OpenIfExists);
                 IFile sourceFile = await sourceFolder.CreateFileAsync(readerID + ".cfg", CreationCollisionOption.OpenIfExists);
@@ -301,6 +317,10 @@ namespace BLE.Client
                 {
                     _config = setting;
                     return true;
+                }
+                else
+                {
+                    _config = new CONFIG();
                 }
             }
             catch (Exception ex)
@@ -319,11 +339,13 @@ namespace BLE.Client
             await sourceFile.WriteAllTextAsync(contentJSON);
         }
 
-        static public void ResetConfig()
+        static public void ResetConfig(uint port = 1)
         {
             var readerID = _config.readerID;
+            var readerModel = _config.readerModel;
             _config = new CONFIG();
             _config.readerID = readerID;
+            _config.readerModel = readerModel;
         }
 
     }

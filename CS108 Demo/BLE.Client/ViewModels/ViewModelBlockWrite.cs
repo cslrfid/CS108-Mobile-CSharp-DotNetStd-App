@@ -24,18 +24,21 @@ namespace BLE.Client.ViewModels
         public string buttonBankText { get; set; }
         public string buttonSizeText { get; set; }
         public string buttonPaddingText { get; set; }
+        public string entryReadChunkSizeText { get; set; }
         public string entryOffsetText { get; set; }
         public string entryLengthText { get; set; }
         public string buttonResultText { get; set; }
 
         public ICommand buttonBlockWriteCommand { protected set; get; }
         public ICommand buttonReadVerifyCommand { protected set; get; }
+        public ICommand buttonViewReadDataCommand { protected set; get; }
         public ICommand buttonBlockWritewOffsetnCountCommand { protected set; get; }
 
         DateTime _startingTime;
         UInt16 _CurrentPadding;
         UInt16 _RemainWriteSize;
         UInt16 _RemainReadSize;
+        UInt16 _ReadChunkSize = 48;
 
         string[] _bankOptions = new string[] { "Bank3 (User Bank)", "Bank1 (EPC Bank)" };
         string[] _sizeOptions = new string[] { "4K bit", "8K bit" };
@@ -48,14 +51,17 @@ namespace BLE.Client.ViewModels
 
             buttonBlockWriteCommand = new Command(buttonBlockWriteClicked);
             buttonReadVerifyCommand = new Command(buttonReadVerifyClicked);
+            buttonViewReadDataCommand = new Command(buttonViewReadDataClicked);
             buttonBlockWritewOffsetnCountCommand = new Command(buttonBlockWritewOffsetnCount);
 
             editorSelectedEPCText = BleMvxApplication._SELECT_EPC;
             buttonBankText = _bankOptions[0];
             buttonSizeText = _sizeOptions[0];
             buttonPaddingText = _paddingOptions[0];
+            entryReadChunkSizeText = "48";
             entryOffsetText = "0";
-            entryLengthText = "255";
+            entryLengthText = "256";
+            BleMvxApplication._LargeContent = "";
 
             UpdatePage();
 
@@ -89,6 +95,7 @@ namespace BLE.Client.ViewModels
                 RaisePropertyChanged(() => buttonBankText);
                 RaisePropertyChanged(() => buttonSizeText);
                 RaisePropertyChanged(() => buttonPaddingText);
+                RaisePropertyChanged(() => entryReadChunkSizeText);
                 RaisePropertyChanged(() => entryOffsetText);
                 RaisePropertyChanged(() => entryLengthText);
                 RaisePropertyChanged(() => buttonResultText);
@@ -113,13 +120,15 @@ namespace BLE.Client.ViewModels
                             {
                                 int i;
                                 UInt16[] data = BleMvxApplication._reader.rfid.Options.TagRead.pData.ToUshorts();
+                                BleMvxApplication._LargeContent += BleMvxApplication._reader.rfid.Options.TagRead.pData.ToString();
 
                                 CSLibrary.Debug.WriteLine("Read Test : Offset " + BleMvxApplication._reader.rfid.Options.TagRead.offset.ToString() + " Result : " + (e.success ? "Success" : "Fail"));
 
                                 CSLibrary.Debug.WriteLine("1");
-                                if (data.Length != 32)
+                                if (data.Length != BleMvxApplication._reader.rfid.Options.TagRead.count)
                                 {
-                                    CSLibrary.Debug.WriteLine("Size error");
+                                    buttonResultText = "Read size error : Offset " + (BleMvxApplication._reader.rfid.Options.TagRead.offset).ToString() + " Count " + data.Length.ToString();
+                                    break;
                                 }
                                 CSLibrary.Debug.WriteLine("2");
 
@@ -142,9 +151,17 @@ namespace BLE.Client.ViewModels
                                     }
                                     else
                                     {
-                                        BleMvxApplication._reader.rfid.Options.TagRead.offset += 32;
-                                        _RemainReadSize -= 32;
-
+                                        BleMvxApplication._reader.rfid.Options.TagRead.offset += _ReadChunkSize;
+                                        if (_RemainReadSize > _ReadChunkSize)
+                                        {
+                                            BleMvxApplication._reader.rfid.Options.TagRead.count = _ReadChunkSize;
+                                            _RemainReadSize -= _ReadChunkSize;
+                                        }
+                                        else
+                                        {
+                                            BleMvxApplication._reader.rfid.Options.TagRead.count = _RemainReadSize;
+                                            _RemainReadSize = 0;
+                                        }
                                         buttonResultText = "Reading... Offset " + BleMvxApplication._reader.rfid.Options.TagRead.offset.ToString();
                                         BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_READ);
                                         CSLibrary.Debug.WriteLine("5");
@@ -210,9 +227,12 @@ namespace BLE.Client.ViewModels
 
         async void buttonReadVerifyClicked()
         {
+            BleMvxApplication._LargeContent = "";
+
             UpdatePage();
             int paddingType = Array.IndexOf(_paddingOptions, buttonPaddingText);
 
+            _ReadChunkSize = UInt16.Parse(entryReadChunkSizeText);
             _RemainReadSize = (UInt16)(((Array.IndexOf(_sizeOptions, buttonSizeText)) == 1) ? 512 : 256);
             _CurrentPadding = _paddingValue[paddingType];
 
@@ -230,13 +250,18 @@ namespace BLE.Client.ViewModels
             }
             BleMvxApplication._reader.rfid.Options.TagRead.accessPassword = 0;
             BleMvxApplication._reader.rfid.Options.TagRead.offset = 0; // 0
-            BleMvxApplication._reader.rfid.Options.TagRead.count = 32; // max 32 word
-            _RemainReadSize -= 32;
+            BleMvxApplication._reader.rfid.Options.TagRead.count = _ReadChunkSize; // max 253 word
+            _RemainReadSize -= _ReadChunkSize;
 
             buttonResultText = buttonSizeText + " Reading...";
             UpdatePage();
             _startingTime = DateTime.Now;
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_READ);
+        }
+
+        async void buttonViewReadDataClicked()
+        {
+            ShowViewModel<ViewModelViewPage>(new MvxBundle());
         }
 
         async void buttonBlockWritewOffsetnCount()
@@ -308,5 +333,6 @@ namespace BLE.Client.ViewModels
 
             BleMvxApplication._reader.rfid.Options.TagBlockWrite.data = data;
         }
+
     }
 }

@@ -15,12 +15,12 @@
 
             <StackLayout Orientation="Horizontal" >
                 <Label Text="Power"  VerticalOptions="Start" MinimumWidthRequest="150" />
-                <Entry x:Name="entryPower1" />
+                <Entry x:Name="entryPower1" MinimumWidthRequest="300" />
             </StackLayout>
 
             <StackLayout Orientation="Horizontal" >
                 <Label Text="Dwell"  VerticalOptions="Start" MinimumWidthRequest="150" />
-                <Entry x:Name="entryDwell1" />
+				<Entry x:Name="entryDwell1" MinimumWidthRequest="300" />
             </StackLayout>
             
             <BoxView x:Name="boxview2" HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>

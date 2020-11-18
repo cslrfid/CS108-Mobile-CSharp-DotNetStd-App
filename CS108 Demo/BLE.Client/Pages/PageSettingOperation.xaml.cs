@@ -55,7 +55,8 @@ namespace BLE.Client.Pages
             CSLibrary.Constants.RegionCode.PA,
             CSLibrary.Constants.RegionCode.PE,
             CSLibrary.Constants.RegionCode.UY,
-            CSLibrary.Constants.RegionCode.BA
+            CSLibrary.Constants.RegionCode.BA,
+            CSLibrary.Constants.RegionCode.VI
         };
         string[] _regionsName = new string[] {
             "USACanada",
@@ -96,7 +97,8 @@ namespace BLE.Client.Pages
             "Panama",
             "Peru",
             "Uruguay",
-            "Bangladesh"
+            "Bangladesh",
+            "Vietnam"
         };
 
         //        string[] _profileList = { "0 for Fade Resistance", "1 for Range", "2 for Range & Throughput", "3 for Max Throughput" };
@@ -124,7 +126,9 @@ namespace BLE.Client.Pages
                 this.Icon.File = "icons8-Settings-50-1-30x30.png";
             }
 
-            var countryCode = BleMvxApplication._reader.rfid.GetCountryCode();
+            stackLayoutInventoryDuration.IsVisible = stackLayoutPower.IsVisible = (BleMvxApplication._reader.rfid.GetAntennaPort() == 1);
+
+        var countryCode = BleMvxApplication._reader.rfid.GetCountryCode();
 
             if (countryCode == "-2")
                 _regionsName[0] = "FCC";
@@ -180,7 +184,7 @@ namespace BLE.Client.Pages
                 buttonFrequencyOrder.IsEnabled = false;
             buttonFixedChannel.Text = ActiveFrequencyTextList[BleMvxApplication._config.RFID_FixedChannel];
             checkbuttonFixedChannel();
-            entryPower.Text = BleMvxApplication._config.RFID_Power.ToString();
+            entryPower.Text = BleMvxApplication._config.RFID_Antenna_Power[0].ToString();
             entryTagPopulation.Text = BleMvxApplication._config.RFID_TagPopulation.ToString();
             if (BleMvxApplication._config.RFID_QOverride)
             {
@@ -207,7 +211,7 @@ namespace BLE.Client.Pages
             SetQvalue();
 
             entryTagDelay.Text = BleMvxApplication._config.RFID_TagDelayTime.ToString();
-            entryInventoryDuration.Text = BleMvxApplication._config.RFID_InventoryDuration.ToString();
+            entryInventoryDuration.Text = BleMvxApplication._config.RFID_Antenna_Dwell[0].ToString();
             //switchNewTagLocation.IsToggled = BleMvxApplication._config.RFID_NewTagLocation;
             switchFocus.IsToggled = BleMvxApplication._config.RFID_Focus;
             buttonRFLNAcompression.Text = BleMvxApplication._config.RFID_RFLNAcompression.ToString();
@@ -285,7 +289,7 @@ namespace BLE.Client.Pages
             if (cnt == ActiveFrequencyTextList.Length)
                 BleMvxApplication._config.RFID_FixedChannel = 0;
 
-            BleMvxApplication._config.RFID_Power = UInt16.Parse(entryPower.Text);
+            BleMvxApplication._config.RFID_Antenna_Power[0] = UInt16.Parse(entryPower.Text);
 
             BleMvxApplication._config.RFID_TagPopulation = UInt16.Parse(entryTagPopulation.Text);
 
@@ -359,7 +363,7 @@ namespace BLE.Client.Pages
             */
             
             BleMvxApplication._config.RFID_TagDelayTime = int.Parse(entryTagDelay.Text);
-            BleMvxApplication._config.RFID_InventoryDuration = UInt32.Parse(entryInventoryDuration.Text);
+            BleMvxApplication._config.RFID_Antenna_Dwell[0] = UInt32.Parse(entryInventoryDuration.Text);
             //BleMvxApplication._config.RFID_NewTagLocation = switchNewTagLocation.IsToggled;
             BleMvxApplication._config.RFID_Focus = switchFocus.IsToggled;
             BleMvxApplication._config.RFID_RFLNAcompression = int.Parse(buttonRFLNAcompression.Text);

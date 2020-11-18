@@ -77,14 +77,32 @@ namespace CSLibrary
             return Result.OK;
         }
         */
-
-        public Result SetPowerLevel(UInt32 pwrlevel, int port = 0)
+        public Result SetPowerLevel(uint pwrlevel, uint port = 0)
         {
             if (pwrlevel > 330)
                 pwrlevel = 330;
 
-            MacWriteRegister(MACREGISTER.HST_ANT_DESC_SEL, (uint)port);         // select antenna
+            MacWriteRegister(MACREGISTER.HST_ANT_DESC_SEL, port);         // select antenna
             MacWriteRegister(MACREGISTER.HST_ANT_DESC_RFPOWER, pwrlevel);
+
+            return Result.OK;
+        }
+
+        public Result SetPowerLevel(int pwrlevel, uint port = 0)
+        {
+            if (pwrlevel < 0)
+                return Result.INVALID_PARAMETER;
+
+            return SetPowerLevel((uint)pwrlevel, port);
+        }
+
+        public Result SetPowerLevel(UInt32 [] pwrlevel)
+        {
+            Result r;
+
+            for (uint cnt = 0; cnt < pwrlevel.Length; cnt++)
+                if ((r = SetPowerLevel(pwrlevel[cnt], cnt)) != Result.OK)
+                    return r;
 
             return Result.OK;
         }
@@ -124,12 +142,11 @@ namespace CSLibrary
         /// <returns></returns>
         public Result SetPowerSequencing(int numberofPower, uint[] power = null, uint[] dwell = null)
         {
-            int i;
-
             if (numberofPower == 0)
             {
                 try
                 {
+                    int i;
                     for (i = 0; i < m_AntennaList.Count; i++)
                     {
                         if (m_AntennaList[i].PowerLevel > GetSoftwareMaxPowerLevel(m_save_region_code))
@@ -156,23 +173,20 @@ namespace CSLibrary
                 return Result.INVALID_PARAMETER;
             }
 
-            for (i = 0; i < numberofPower; i++)
             {
-                SetPowerLevel(power[i], i);
-                SetInventoryDuration(dwell[i], (uint)i);
-                AntennaPortSetState((uint)i, AntennaPortState.ENABLED);
+                uint i;
 
-                /*
-                Antenna portConf = new Antenna((uint)i, AntennaPortState.ENABLED, power[i], dwell[i], 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575);
+                for (i = 0; i < numberofPower; i++)
+                {
+                    AntennaPortSetState((uint)i, AntennaPortState.ENABLED);
+                    SetPowerLevel(power[i], i);
+                    SetInventoryDuration(dwell[i], i);
+                }
 
-                SetAntennaPortStatus((uint)i, portConf.AntennaStatus);
-                SetAntennaPortConfiguration((uint)i, portConf.AntennaConfig);
-                */
-            }
-
-            for (; i < 16; i++)
-            {
-                AntennaPortSetState((uint)i, AntennaPortState.DISABLED);
+                for (; i < 16; i++)
+                {
+                    AntennaPortSetState((uint)i, AntennaPortState.DISABLED);
+                }
             }
 
             return Result.OK;

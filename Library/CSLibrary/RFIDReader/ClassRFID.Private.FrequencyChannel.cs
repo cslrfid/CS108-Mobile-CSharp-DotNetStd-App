@@ -680,7 +680,7 @@ namespace CSLibrary
             0x00301CE1, /*924.125MHz   */
         };
         #endregion
-        #region Hong Kong and Singapo
+        #region Singapo
         /// <summary>
         /// Hong Kong and Singapo Frequency Table
         /// </summary>
@@ -714,6 +714,135 @@ namespace CSLibrary
         private readonly uint[] hkFreqSortedIdx = new uint[]{
             0, 3, 7, 1,
             3, 5, 6, 2,
+        };
+        #endregion
+
+        #region OFCA (Hong Kong)
+        /// <summary>
+        /// Hong Kong and Singapo Frequency Table
+        /// </summary>
+        private readonly double[] OFCATableOfFreq = new double[]
+        {
+ 920.416, // CH1
+ 920.500, // CH2
+ 920.583, // CH3	
+ 920.666, // CH4
+ 920.750, // CH5
+ 920.833, // CH6
+ 920.916, // CH7
+ 921.000, // CH8
+ 921.083, // CH9
+ 921.166, // CH10
+ 921.250, // CH11	
+ 921.333, // CH12
+ 921.416, // CH13	
+ 921.500, // CH14	
+ 921.583, // CH15	
+ 921.666, // CH16 	
+ 921.750, // CH17
+ 921.833, // CH18
+ 921.916, // CH19
+ 922.000, // CH20	
+ 922.083, // CH21
+ 922.166, // CH22
+ 922.250, // CH23	
+ 922.333, // CH24
+ 922.416, // CH25
+ 922.500, // CH26 
+ 922.583, // CH27
+ 922.666, // CH28
+ 922.750, // CH29
+ 922.833, // CH30
+ 922.916, // CH31
+ 923.000, // CH32 	
+ 923.083, // CH33
+ 923.166, // CH34	
+ 923.250, // CH35	
+ 923.333, // CH36 	
+ 923.416, // CH37	
+ 923.500, // CH38
+ 923.583, // CH39
+ 923.666, // CH40	
+ 923.750, // CH41	
+ 923.833, // CH42
+ 923.916, // CH43
+ 924.000, // CH44
+ 924.083, // CH45
+ 924.166, // CH46
+ 924.250, // CH47
+ 924.333, // CH48
+ 924.416, // CH49
+ 924.500 // CH50
+        };
+        /*OK*/
+        private readonly uint[] ofcaFreqTable = new uint[]
+        {
+0x00482B3E,// 922.500 MHz CH26 
+0x00482B49,// 923.416 MHz CH37	
+0x00482B32,// 921.500 MHz CH14	
+0x00482B38,// 922.000 MHz CH20	
+0x00482B44,// 923.000 MHz CH32 	
+0x00482B48,// 923.333 MHz CH36 	
+0x00482B33,// 921.583 MHz CH15	
+0x00482B34,// 921.666 MHz CH16 	
+0x00482B47,// 923.250 MHz CH35	
+0x00482B4D,// 923.750 MHz CH41	
+0x00482B31,// 921.416 MHz CH13	
+0x00482B3B,// 922.250 MHz CH23	
+0x00482B27,// 920.583 MHz CH3	
+0x00482B46,// 923.166 MHz CH34	
+0x00482B4C,// 923.666 MHz CH40	
+0x00482B2F,// 921.250 MHz CH11	
+0x00482B37,// 921.916 MHz CH19
+0x00482B4F,// 923.916 MHz CH43
+0x00482B41,// 922.750 MHz CH29
+0x00482B54,// 924.333 MHz CH48
+0x00482B30,// 921.333 MHz CH12
+0x00482B39,// 922.083 MHz CH21
+0x00482B50,// 924.000 MHz CH44
+0x00482B40,// 924.666 MHz CH28
+0x00482B56,// 924.500 MHz CH50
+0x00482B2E,// 921.166 MHz CH10
+0x00482B35,// 921.750 MHz CH17
+0x00482B26,// 920.500 MHz CH2
+0x00482B43,// 922.916 MHz CH31
+0x00482B55,// 924.416 MHz CH49
+0x00482B2A,// 920.833 MHz CH6
+0x00482B36,// 921.833 MHz CH18
+0x00482B51,// 924.083 MHz CH45
+0x00482B42,// 922.833 MHz CH30
+0x00482B53,// 924.250 MHz CH47
+0x00482B2D,// 921.083 MHz CH9
+0x00482B3C,// 922.333 MHz CH24
+0x00482B29,// 920.750 MHz CH5
+0x00482B45,// 923.083 MHz CH33
+0x00482B4E,// 923.833 MHz CH42
+0x00482B25,// 920.416 MHz CH1
+0x00482B3D,// 922.416 MHz CH25
+0x00482B2B,// 920.916 MHz CH7
+0x00482B3F,// 922.583 MHz CH27
+0x00482B52,// 924.166 MHz CH46
+0x00482B2C,// 921.000 MHz CH8
+0x00482B4A,// 923.500 MHz CH38
+0x00482B3A,// 922.166 MHz CH22
+0x00482B4B,// 923.583 MHz CH39
+0x00482B28 // 920.666 MHz CH4
+        };
+        /// <summary>
+        /// Hong Kong Frequency Channel number
+        /// </summary>
+        private const uint OFCA_CHN_CNT = 50;
+        private readonly uint[] ofcaFreqSortedIdx = new uint[]{
+25, 36, 13, 19, 31,
+35, 14, 15, 34, 40,
+12, 22, 2, 33, 39,
+10, 18, 42, 28, 47,
+11, 20, 43, 27, 49,
+9, 16, 1, 30, 48,
+5, 17, 44, 29, 46,
+8, 23, 4, 32, 41,
+0, 24, 6, 26, 45,
+7, 37, 21, 38, 3
         };
         #endregion
 
@@ -2027,8 +2156,10 @@ namespace CSLibrary
                 case RegionCode.KR:
                     return KR_CHN_CNT;
                 case RegionCode.HK:
+                    return OFCA_CHN_CNT;
                 case RegionCode.SG:
                 case RegionCode.TH:
+                case RegionCode.VI:
                     return HK_CHN_CNT;
                 case RegionCode.AU:
                     return AUS_CHN_CNT;
@@ -2113,8 +2244,10 @@ namespace CSLibrary
                 case RegionCode.KR:
                     return krFreqTable;
                 case RegionCode.HK:
+                    return ofcaFreqTable;
                 case RegionCode.SG:
                 case RegionCode.TH:
+                case RegionCode.VI:
                     return hkFreqTable;
                 case RegionCode.AU:
                     return AusFreqTable;
@@ -2240,8 +2373,10 @@ namespace CSLibrary
                 case RegionCode.KR:
                     return krFreqSortedIdx;
                 case RegionCode.HK:
+                    return ofcaFreqSortedIdx;
                 case RegionCode.SG:
                 case RegionCode.TH:
+                case RegionCode.VI:
                     return hkFreqSortedIdx;
                 case RegionCode.AU:
                     return ausFreqSortedIdx;
@@ -2341,8 +2476,10 @@ namespace CSLibrary
                 case RegionCode.FCC:
                     return FCCTableOfFreq;
                 case RegionCode.HK:
+                    return OFCATableOfFreq;
                 case RegionCode.SG:
                 case RegionCode.TH:
+                case RegionCode.VI:
                     return HKTableOfFreq;
                 case RegionCode.JP:
                     return JPN2012TableOfFreq;

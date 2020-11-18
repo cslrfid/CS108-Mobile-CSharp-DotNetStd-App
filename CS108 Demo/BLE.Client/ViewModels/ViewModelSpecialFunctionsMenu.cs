@@ -44,10 +44,15 @@ namespace BLE.Client.ViewModels
         public ICommand OnRFMicroButtonCommand { protected set; get; }
         public ICommand OnXerxesButtonCommand { protected set; get; }
         public ICommand OnBlockWriteButtonCommand { protected set; get; }
+        public ICommand OnReadButtonCommand { protected set; get; }
         public ICommand OnCS83045ButtonCommand { protected set; get; }
         public ICommand OnCS9010ButtonCommand { protected set; get; }
         public ICommand OnTagFocusandFastIDButtonCommand { protected set; get; }
         public ICommand OnCTESIUSTempButtonCommand { protected set; get; }
+        public ICommand OnEM4152ButtonCommand { protected set; get; }
+
+
+        
 
         public ViewModelSpecialFunctionsMenu (IAdapter adapter, IUserDialogs userDialogs) : base(adapter)
         {
@@ -60,10 +65,12 @@ namespace BLE.Client.ViewModels
             OnRFMicroButtonCommand = new Command(OnRFMicroButtonClicked);
             OnXerxesButtonCommand = new Command(OnXerxesButtonClicked);
             OnBlockWriteButtonCommand = new Command(OnBlockWriteButtonClicked);
+            OnReadButtonCommand = new Command(OnReadButtonClicked);
             OnCS83045ButtonCommand = new Command(OnCS83045ButtonClicked);
             OnCS9010ButtonCommand = new Command(OnCS9010ButtonClicked);
             OnTagFocusandFastIDButtonCommand = new Command(OnTagFocusandFastIDButtonClicked);
             OnCTESIUSTempButtonCommand = new Command(OnCTESIUSTempButtonClicked);
+            OnEM4152ButtonCommand = new Command(OnEM4152ButtonClicked);
         }
 
         public override void Resume()
@@ -108,6 +115,11 @@ namespace BLE.Client.ViewModels
             ShowViewModel<ViewModelBlockWrite>(new MvxBundle());
         }
 
+        void OnReadButtonClicked()
+        {
+            ShowViewModel<ViewModelRead>(new MvxBundle());
+        }
+
         void OnCS83045ButtonClicked()
         {
             ShowViewModel<ViewModelCS83045Setting>(new MvxBundle());
@@ -126,6 +138,11 @@ namespace BLE.Client.ViewModels
         void OnCTESIUSTempButtonClicked()
         {
             ShowViewModel< ViewModelCTESIUSTempInventory>(new MvxBundle());
+        }
+
+        void OnEM4152ButtonClicked()
+        {
+            ShowViewModel<ViewModelEM4152Inventory>(new MvxBundle());
         }
     }
 }

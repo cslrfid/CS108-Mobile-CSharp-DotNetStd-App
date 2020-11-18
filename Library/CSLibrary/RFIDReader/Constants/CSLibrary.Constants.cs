@@ -461,6 +461,10 @@ namespace CSLibrary.Constants
         /// </summary>
         BA,
         /// <summary>
+        /// Vietnam
+        /// </summary>
+        VI,
+        /// <summary>
         /// Unknow Country
         /// </summary>
         UNKNOWN = 0,

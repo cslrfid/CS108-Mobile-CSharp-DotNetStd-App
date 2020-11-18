@@ -27,18 +27,24 @@
                 <Button x:Name="buttonPadding" Text="{Binding buttonPaddingText, Mode=TwoWay}" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonPaddingClicked" />
             </StackLayout>
 
-            <Button Text="Block Write 4K/8K" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding buttonBlockWriteCommand}" />
-            <Button Text="Read Verify 4K/8K" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding buttonReadVerifyCommand}" />
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Read Chunk size (word)" WidthRequest="100" VerticalOptions="Center" />
+				<Entry x:Name="entryReadChunkSize" Text="{Binding entryReadChunkSizeText, Mode=TwoWay}" WidthRequest="110" HorizontalOptions="FillAndExpand" />
+			</StackLayout>
 
-            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
-          
+			<Button Text="Block Write 4K/8K" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding buttonBlockWriteCommand}" />
+            <Button Text="Read Verify 4K/8K" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding buttonReadVerifyCommand}" />
+			<Button Text="View Read Data" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding buttonViewReadDataCommand}" />
+
+			<BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
+
           <StackLayout Orientation="Horizontal">
-                <Label Text="Offset" WidthRequest="85" VerticalOptions="Center" />
+                <Label Text="Offset" WidthRequest="100" VerticalOptions="Center" />
                 <Entry x:Name="entryOffset" Text="{Binding entryOffsetText, Mode=TwoWay}" WidthRequest="110" HorizontalOptions="FillAndExpand" />
               </StackLayout>
 
             <StackLayout Orientation="Horizontal">
-                <Label Text="Length (word)" WidthRequest="85" VerticalOptions="Center" />
+                <Label Text="Length (word)" WidthRequest="100" VerticalOptions="Center" />
                 <Entry x:Name="entryLength" Text="{Binding entryLengthText, Mode=TwoWay}" WidthRequest="110" HorizontalOptions="FillAndExpand" />
             </StackLayout>
 

@@ -13,7 +13,7 @@
         <Button x:Name="buttonRegion" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonRegionClicked" />
       </StackLayout>
 
-      <StackLayout Orientation="Horizontal">
+			<StackLayout Orientation="Horizontal">
         <Label Text="Frequency Order" WidthRequest="85" VerticalOptions="Center" />
         <Button x:Name="buttonFrequencyOrder" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonFrequencyOrderClicked" />
       </StackLayout>
@@ -23,10 +23,10 @@
         <Button x:Name="buttonFixedChannel" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonFixedChannelClicked" />
       </StackLayout>
 
-      <StackLayout Orientation="Horizontal">
-        <Label Text="Power (0-300)" WidthRequest="100" VerticalOptions="Center" />
-        <Entry x:Name="entryPower" Unfocused="entryPowerCompleted" HorizontalOptions="FillAndExpand" />
-      </StackLayout>
+			<StackLayout x:Name="stackLayoutPower"  Orientation="Horizontal">
+                <Label Text="Power (0-300)" WidthRequest="100" VerticalOptions="Center" />
+                <Entry x:Name="entryPower" Unfocused="entryPowerCompleted" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
 
       <StackLayout Orientation="Horizontal">
         <Label Text="Tag population (1-8192)" WidthRequest="100" VerticalOptions="Center" />
@@ -44,7 +44,7 @@
 				<Entry x:Name="entryTagDelay" Unfocused="entryTagDelayCompleted" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
 			</StackLayout>
 
-			<StackLayout Orientation="Horizontal">
+			<StackLayout x:Name="stackLayoutInventoryDuration" Orientation="Horizontal">
 				<Label Text="Inventory Cycle Dwell Time (0-3000)" WidthRequest="100"  VerticalOptions="Center" />
 				<Entry x:Name="entryInventoryDuration" Unfocused="entryInventoryDurationCompleted" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
 			</StackLayout>
@@ -57,24 +57,24 @@
 			</StackLayout>
 
 			<StackLayout Orientation="Horizontal">
-        <Label Text="Session" WidthRequest="85" VerticalOptions="Center"	/>
-        <Button x:Name="buttonSession" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonSessionClicked" />
-      </StackLayout>
+                <Label Text="Session" WidthRequest="85" VerticalOptions="Center"	/>
+                <Button x:Name="buttonSession" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonSessionClicked" />
+            </StackLayout>
 
-      <StackLayout Orientation="Horizontal">
-        <Label Text="Target" WidthRequest="85" VerticalOptions="Center" />
-        <Button x:Name="buttonTarget" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonTargetClicked" />
-      </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Target" WidthRequest="85" VerticalOptions="Center" />
+                <Button x:Name="buttonTarget" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonTargetClicked" />
+            </StackLayout>
 
-      <StackLayout Orientation="Horizontal">
-        <Label Text="Query Algorithm" WidthRequest="85" VerticalOptions="Center" />
-        <Button x:Name="buttonAlgorithm" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonAlgorithmClicked" />
-      </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Query Algorithm" WidthRequest="85" VerticalOptions="Center" />
+                <Button x:Name="buttonAlgorithm" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonAlgorithmClicked" />
+            </StackLayout>
 
-      <StackLayout Orientation="Horizontal">
-        <Label Text="ReaderMode /LinkProfile" FontSize="Small" WidthRequest="85" VerticalOptions="Center" />
-        <Button x:Name="buttonProfile" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonProfileClicked" />
-      </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="ReaderMode /LinkProfile" FontSize="Small" WidthRequest="85" VerticalOptions="Center" />
+                <Button x:Name="buttonProfile" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonProfileClicked" />
+            </StackLayout>
 
             <StackLayout Orientation="Horizontal">
 				<Label Text="RF LNA compression mode" FontSize="Small" WidthRequest="85" VerticalOptions="Center" />

@@ -30,7 +30,8 @@ namespace CSLibrary
     public partial class RFIDReader
     {
         UInt32[] _0000 = null;             // 0X0000~0X0002
-        UInt32[] _0100 = null;
+        UInt32[] _0100 = null;              // 0x0100 ~ 0x010d
+        UInt32[] _010d = null;
         UInt32[] _0201 = null;
         UInt32[] _0203 = null;
         UInt32[] _0300 = null;
@@ -105,7 +106,7 @@ namespace CSLibrary
 
 
             _0000 = new UInt32[3];             // 0X0000~0X0002
-            _0100 = new UInt32[0];
+            _0100 = new UInt32[14];             // 0x0100 ~ 0x010d
             _0201 = new UInt32[1];
             _0203 = new UInt32[1];
             _0300 = new UInt32[0];

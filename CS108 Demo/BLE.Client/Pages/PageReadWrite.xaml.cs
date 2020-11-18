@@ -18,6 +18,8 @@ namespace BLE.Client.Pages
 		{
 			InitializeComponent();
 
+
+
             BleMvxApplication._geiger_Bank = 1;
             buttonBank.Text = _bankSelectionItems[1];
         }
@@ -169,13 +171,13 @@ namespace BLE.Client.Pages
             if (entryEPC.Text.Length != _EPCLength)
             {
                 await DisplayAlert("EPC value invalid", "", null, "OK");
-                entryEPC.Focus();
+                if (switchEPC.IsToggled)
+                    entryEPC.Focus();
             }
         }
 
         public async void onentryTemperatureCodeTextChanged(object sender, EventArgs e)
         {
-
         }
 
     }
