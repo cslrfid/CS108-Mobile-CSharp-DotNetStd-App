@@ -32,8 +32,7 @@ namespace CSLibrary
         UInt32[] _0000 = null;             // 0X0000~0X0002
         UInt32[] _0100 = null;              // 0x0100 ~ 0x010d
         UInt32[] _010d = null;
-        UInt32[] _0201 = null;
-        UInt32[] _0203 = null;
+        UInt32[] _0200 = null;
         UInt32[] _0300 = null;
         UInt32[] _0400 = null;
         UInt32[] _0500 = null;             // 0x0500 ~ 0x0501
@@ -107,8 +106,7 @@ namespace CSLibrary
 
             _0000 = new UInt32[3];             // 0X0000~0X0002
             _0100 = new UInt32[14];             // 0x0100 ~ 0x010d
-            _0201 = new UInt32[1];
-            _0203 = new UInt32[1];
+            _0200 = new UInt32[4];
             _0300 = new UInt32[0];
 
             //_0302 = new UInt32[2];              // (Selector)
@@ -167,7 +165,9 @@ namespace CSLibrary
 
 
 
-            _0203[0x00] = 0x0000;
+            _0200[0x00] = 0x0000;
+            _0200[0x01] = 0x0000;
+            _0200[0x03] = 0x0000;
             _0700[0x00] = 0xffff;
 
             _0702_707[0, 0] = 0x01;
@@ -299,10 +299,11 @@ namespace CSLibrary
                         break;
 
                     case 0x0200:
-                        if (addressoffset == 0x0001)
+                        return _0200[addressoffset];
+/*                        if (addressoffset == 0x0001)
                             return _0201[0];
                         else if (addressoffset == 0x0003)
-                            return _0203[0];
+                            return _0203[0];*/
                         break;
 
                     case 0x0300:
@@ -434,22 +435,28 @@ namespace CSLibrary
                         break;
 
                     case 0x0200:
-                        if (addressoffset == 0x01)
+                        if (data != _0200[addressoffset])
                         {
-                            if (data != _0201[0])
-                            {
-                                _0201[0] = data;
-                                _deviceHandler.SendAsync(0, 0, DOWNLINKCMD.RFIDCMD, PacketData(address, data), HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.BTAPIRESPONSE);
-                            }
+                            _0200[addressoffset] = data;
+                            _deviceHandler.SendAsync(0, 0, DOWNLINKCMD.RFIDCMD, PacketData(address, data), HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.BTAPIRESPONSE);
                         }
-                        else if (addressoffset == 0x03)
-                        {
-                            if (data != _0203[0])
-                            {
-                                _0203[0] = data;
-                                _deviceHandler.SendAsync(0, 0, DOWNLINKCMD.RFIDCMD, PacketData(address, data), HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.BTAPIRESPONSE);
-                            }
-                        }
+
+                        /*                        if (addressoffset == 0x01)
+                                                {
+                                                    if (data != _0201[0])
+                                                    {
+                                                        _0201[0] = data;
+                                                        _deviceHandler.SendAsync(0, 0, DOWNLINKCMD.RFIDCMD, PacketData(address, data), HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.BTAPIRESPONSE);
+                                                    }
+                                                }
+                                                else if (addressoffset == 0x03)
+                                                {
+                                                    if (data != _0203[0])
+                                                    {
+                                                        _0203[0] = data;
+                                                        _deviceHandler.SendAsync(0, 0, DOWNLINKCMD.RFIDCMD, PacketData(address, data), HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.BTAPIRESPONSE);
+                                                    }
+                                                }*/
                         /*if (data != _0200[addressoffset])
                         {
                             _0200[addressoffset] = data;

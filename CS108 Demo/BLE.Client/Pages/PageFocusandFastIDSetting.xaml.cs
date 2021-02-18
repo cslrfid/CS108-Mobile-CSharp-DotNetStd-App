@@ -14,10 +14,6 @@ namespace BLE.Client.Pages
         public PageFocusandFastIDSetting()
         {
             InitializeComponent();
-    
-            
-
-
         }
     }
 }

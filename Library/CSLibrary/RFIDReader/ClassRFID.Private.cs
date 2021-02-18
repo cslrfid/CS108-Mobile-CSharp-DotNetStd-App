@@ -70,6 +70,15 @@ namespace CSLibrary
             HST_DBG1 = 0x0102,
             HST_EMU = 0x0103,
 
+            FM13DT160_CMDCFGPAR = 0x117,
+            FM13DT160_REGADDRPAR = 0x118,
+            FM13DT160_WRITEPAR = 0x119,
+            FM13DT160_PWDPAR = 0x11a,
+            FM13DT160_STOBLOCKADDPAR = 0x11b,
+            FM13DT160_STARTADDRPAR = 0x11c,
+            FM13DT160_READWRITELENPAR = 0x11d,
+            FM13DT160_DATAPAR = 0x11e,
+
             HST_PWRMGMT = 0x0200,
             HST_CMNDIAGS = 0x0201,
             MAC_BLK02RES1 = 0x0202,
@@ -417,6 +426,18 @@ namespace CSLibrary
             AUTHENTICATE = 0x50,
             READBUFFER = 0x51,
             UNTRACEABLE = 0x52,
+            CUSTOMMFM13DTREADMEMORY = 0x00000053,
+	        CUSTOMMFM13DTWRITEMEMORY = 0x00000054,
+	        CUSTOMMFM13DTAUTH = 0x00000055,
+	        CUSTOMMFM13DTGETTEMP = 0x00000056,
+	        CUSTOMMFM13DTSTARTLOG = 0x00000057,
+	        CUSTOMMFM13DTSTOPLOG = 0x00000058,
+	        CUSTOMMFM13DTWRITEREG = 0x00000059,
+	        CUSTOMMFM13DTREADREG = 0x0000005A,
+	        CUSTOMMFM13DTDEEPSLEEP = 0x0000005B,
+	        CUSTOMMFM13DTOPMODECHK = 0x0000005C,
+	        CUSTOMMFM13DTINITIALREGFILE = 0x0000005D,
+	        CUSTOMMFM13DTLEDCTRL = 0x0000005E,
             CMD_END
         }
 
@@ -934,6 +955,98 @@ namespace CSLibrary
             _deviceHandler.SendAsync(0, 0, DOWNLINKCMD.RFIDCMD, PacketData(0xf000, (UInt32)HST_CMD.UNTRACEABLE), HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_COMMANDENDRESPONSE, (UInt32)CurrentOperation);
             m_Result = Result.OK;
             return;
+        }
+
+
+        private bool FM13DTReadMemoryThreadProc()
+        {
+            if (m_rdr_opt_parms.FM13DTReadMemory.offset > 0xffff)
+                return false;
+
+            if (m_rdr_opt_parms.FM13DTReadMemory.count > 4)
+                return false;
+
+            FM13DT160_ReadMemory(m_rdr_opt_parms.FM13DTReadMemory.offset, m_rdr_opt_parms.FM13DTReadMemory.count);
+            return true;
+        }
+
+        private bool FM13DTWriteMemoryThreadProc()
+        {
+            if (m_rdr_opt_parms.FM13DTWriteMemory.offset > 0xffff)
+                return false;
+
+            if (m_rdr_opt_parms.FM13DTWriteMemory.count > 4)
+                return false;
+
+            FM13DT160_WriteMemory(m_rdr_opt_parms.FM13DTWriteMemory.offset, m_rdr_opt_parms.FM13DTWriteMemory.count, m_rdr_opt_parms.FM13DTWriteMemory.data);
+            return true;
+        }
+
+        private bool FM13DTReadRegThreadProc()
+        {
+            if (m_rdr_opt_parms.FM13DTReadMemory.offset > 0xffff)
+                return false;
+
+            if (m_rdr_opt_parms.FM13DTReadMemory.count > 4)
+                return false;
+
+            FM13DT160_ReadMemory(m_rdr_opt_parms.FM13DTReadMemory.offset, m_rdr_opt_parms.FM13DTReadMemory.count);
+            return true;
+        }
+
+        private bool FM13DTWriteRegThreadProc()
+        {
+            if (m_rdr_opt_parms.FM13DTWriteMemory.offset > 0xffff)
+                return false;
+
+            if (m_rdr_opt_parms.FM13DTWriteMemory.count > 4)
+                return false;
+
+            FM13DT160_WriteMemory(m_rdr_opt_parms.FM13DTWriteMemory.offset, m_rdr_opt_parms.FM13DTWriteMemory.count, m_rdr_opt_parms.FM13DTWriteMemory.data);
+            return true;
+        }
+
+        private bool FM13DTAuthThreadProc()
+        {
+            FM13DT160_Auth(m_rdr_opt_parms.FM13DTWriteMemory.offset, m_rdr_opt_parms.FM13DTWriteMemory.count);
+            return true;
+        }
+
+        private bool FM13DTGetTempThreadProc()
+        {
+            //FM13DT160_GetTemp(m_rdr_opt_parms.FM13DTWriteMemory.offset, m_rdr_opt_parms.FM13DTWriteMemory.count, m_rdr_opt_parms.FM13DTWriteMemory.data);
+            return true;
+        }
+        private bool FM13DTStartLogThreadProc()
+        {
+            FM13DT160_StartLog();
+            return true;
+        }
+        private bool FM13DTStopLogChkThreadProc()
+        {
+            FM13DT160_StopLog(m_rdr_opt_parms.FM13DTWriteMemory.offset);
+            return true;
+        }
+        private bool FM13DTDeepSleepThreadProc()
+        {
+            FM13DT160_DeepSleep(m_rdr_opt_parms.FM13DTDeepSleep.enable);
+            return true;
+        }
+        private bool FM13DTOpModeChkThreadProc()
+        {
+            FM13DT160_OpModeChk(m_rdr_opt_parms.FM13DTOpModeChk.enable);
+            return true;
+        }
+        private bool FM13DTInitialRegFileThreadProc()
+        {
+            FM13DT160_InitialRegFile();
+            return true;
+        }
+
+        private bool FM13DTLedCtrlThreadProc()
+        {
+            FM13DT160_LedCtrl(m_rdr_opt_parms.FM13DTLedCtrl.enable);
+            return true;
         }
 
         /// <summary>

@@ -137,6 +137,9 @@ namespace CSLibrary
                             case 0x2a2a4e5a:
                                 m_save_country_list.Add(RegionCode.NZ);
                                 break;
+                            case 0x20937846:
+                                m_save_country_list.Add(RegionCode.ZA);
+                                break;
                         }
                     }
                     break;
@@ -166,6 +169,7 @@ namespace CSLibrary
                     break;
                 case 9:
                     m_save_country_list.Add(RegionCode.ETSIUPPERBAND);
+                    m_save_country_list.Add(RegionCode.ZA);
                     break;
                 //default:
                     //throw new ReaderException(Result.INVALID_PARAMETER);

@@ -18,8 +18,6 @@ namespace BLE.Client.Pages
 		{
 			InitializeComponent();
 
-
-
             BleMvxApplication._geiger_Bank = 1;
             buttonBank.Text = _bankSelectionItems[1];
         }

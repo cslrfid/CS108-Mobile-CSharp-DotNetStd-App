@@ -19,6 +19,6 @@
 &lt;/dict&gt;
 &lt;/plist&gt;
 </TargetiOSDevice>
-    <SelectedDevice>Convergence’s iPhone</SelectedDevice>
+    <SelectedDevice>Remote Device</SelectedDevice>
   </PropertyGroup>
 </Project>

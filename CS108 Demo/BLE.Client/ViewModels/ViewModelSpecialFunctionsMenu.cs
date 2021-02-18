@@ -50,9 +50,12 @@ namespace BLE.Client.ViewModels
         public ICommand OnTagFocusandFastIDButtonCommand { protected set; get; }
         public ICommand OnCTESIUSTempButtonCommand { protected set; get; }
         public ICommand OnEM4152ButtonCommand { protected set; get; }
-
-
+        public ICommand OnFM13DT160ButtonCommand { protected set; get; }
+        public ICommand OnSmartracThermologgerButtonCommand { protected set; get; }
         
+
+
+
 
         public ViewModelSpecialFunctionsMenu (IAdapter adapter, IUserDialogs userDialogs) : base(adapter)
         {
@@ -71,6 +74,8 @@ namespace BLE.Client.ViewModels
             OnTagFocusandFastIDButtonCommand = new Command(OnTagFocusandFastIDButtonClicked);
             OnCTESIUSTempButtonCommand = new Command(OnCTESIUSTempButtonClicked);
             OnEM4152ButtonCommand = new Command(OnEM4152ButtonClicked);
+            OnFM13DT160ButtonCommand = new Command(OnFM13DT160ButtonClicked);
+            OnSmartracThermologgerButtonCommand = new Command(OnSmartracThermologgerButtonClicked);
         }
 
         public override void Resume()
@@ -144,5 +149,16 @@ namespace BLE.Client.ViewModels
         {
             ShowViewModel<ViewModelEM4152Inventory>(new MvxBundle());
         }
+
+        void OnFM13DT160ButtonClicked()
+        {
+            ShowViewModel<ViewModelFM13DT160Inventory>(new MvxBundle());
+        }
+
+        void OnSmartracThermologgerButtonClicked ()
+        {
+            ShowViewModel<ViewModelSmartracThermologgerInventory>(new MvxBundle());
+        }
+
     }
 }

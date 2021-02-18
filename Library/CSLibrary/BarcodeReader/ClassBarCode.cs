@@ -73,56 +73,118 @@ namespace CSLibrary
                 return false;
             }
 
-            if (recvData[10] == 0x02 && recvData[11] == 0x00)
+            if (recvData[10] == 0x02 && recvData[11] == 0x00 && recvData[14] == 0x34)
             {
-                // barcode perfix
-                if (recvData.Length > 15 && recvData[12] == 0x07 && recvData[13] == 0x10 && recvData[14] == 0x17 && recvData[15] == 0x13)
-                {
-                    _barcodeStr = System.Text.Encoding.UTF8.GetString(recvData, 16, recvData[2] - 8);
-                }
+                // Query
+                if (recvData.Length < 24 || recvData[15] != 0x01 || recvData[16] != 0x06 || recvData[23] != 0x01 || recvData[24] != 0x06)
+                    FactoryReset();
                 else
-                {
-                    switch (recvData[14])
-                    {
-                        case 0x34: // Query
-                            if (recvData.Length < 24 || recvData[15] != 0x01 || recvData[16] != 0x06 || recvData[23] != 0x01 || recvData[24] != 0x06)
-                                FactoryReset();
-                            //_state = STATE.OLDVERSION;
-                            else
-                                _state = STATE.READY;
+                    _state = STATE.READY;
 
-                            break;
-
-                        default:
-                            return false;
-                    }
-
-                    return true;
-                }
+                return true;
             }
-            else
+
+            _barcodeStr += System.Text.Encoding.UTF8.GetString(recvData, 10, recvData[2] - 2);
+
+            if (_barcodeStr.Length >= 12)
             {
-                if (_barcodeStr != "")
+                int prefixat;
+                int suffixat;
+
+                do
                 {
-                    _barcodeStr += System.Text.Encoding.UTF8.GetString(recvData, 10, recvData[2] - 2);
-                }
+                    prefixat = _barcodeStr.IndexOf("\u0002\u0000\u0007\u0010\u0017\u0013");
+                    suffixat = _barcodeStr.IndexOf("\u0005\u0001\u0011\u0016\u0003\u0004");
+
+                    if (prefixat == -1 && suffixat == -1)
+                    {
+                        // no prefix and no suffix
+                        if (_barcodeStr.Length > 5)
+                            _barcodeStr = _barcodeStr.Substring(_barcodeStr.Length - 5, 5);
+                    }
+                    else if (prefixat != -1 && suffixat == -1)
+                    {
+                        // have prefix and no suffix
+                    }
+                    else if (prefixat == -1 && suffixat != -1)
+                    {
+                        // have prefix and no suffix
+                        _barcodeStr = _barcodeStr.Substring(suffixat + 6, _barcodeStr.Length - (suffixat + 6));
+                    }
+                    else if (prefixat != -1 && suffixat != -1)
+                    {
+                        if (prefixat < suffixat)
+                        {
+                            // have prefix and no suffix
+                            if (OnCapturedNotify != null)
+                            {
+                                Barcode.Structures.DecodeMessage decodeInfo = new Barcode.Structures.DecodeMessage();       // Decode message structure.
+
+                                decodeInfo.pchMessage = _barcodeStr.Substring(prefixat + 10, suffixat - prefixat - 10);
+
+                                FireCaptureCompletedEvent(new BarcodeEventArgs(MessageType.DEC_MSG, decodeInfo));
+                            }
+                        }
+
+                        _barcodeStr = _barcodeStr.Substring(suffixat + 6, _barcodeStr.Length - (suffixat + 6));
+                    }
+                } while (prefixat != -1 && suffixat != -1);
             }
 
-            if (_barcodeStr.Length > 11)
-                if (_barcodeStr.Substring(_barcodeStr.Length - 7) == "\u0005\u0001\u0011\u0016\u0003\u0004\u000d")
-                {
-                    if (OnCapturedNotify != null)
-                    {
-                        Barcode.Structures.DecodeMessage decodeInfo = new Barcode.Structures.DecodeMessage();       // Decode message structure.
+            /* old barcode scanner
+                        if (recvData[10] == 0x02 && recvData[11] == 0x00)
+                        {
+                            // barcode perfix
+                            if (recvData.Length > 15 && recvData[12] == 0x07 && recvData[13] == 0x10 && recvData[14] == 0x17 && recvData[15] == 0x13)
+                            {
+                                _barcodeStr = System.Text.Encoding.UTF8.GetString(recvData, 16, recvData[2] - 8);
+                            }
+                            else
+                            {
+                                switch (recvData[14])
+                                {
+                                    case 0x34: // Query
+                                        if (recvData.Length < 24 || recvData[15] != 0x01 || recvData[16] != 0x06 || recvData[23] != 0x01 || recvData[24] != 0x06)
+                                            FactoryReset();
+                                        //_state = STATE.OLDVERSION;
+                                        else
+                                            _state = STATE.READY;
 
-                        decodeInfo.pchMessage = _barcodeStr.Substring(4, _barcodeStr.Length - 11);
+                                        break;
 
-                        FireCaptureCompletedEvent(new BarcodeEventArgs(MessageType.DEC_MSG, decodeInfo));
-                    }
+                                    default:
+                                        return false;
+                                }
 
-                    _goodRead = false;
-                    _barcodeStr = "";
-                }
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if (_barcodeStr != "")
+                            {
+                                _barcodeStr += System.Text.Encoding.UTF8.GetString(recvData, 10, recvData[2] - 2);
+                            }
+                        }
+
+                        if (_barcodeStr.Length > 11)
+                        {
+                            if (_barcodeStr.Substring(_barcodeStr.Length - 7) == "\u0005\u0001\u0011\u0016\u0003\u0004\u000d")
+                            {
+                                if (OnCapturedNotify != null)
+                                {
+                                    Barcode.Structures.DecodeMessage decodeInfo = new Barcode.Structures.DecodeMessage();       // Decode message structure.
+
+                                    decodeInfo.pchMessage = _barcodeStr.Substring(4, _barcodeStr.Length - 11);
+
+                                    FireCaptureCompletedEvent(new BarcodeEventArgs(MessageType.DEC_MSG, decodeInfo));
+                                }
+
+                                _goodRead = false;
+                                _barcodeStr = "";
+                            }
+                        }
+            */
 
             return true;
         }
@@ -363,11 +425,40 @@ namespace CSLibrary
         readonly byte[] barcodecmd_EnableAllPrefixSuffix    = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x31, 0x31, 0x30, 0x31, 0x30, 0x3b };
         readonly byte[] barcodecmd_SelfPrefixCodeIdAimId    = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x31, 0x37, 0x30, 0x34, 0x30, 0x3b };
         readonly byte[] barcodecmd_EnableSelfPrefix         = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x30, 0x35, 0x30, 0x31, 0x30, 0x3b };
+        readonly byte[] barcodecmd_DisableSelfPrefix = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x30, 0x35, 0x30, 0x30, 0x30, 0x3b };
         readonly byte[] barcodecmd_SetSelfPrefix            = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x30, 0x30, 0x30, 0x30, 0x30, 0x20, 0x3d, 0x20, 0x30, 0x78, 0x30, 0x32, 0x30, 0x30, 0x30, 0x37, 0x31, 0x30, 0x31, 0x37, 0x31, 0x33, 0x3b };
+        //readonly byte[] barcodecmd_SetSelfPrefix = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x30, 0x30, 0x30, 0x30, 0x30, 0x20, 0x3d, 0x20, 0x30, 0x78, 0x30, 0x32, 0x3b };
         readonly byte[] barcodecmd_EnableSelfSuffix         = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x30, 0x36, 0x30, 0x31, 0x30, 0x3b };
+        readonly byte[] barcodecmd_DisableSelfSuffix = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x30, 0x36, 0x30, 0x30, 0x30, 0x3b };
         readonly byte[] barcodecmd_SetSelfSuffix            = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x30, 0x31, 0x30, 0x30, 0x30, 0x20, 0x3d, 0x20, 0x30, 0x78, 0x30, 0x35, 0x30, 0x31, 0x31, 0x31, 0x31, 0x36, 0x30, 0x33, 0x30, 0x34, 0x3b };
+        //readonly byte[] barcodecmd_SetSelfSuffix = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x30, 0x31, 0x30, 0x30, 0x30, 0x20, 0x3d, 0x20, 0x30, 0x78, 0x30, 0x35, 0x3b };
         readonly byte[] barcodecmd_EnableAimId              = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x30, 0x38, 0x30, 0x33, 0x30, 0x3b };
         readonly byte[] barcodecmd_EnableCodeId             = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x30, 0x37, 0x30, 0x31, 0x30, 0x3b };
+
+        readonly byte[] barcodecmd_SetContinueMode = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x30, 0x32, 0x30, 0x32, 0x30, 0x3b };
+        readonly byte[] barcodecmd_Timeout = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x31, 0x33, 0x30, 0x30, 0x30, 0x3b };
+        readonly byte[] barcodecmd_Duplicate = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x31, 0x33, 0x30, 0x31, 0x30, 0x3b };
+        readonly byte[] barcodecmd_TimeoutBetweenDecode = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x31, 0x33, 0x30, 0x34, 0x30, 0x3b };
+
+        readonly byte[] barcodecmd_QueryReadingMode = new byte[] { 0x7E, 0x00, 0x00, 0x05, 0x33, 0x44, 0x30, 0x30, 0x30, 0xBD };
+
+        readonly byte[] barcodecmd_TiggerModeStep01 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x30, 0x30, 0x36, 0x30, 0x31, 0x30, 0x3B };
+        readonly byte[] barcodecmd_TiggerModeStep02 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x30, 0x32, 0x30, 0x30, 0x30, 0x3B };
+        readonly byte[] barcodecmd_TiggerModeStep03 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x31, 0x33, 0x30, 0x30, 0x30, 0x3D, 0x33, 0x30, 0x30, 0x30, 0x3B, 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x31, 0x33, 0x30, 0x31, 0x30, 0x3D, 0x31, 0x30, 0x30, 0x30, 0x3B, 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x31, 0x33, 0x30, 0x34, 0x30, 0x3D, 0x31, 0x30, 0x30, 0x30, 0x3B, 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x30, 0x32, 0x30, 0x30, 0x30, 0x3B, 0x6E, 0x6C, 0x73, 0x30, 0x30, 0x30, 0x37, 0x30, 0x31, 0x30, 0x3B };
+        readonly byte[] barcodecmd_TiggerModeStep04 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x30, 0x30, 0x31, 0x31, 0x35, 0x30, 0x3B, 0x6E, 0x6C, 0x73, 0x30, 0x30, 0x30, 0x36, 0x30, 0x30, 0x30, 0x3B };
+
+        readonly byte[] barcodecmd_V4Format2Step01 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x30, 0x30, 0x36, 0x30, 0x31, 0x30, 0x3B };
+        readonly byte[] barcodecmd_V4Format2Step02 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x31, 0x31, 0x30, 0x31, 0x30, 0x3B };
+        readonly byte[] barcodecmd_V4Format2Step03 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x31, 0x37, 0x30, 0x34, 0x30, 0x3B };
+        readonly byte[] barcodecmd_V4Format2Step04 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x30, 0x35, 0x30, 0x31, 0x30, 0x3B };
+        readonly byte[] barcodecmd_V4Format2Step05 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x30, 0x30, 0x30, 0x30, 0x30, 0x3D, 0x30, 0x78, 0x30, 0x32, 0x30, 0x30, 0x30, 0x37, 0x31, 0x30, 0x31, 0x37, 0x31, 0x33, 0x3B };
+        readonly byte[] barcodecmd_V4Format2Step06 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x30, 0x36, 0x30, 0x31, 0x30, 0x3B };
+        readonly byte[] barcodecmd_V4Format2Step07 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x30, 0x31, 0x30, 0x30, 0x30, 0x3D, 0x30, 0x78, 0x30, 0x35, 0x30, 0x31, 0x31, 0x31, 0x31, 0x36, 0x30, 0x33, 0x30, 0x34, 0x3B };
+        readonly byte[] barcodecmd_V4Format2Step08 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x30, 0x38, 0x30, 0x33, 0x30, 0x3B };
+        readonly byte[] barcodecmd_V4Format2Step09 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x30, 0x37, 0x30, 0x31, 0x30, 0x3B };
+        readonly byte[] barcodecmd_V4Format2Step10 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x30, 0x39, 0x30, 0x31, 0x30, 0x3B, 0x6E, 0x6C, 0x73, 0x30, 0x33, 0x31, 0x30, 0x30, 0x31, 0x30, 0x3B };
+        readonly byte[] barcodecmd_V4Format2Step11 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x35, 0x30, 0x32, 0x31, 0x31, 0x30 };
+        readonly byte[] barcodecmd_V4Format2Step12 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x30, 0x30, 0x31, 0x31, 0x35, 0x30, 0x3B, 0x6E, 0x6C, 0x73, 0x30, 0x30, 0x30, 0x36, 0x30, 0x30, 0x30, 0x3B };
 
         internal void CheckHWValid()
         {
@@ -382,6 +473,25 @@ namespace CSLibrary
         // public barcode function
         public void FactoryReset()
         {
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_TiggerModeStep01, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_TiggerModeStep02, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_TiggerModeStep03, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_TiggerModeStep04, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step01, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step02, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step03, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step04, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step05, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step06, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step07, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step08, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step09, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step10, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step11, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step12, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+
+#if V3Reader
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_SysModeEnter, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_ScanCycleTime30000, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_PermTriggerMode, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
@@ -393,9 +503,16 @@ namespace CSLibrary
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_SetSelfSuffix, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_EnableAimId, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_EnableCodeId, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            //_deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_SetContinueMode, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            //_deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_Timeout, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            //_deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_Duplicate, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            //_deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_TimeoutBetweenDecode, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_SysModeExit, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+#endif
 
             CheckHWValid();
+
+            //_deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_QueryReadingMode, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
         }
 
         // LRC : Data checkout value 1 bytes(Computing method: 0xff^lens^types^data

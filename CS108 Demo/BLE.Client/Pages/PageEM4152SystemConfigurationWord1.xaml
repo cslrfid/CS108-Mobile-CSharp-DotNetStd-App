@@ -11,15 +11,13 @@
 
 			<StackLayout Orientation="Vertical">
 				<Label Text="Selected EPC"/>
-				<Entry x:Name="entrySelectedEPC" HorizontalOptions="FillAndExpand" />
+				<Entry Text="{ Binding entrySelectedEPCText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
 			</StackLayout>
 
-			<Label Text = "" />
-			
-			<StackLayout Orientation="Vertical">
-                <Label Text="Access PWD"/>
-                <Entry x:Name="entryPassword" HorizontalOptions="FillAndExpand" />
-            </StackLayout>
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Access PWD" WidthRequest="70" />
+				<Entry Text="{ Binding entrySelectedPWDText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+			</StackLayout>
 
 			<Label Text = "" />
 
@@ -77,14 +75,19 @@
 				<Button x:Name="buttonBackscatterconfiguration" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonBackscatterconfigurationClicked"/>
 			</StackLayout>
 
+			<StackLayout Orientation="Vertical" IsVisible="true">
+				<Label Text="System Configuration Word 1 Value"/>
+				<Label x:Name="labelSystemConfigurationWord1" Text="{Binding labelSystemConfigurationWord1Text, Mode=TwoWay}" HorizontalOptions="FillAndExpand" PropertyChanged="labelConfigurationWord1PropertyChanged" />
+			</StackLayout>
+
 			<Label Text = "" />
 
 			<StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
-				<Button Text="Read" Font="Large" BackgroundColor="#C3C3C3" Clicked="ButtonReadClicked" />
+				<Button x:Name="buttonRead" Text="Read" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding ButtonReadCommand}"/>
             </StackLayout>
 
 			<StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
-				<Button Text="Write" Font="Large" BackgroundColor="#C3C3C3" Clicked="ButtonWriteClicked" />
+				<Button x:Name="buttonWrite" Text="Write" Font="Large" BackgroundColor="#C3C3C3" Clicked="ButtonWriteClicked" />
 			</StackLayout>
 
 		</StackLayout>

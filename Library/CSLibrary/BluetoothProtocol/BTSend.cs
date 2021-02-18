@@ -144,6 +144,60 @@ namespace CSLibrary
             return true;
         }
 
+        internal bool SendAsyncUrgent(int connection, int destination, byte[] eventCode = null, byte[] payload = null, BTWAITCOMMANDRESPONSETYPE sendRemark = BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE, UInt32 cmdRemark = 0xffffffff)
+        {
+            byte[] sendData;
+
+            if (eventCode == null && payload == null)
+            {
+                sendData = new byte[8];
+
+                sendData[6] = 0x00;
+                sendData[7] = 0x00;
+            }
+            else if (payload == null)
+            {
+                if (eventCode.Length > (255 - 8))
+                    return false;
+
+                sendData = new byte[8 + eventCode.Length];
+
+                Array.Copy(eventCode, 0, sendData, 8, eventCode.Length);
+
+                sendData[2] = (byte)eventCode.Length;
+            }
+            else
+            {
+                if ((eventCode.Length + payload.Length) > (255 - 8))
+                    return false;
+
+                sendData = new byte[8 + eventCode.Length + payload.Length];
+
+                Array.Copy(eventCode, 0, sendData, 8, eventCode.Length);
+                Array.Copy(payload, 0, sendData, 8 + eventCode.Length, payload.Length);
+
+                sendData[2] = (byte)(eventCode.Length + payload.Length);
+            }
+
+            sendData[0] = 0xa7;
+            sendData[1] = (byte)((connection == 0) ? 0xb3 : 0xe6);
+            sendData[3] = destinationsID[destination];
+            sendData[4] = 0x82;
+            sendData[5] = 0x37; // downlink
+            sendData[6] = 0x00;
+            sendData[7] = 0x00;
+
+            SENDBUFFER sendItem = new SENDBUFFER();
+            sendItem.packetData = sendData;
+            sendItem.cmdRemark = cmdRemark;
+            sendItem.dataRemark = sendRemark;
+
+            _sendBuffer.Insert(1, sendItem);
+            BLERWEngineTimer();
+
+            return true;
+        }
+
         internal bool SendAsync(DEVICEID destination, 
                                     byte[] eventCode = null, 
                                     byte[] payload = null, 
@@ -213,6 +267,7 @@ namespace CSLibrary
         bool CheckRFIDCommand()
         {
             // A7 B3 0A C2 82 37 00 00 80 02 70 01 00 F0       0F 00 00 00
+
             if (_sendBuffer[0].packetData.Length != 18)
                 return false;
 
@@ -222,8 +277,19 @@ namespace CSLibrary
 
             _handlerRFIDReader._readerMode = 1; // record reader static to command mode
 
+            if (_sendBuffer[0].packetData[14] == 0x14 && _sendBuffer[0].packetData[15] == 0x00 && _sendBuffer[0].packetData[16] == 0x00 && _sendBuffer[0].packetData[17] == 0x00)
+            {
+                _handlerRFIDReader._SetRFIDToStandbyMode = false;
+            }
+            else
+            {
+                _handlerRFIDReader._SetRFIDToStandbyMode = true;
+            }
+
             return true;
         }
+
+
 
         async void BLERWEngineTimer()
         {
@@ -303,31 +369,40 @@ namespace CSLibrary
                             _NeedCommandResponseType = _sendBuffer[0].dataRemark;
                             CheckRFIDCommand();
                             BLE_Send(_sendBuffer[0].packetData);
-                            _packetDelayTimeout = DateTime.Now;
-                            _packetResponseTimeout = DateTime.Now.AddSeconds(2);
-
-                            if (_currentCommandResponse == BTWAITCOMMANDRESPONSETYPE.NOWAIT)
+                            
+                            if (_NeedCommandResponseType == BTWAITCOMMANDRESPONSETYPE.NOWAIT)
                             {
-                                if (_sendBuffer[0].packetData[2] == 0x02 && _sendBuffer[0].packetData[9] == 0x00)
-                                {
-                                    switch (_sendBuffer[0].packetData[8])
-                                    {
-                                        case 0x80:
-                                            _packetDelayTimeout = DateTime.Now.AddSeconds(3);
-                                            break;
+                                _sendBuffer.RemoveAt(0);
+                            }
+                            else
+                            {
+                                _packetDelayTimeout = DateTime.Now;
+                                _packetResponseTimeout = DateTime.Now.AddSeconds(2);
 
-                                        case 0x90:
-                                            //_packetDelayTimeout = DateTime.Now.AddSeconds(1);
-                                            break;
-                                    }
-                                } // barcode command delay
-                                else if (_sendBuffer[0].packetData[8] == 0x90 && _sendBuffer[0].packetData[9] == 0x03)
+                                if (_currentCommandResponse == BTWAITCOMMANDRESPONSETYPE.NOWAIT)
                                 {
-                                    _packetDelayTimeout = DateTime.Now.AddMilliseconds(500);
+                                    if (_sendBuffer[0].packetData[2] == 0x02 && _sendBuffer[0].packetData[9] == 0x00)
+                                    {
+                                        switch (_sendBuffer[0].packetData[8])
+                                        {
+                                            case 0x80:
+                                                _packetDelayTimeout = DateTime.Now.AddSeconds(3);
+                                                break;
+
+                                            case 0x90:
+                                                //_packetDelayTimeout = DateTime.Now.AddSeconds(1);
+                                                break;
+                                        }
+                                    } // barcode command delay
+                                    else if (_sendBuffer[0].packetData[8] == 0x90 && _sendBuffer[0].packetData[9] == 0x03)
+                                    {
+                                        _packetDelayTimeout = DateTime.Now.AddMilliseconds(500);
+                                    }
                                 }
+
+                                CSLibrary.Debug.WriteBytes("BT send data (" + _sendBuffer[0].dataRemark.ToString() + ")", _sendBuffer[0].packetData);
                             }
 
-                            CSLibrary.Debug.WriteBytes("BT send data (" + _sendBuffer[0].dataRemark.ToString() + ")", _sendBuffer[0].packetData);
                         }
                     }
                 }
@@ -338,6 +413,9 @@ namespace CSLibrary
 
                 if (_sendBuffer.Count == 0)
                     ExecuteFinishBLETask();
+
+                // battery routine
+                //_handleBattery.Timer();
             }
         }
 

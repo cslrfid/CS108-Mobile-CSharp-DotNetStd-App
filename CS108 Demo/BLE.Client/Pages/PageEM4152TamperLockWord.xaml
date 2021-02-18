@@ -10,10 +10,12 @@
     
         <StackLayout Padding="5, 3, 5, 0">
         
-            <Label Text="Selected EPC" WidthRequest="70" />
-		    <Entry Text="{ Binding entrySelectedEPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+			<StackLayout Orientation="Vertical">
+				<Label Text="Selected EPC"/>
+				<Entry Text="{ Binding entrySelectedEPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+			</StackLayout>
 
-            <StackLayout Orientation="Horizontal">
+			<StackLayout Orientation="Horizontal">
                 <Label Text="Access PWD" WidthRequest="70" />
                 <Entry Text="{ Binding entrySelectedPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
             </StackLayout>

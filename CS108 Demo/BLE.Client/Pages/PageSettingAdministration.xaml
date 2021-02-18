@@ -57,6 +57,11 @@
         <Label Text="All"  VerticalOptions="Center" />
       </StackLayout>
 
+			<!--<StackLayout Orientation="Horizontal">
+				<Label Text="Battery Interval Time on Standby (s)"  VerticalOptions="Center" />
+				<Entry x:Name="entryBatteryIntervalTime" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
+			</StackLayout>-->
+			
       <StackLayout Orientation="Horizontal">
         <Label Text="Vibration Window "  VerticalOptions="Center" />
         <Entry x:Name="entryVibrationWindow" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />

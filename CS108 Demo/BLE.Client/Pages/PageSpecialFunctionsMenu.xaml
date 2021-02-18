@@ -21,6 +21,8 @@
 				<Button Text="TagFocus and FastID" Font="Large" Command="{Binding OnTagFocusandFastIDButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="CTESIUS Temp" Font="Large" Command="{Binding OnCTESIUSTempButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="EM4152" Font="Large" Command="{Binding OnEM4152ButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="FM13DT160" Font="Large" Command="{Binding OnFM13DT160ButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Smartrac Thermologger" Font="Large" Command="{Binding OnSmartracThermologgerButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 			</StackLayout>
 		</StackLayout>
 	</ScrollView>

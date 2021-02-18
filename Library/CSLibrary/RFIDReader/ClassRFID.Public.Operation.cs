@@ -61,20 +61,23 @@ namespace CSLibrary
             InventoryDebug.Clear();
             switch (opertion)
             {
-                case Operation.TAG_RANGING:
+                case Operation.TAG_RANGING: // Enable get battery level by interrupt
+                    _deviceHandler.battery.EnableAutoBatteryLevel();
                     TagRangingThreadProc();
                     break;
 
-                case Operation.TAG_PRERANGING:
+                case Operation.TAG_PRERANGING: // Enable get battery level by interrupt
                     PreTagRangingThreadProc();
                     break;
 
-                case Operation.TAG_EXERANGING:
+                case Operation.TAG_EXERANGING: // Enable get battery level by interrupt
                     CurrentOperation = Operation.TAG_RANGING;
+                    _deviceHandler.battery.EnableAutoBatteryLevel();
                     ExeTagRangingThreadProc();
                     break;
 
-                case Operation.TAG_SEARCHING:
+                case Operation.TAG_SEARCHING: // Enable get battery level by interrupt
+                    _deviceHandler.battery.EnableAutoBatteryLevel();
                     TagSearchOneTagThreadProc();
                     break;
 
@@ -82,8 +85,9 @@ namespace CSLibrary
                     PreTagSearchOneTagThreadProc();
                     break;
 
-                case Operation.TAG_EXESEARCHING:
+                case Operation.TAG_EXESEARCHING: // Enable get battery level by interrupt
                     CurrentOperation = Operation.TAG_SEARCHING;
+                    _deviceHandler.battery.EnableAutoBatteryLevel();
                     ExeTagSearchOneTagThreadProc();
                     break;
 
@@ -185,6 +189,54 @@ namespace CSLibrary
 
                 case Operation.TAG_UNTRACEABLE:
                     TagUntraceableThreadProc();
+                    break;
+
+                case Operation.FM13DT_READMEMORY:
+                    FM13DTReadMemoryThreadProc();
+                    break;
+
+                case Operation.FM13DT_WRITEMEMORY:
+                    FM13DTWriteMemoryThreadProc();
+                    break;
+
+                case Operation.FM13DT_READREGISTER:
+                    FM13DTReadRegThreadProc();
+                    break;
+
+                case Operation.FM13DT_WRITEREGISTER:
+                    FM13DTWriteRegThreadProc();
+                    break;
+
+               case Operation.FM13DT_AUTH:
+                    FM13DTAuthThreadProc();
+                    break;
+
+                case Operation.FM13DT_GETTEMP:
+                    FM13DTGetTempThreadProc();
+                    break;
+
+                case Operation.FM13DT_STARTLOG:
+                    FM13DTStartLogThreadProc();
+                    break;
+
+                case Operation.FM13DT_STOPLOG:
+                    FM13DTStopLogChkThreadProc();
+                    break;
+
+                case Operation.FM13DT_DEEPSLEEP:
+                    FM13DTDeepSleepThreadProc();
+                    break;
+
+                case Operation.FM13DT_OPMODECHK:
+                    FM13DTOpModeChkThreadProc();
+                    break;
+
+                case Operation.FM13DT_INITIALREGFILE:
+                    FM13DTInitialRegFileThreadProc();
+                    break;
+
+                case Operation.FM13DT_LEDCTRL:
+                    FM13DTLedCtrlThreadProc();
                     break;
 
                 default:

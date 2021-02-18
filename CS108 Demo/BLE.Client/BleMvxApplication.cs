@@ -112,6 +112,8 @@ namespace BLE.Client
         public int RFID_ShareFormat = 0;  // 0 = JSON, 1 = CSV
         public bool RFID_Focus = false;
 
+        public uint RFID_BatteryPollingTime = 300;
+
         // LNA setting
         public int RFID_RFLNAcompression = 1;
         public int RFID_RFLNAGain = 1;
@@ -188,6 +190,9 @@ namespace BLE.Client
             RFID_VibrationTag = false;      // false = New, true = All
             RFID_VibrationWindow = 2;      // 2 seconds
             RFID_VibrationTime = 300;       // 500 ms
+
+            RFID_BatteryPollingTime = 300;  // 300s
+
 
             for (int cnt = 0; cnt < RFID_Shortcut.Length; cnt++)
             {

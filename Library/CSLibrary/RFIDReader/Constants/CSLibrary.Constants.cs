@@ -1231,6 +1231,20 @@ ISO/IEC 24730 (WhereNet)	48	0000 0000	0000 0000	xxxx xxxx xxxx xxxx xxxx xxxx xx
         TAG_READBUFFER,
 
         TAG_UNTRACEABLE,
+
+        // for FM13DT160 
+        FM13DT_READMEMORY,
+        FM13DT_WRITEMEMORY,
+        FM13DT_AUTH,
+        FM13DT_GETTEMP,
+        FM13DT_STARTLOG,
+        FM13DT_STOPLOG,
+        FM13DT_WRITEREGISTER,
+        FM13DT_READREGISTER,
+        FM13DT_DEEPSLEEP,
+        FM13DT_OPMODECHK,
+        FM13DT_INITIALREGFILE,
+        FM13DT_LEDCTRL,
     }
     /// <summary>
     /// Memory bank

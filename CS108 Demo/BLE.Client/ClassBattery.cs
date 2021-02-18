@@ -75,6 +75,10 @@ namespace BLE.Client
 
         public static BATTERYLEVELSTATUS BatteryLow(double voltage)
         {
+            if (Voltage2Percent(voltage) <= 20.0)
+                return BATTERYLEVELSTATUS.LOW;
+
+#if old
             if (_currentInventoryMode == BATTERYMODE.INVENTORY)
             {
                 if (voltage <= 3.515)
@@ -89,6 +93,7 @@ namespace BLE.Client
                     return BATTERYLEVELSTATUS.LOW;
                 }
             }
+#endif
 
             return BATTERYLEVELSTATUS.NORMAL;
         }

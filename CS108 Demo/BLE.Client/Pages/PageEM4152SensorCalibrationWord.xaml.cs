@@ -11,6 +11,9 @@ namespace BLE.Client.Pages
 {
 	public partial class PageEM4152SensorCalibrationWord
     {
+        string[] _CalibrationLockOptionsList = new string[] { "Unlock", "Locked" };
+        string[] _ValibrationMarginOptionsList = new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32" };
+
         public PageEM4152SensorCalibrationWord()
 		{
 			InitializeComponent();
@@ -26,47 +29,64 @@ namespace BLE.Client.Pages
             base.OnDisappearing();
         }
 
-        void InputFocused(object sender, EventArgs args)
+        public async void buttonCalibrationLockClicked(object sender, EventArgs e)
         {
-            double curY = ((Entry)sender).Y;
-            double move;
+            var answer = await DisplayActionSheet("Calibration Lock", "Cancel", null, _CalibrationLockOptionsList);
 
-            if (curY != 0)
+            if (answer != null && answer != "Cancel")
             {
-                move = -(curY - 97.5);
+                buttonCalibrationLock.Text = answer;
+                SetSensorCalibrationWordText();
             }
-            else
+        }
+        
+        public async void buttonValibrationMarginClicked(object sender, EventArgs e)
+        {
+            var answer = await DisplayActionSheet("Calibration Lock", "Cancel", null, _ValibrationMarginOptionsList);
+
+            if (answer != null && answer != "Cancel")
             {
-                move = -174;
+                buttonValibrationMargin.Text = answer;
+                SetSensorCalibrationWordText();
             }
-
-            Content.LayoutTo(new Rectangle(0, move, Content.Bounds.Width, Content.Bounds.Height));
         }
 
-        void InputACCPWDFocused(object sender, EventArgs args)
+        public async void labelSensorCalibrationWordPropertyChanged(object sender, EventArgs e)
         {
-            Content.LayoutTo(new Rectangle(0, -110, Content.Bounds.Width, Content.Bounds.Height));
+            if (labelSensorCalibrationWord == null)
+                return;
+
+            UInt16 value = Convert.ToUInt16(labelSensorCalibrationWord.Text, 16);
+
+            var a = value >> 15 & 0x01;
+            var b = value >> 10 & 0x1f;
+            var c = value & 0xff;
+
+            buttonCalibrationLock.Text = _CalibrationLockOptionsList[a];
+            buttonValibrationMargin.Text = _ValibrationMarginOptionsList[b];
+            extryCalibrationData.Text = c.ToString("X02");
         }
 
-        void InputUnfocused(object sender, EventArgs args)
+        void SetSensorCalibrationWordText ()
         {
-            Content.LayoutTo(new Rectangle(0, 0, Content.Bounds.Width, Content.Bounds.Height));
+            UInt16 value = 0;
+
+            var a = Array.IndexOf(_CalibrationLockOptionsList, buttonCalibrationLock.Text);
+            var b = Array.IndexOf(_ValibrationMarginOptionsList, buttonValibrationMargin.Text);
+            var c = Convert.ToUInt16(extryCalibrationData.Text, 16);
+
+            value = (UInt16)((a << 15) | (b << 10) | (c) );
+
+            labelSensorCalibrationWord.Text = value.ToString("X04");
         }
 
-        int HexVal (string value, int offset = 1)
+        public async void ButtonWriteClicked(object sender, EventArgs e)
         {
-            offset--;
-            byte[] header = UnicodeEncoding.Unicode.GetBytes(value.Substring(offset, 1));
+            SetSensorCalibrationWordText();
 
-            if (header[0] >= 48 && header[0] <= 57)
-                return  (header[0] - 48);
-            else if (header[0] >= 65 && header[0] <= 70)
-                return (header[0] - 55);
-            else if (header[0] >= 97 && header[0] <= 102)
-                return  (header[0] - 87);
-            else
-                return -1;
+            buttonWrite.SetBinding(Button.CommandProperty, new Binding("ButtonWriteCommand"));
+            buttonWrite.Command.Execute(1);
+            buttonWrite.RemoveBinding(Button.CommandProperty);
         }
-
     }
 }

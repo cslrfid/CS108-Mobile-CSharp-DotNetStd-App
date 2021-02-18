@@ -107,6 +107,7 @@ namespace CSLibrary
         private BarcodeReader _handleBarCodeReader = null;
         private Notification _handleNotification = null;
         private BluetoothIC _handleBluetoothIC = null;
+        internal Battery _handleBattery = null;
 
         public SiliconLabIC siliconlabIC
         {
@@ -137,6 +138,11 @@ namespace CSLibrary
             //set { _handleBluetoothIC = value; }
         }
 
+        public Battery battery
+        {
+            get { return _handleBattery; }
+        }
+
         public string ReaderName
         {
             get
@@ -159,6 +165,7 @@ namespace CSLibrary
             _handleBarCodeReader = new BarcodeReader(this);
             _handleNotification = new Notification(this);
             _handleBluetoothIC = new BluetoothIC(this);
+            _handleBattery = new Battery(this);
 
             BLE_Init();
         }
@@ -189,6 +196,9 @@ namespace CSLibrary
             rfid.Connect();
 
             notification.SetAutoReport(true);
+            //rfid.ResetToDefaultPowerMode();
+            //rfid.SetReaderPowerMode(false);
+            //rfid.SetToStandbyMode();
 
             FireReaderStateChangedEvent(new Events.OnReaderStateChangedEventArgs(_sendBuffer[0], Constants.ReaderCallbackType.CONNECT_SUCESS));
         }
