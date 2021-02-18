@@ -131,29 +131,42 @@ namespace CSLibrary
         {
             string country = "-" + m_save_country_code.ToString();
 
-            if (m_save_country_code == 2)
+            switch (m_save_country_code)
             {
-                if (m_oem_freq_modification_flag == 0)
-                {
-                    country += " RW";
-                }
-                else
-                {
+                case 2:
+                    if (m_oem_freq_modification_flag == 0)
+                    {
+                        country += " RW";
+                    }
+                    else
+                    {
+                        switch (m_oem_special_country_version)
+                        {
+                            case 0x4f464341:
+                                country += " OFCA";
+                                break;
+                            case 0x2a2a4153:
+                                country += " AS";
+                                break;
+                            case 0x2a2a4e5a:
+                                country += " NZ";
+                                break;
+                            case 0x20937846: 
+                                country += " ZA";
+                                break;
+                        }
+                    }
+                    break;
+
+                case 8:
                     switch (m_oem_special_country_version)
                     {
-                        case 0x4f464341:
-                            country += " OFCA";
-                            break;
-                        case 0x2a2a4153:
-                            country += " AS";
-                            break;
-                        case 0x2a2a4e5a:
-                            country += " NZ";
+                        case 0x2A4A5036:
+                            country += " JP6";
                             break;
                     }
-                }
+                    break;
             }
-
             return country;
         }
 
@@ -752,6 +765,7 @@ namespace CSLibrary
                         break;
                     case 0x40:  // Abort packet
                         {
+                            _deviceHandler.battery.DisbleAutoBatteryLevel();
                             _readerMode = 0; // record reader status to idle mode
 
                             //result |= HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.DATA2 | HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.BTAPIRESPONSE;
@@ -761,6 +775,7 @@ namespace CSLibrary
                             _dataBuffer.DataDel(8);
                             LastMacErrorCode = 0x0000;
                             FireStateChangedEvent(CSLibrary.Constants.RFState.IDLE);
+                            _deviceHandler.rfid.SetToStandbyMode();
                         }
                         break;
 
@@ -1032,24 +1047,28 @@ namespace CSLibrary
                                                         null));
                                                 }
                                                 break;
-/*
-                                            case CSLibrary.Constants.Operation.TAG_UNTRACEABLE:
-                                                {
-                                                    CSLibrary.Debug.WriteLine("Tag untraceable end {0}", currentCommandResponse);
 
-                                                    FireAccessCompletedEvent(
-                                                        new OnAccessCompletedEventArgs(
-                                                        (((currentCommandResponse | result) & HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.DATA1) != 0),
-                                                        Bank.UNTRACEABLE,
-                                                        TagAccess.WRITE,
-                                                        null));
-                                                }
-                                                break;
-                                                */
+
+                                                /*
+                                                                                            case CSLibrary.Constants.Operation.TAG_UNTRACEABLE:
+                                                                                                {
+                                                                                                    CSLibrary.Debug.WriteLine("Tag untraceable end {0}", currentCommandResponse);
+
+                                                                                                    FireAccessCompletedEvent(
+                                                                                                        new OnAccessCompletedEventArgs(
+                                                                                                        (((currentCommandResponse | result) & HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.DATA1) != 0),
+                                                                                                        Bank.UNTRACEABLE,
+                                                                                                        TagAccess.WRITE,
+                                                                                                        null));
+                                                                                                }
+                                                                                                break;
+                                                                                                */
                                         }
                                     }
 
                                     FireStateChangedEvent(CSLibrary.Constants.RFState.IDLE);
+                                    _deviceHandler.rfid.SetToStandbyMode();
+
                                     break;
 
                                 case 0x0005:    /// inventory packet

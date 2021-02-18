@@ -11,6 +11,8 @@ namespace BLE.Client.Pages
 {
 	public partial class PageEM4152SensorControlWord1
     {
+        string[] _SenseAtControlOptionList = new string[] { "No Sense", "Sense At Boot", "Sense At Select", "Sense At Write/BlockWrite" };
+
         public PageEM4152SensorControlWord1()
 		{
 			InitializeComponent();
@@ -26,47 +28,58 @@ namespace BLE.Client.Pages
             base.OnDisappearing();
         }
 
-        void InputFocused(object sender, EventArgs args)
+        public async void labelConfigurationWord1PropertyChanged(object sender, EventArgs e)
         {
-            double curY = ((Entry)sender).Y;
-            double move;
+/*            if (labelSystemConfigurationWord1 == null)
+                return;
 
-            if (curY != 0)
-            {
-                move = -(curY - 97.5);
-            }
-            else
-            {
-                move = -174;
-            }
+            UInt16 value = Convert.ToUInt16(labelSystemConfigurationWord1.Text, 16);
 
-            Content.LayoutTo(new Rectangle(0, move, Content.Bounds.Width, Content.Bounds.Height));
+            var a = value >> 14 & 0x03;
+            var b = value >> 13 & 0x01;
+            var c = value >> 11 & 0x03;
+            var d = value >> 9 & 0x03;
+            var e1 = value >> 8 & 0x01;
+            var f = value >> 7 & 0x01;
+            var g = value >> 6 & 0x01;
+            var h = value >> 4 & 0x03;
+
+            buttonPadMode.Text = _padModeOptionList[a];
+            buttonLegacyPCenable.Text = _legacyPCEnable[b];
+            buttonTamperFunction.Text = _tamperFunction[c];
+            buttonTNReporting.Text = _tNReporting[d];
+            buttonAccessPasswordUntraceablePrivilege.Text = _accessPasswordUntraceable[e1];
+            buttonAccessPasswordTNPrivilege.Text = _accessPasswordTNPrivilege[f];
+            buttonConfigurationLock.Text = _configurationLock[g];
+            buttonBackscatterconfiguration.Text = _backscatterConfiguration[h];
+*/        }
+
+        void SetlabelSystemConfigurationWord1Text()
+        {
+            UInt16 value = 0;
+/*
+            var a = Array.IndexOf(_padModeOptionList, buttonPadMode.Text);
+            var b = Array.IndexOf(_legacyPCEnable, buttonLegacyPCenable.Text);
+            var c = Array.IndexOf(_tamperFunction, buttonTamperFunction.Text);
+            var d = Array.IndexOf(_tNReporting, buttonTNReporting.Text);
+            var e1 = Array.IndexOf(_accessPasswordUntraceable, buttonAccessPasswordUntraceablePrivilege.Text);
+            var f = Array.IndexOf(_accessPasswordTNPrivilege, buttonAccessPasswordTNPrivilege.Text);
+            var g = Array.IndexOf(_configurationLock, buttonConfigurationLock.Text);
+            var h = Array.IndexOf(_backscatterConfiguration, buttonBackscatterconfiguration.Text);
+
+            value = (UInt16)((a << 14) | (b << 13) | (c << 11) | (d << 9) | (e1 << 8) | (f << 7) | (g << 6) | (h << 4));
+
+            labelSystemConfigurationWord1.Text = value.ToString("X04");
+*/
         }
 
-        void InputACCPWDFocused(object sender, EventArgs args)
+        public async void ButtonWriteClicked(object sender, EventArgs e)
         {
-            Content.LayoutTo(new Rectangle(0, -110, Content.Bounds.Width, Content.Bounds.Height));
+            SetlabelSystemConfigurationWord1Text();
+
+            buttonWrite.SetBinding(Button.CommandProperty, new Binding("ButtonWriteCommand"));
+            buttonWrite.Command.Execute(1);
+            buttonWrite.RemoveBinding(Button.CommandProperty);
         }
-
-        void InputUnfocused(object sender, EventArgs args)
-        {
-            Content.LayoutTo(new Rectangle(0, 0, Content.Bounds.Width, Content.Bounds.Height));
-        }
-
-        int HexVal (string value, int offset = 1)
-        {
-            offset--;
-            byte[] header = UnicodeEncoding.Unicode.GetBytes(value.Substring(offset, 1));
-
-            if (header[0] >= 48 && header[0] <= 57)
-                return  (header[0] - 48);
-            else if (header[0] >= 65 && header[0] <= 70)
-                return (header[0] - 55);
-            else if (header[0] >= 97 && header[0] <= 102)
-                return  (header[0] - 87);
-            else
-                return -1;
-        }
-
     }
 }

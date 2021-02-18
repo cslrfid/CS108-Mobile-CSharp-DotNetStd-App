@@ -10,12 +10,18 @@
         <StackLayout Padding="10, 10, 10, 0">
 
             <StackLayout Orientation="Vertical">
-                <Label Text="Temp Offset (Range -20~43.75)"/>
-                <Entry x:Name="entryTempOffset" Text ="{Binding entryTempOffsetText, Mode=TwoWay }"/>
+				<Label Text="Temperature Range Starting from (Total Range 63.75&#186;C)"/>
+				<StackLayout Orientation="Horizontal">
+					<Entry x:Name="entryTempOffset" Text ="{Binding entryTempOffsetText, Mode=TwoWay }"/>
+					<Label Text="&#186;C" VerticalOptions="Center"/>
+				</StackLayout>
 
-                <Label Text="Logging time interval"/>
-                <Entry x:Name="entryLogInterval" Text ="{Binding entryLogIntervalText, Mode=TwoWay }"/>
-            </StackLayout>
+				<Label Text="Logging time interval"/>
+				<StackLayout Orientation="Horizontal">
+					<Entry x:Name="entryLogInterval" Text ="{Binding entryLogIntervalText, Mode=TwoWay }"/>
+					<Label Text="s" VerticalOptions="Center"/>
+				</StackLayout>
+			</StackLayout>
 
             <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
 

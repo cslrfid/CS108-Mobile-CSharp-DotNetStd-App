@@ -60,14 +60,17 @@ namespace BLE.Client.ViewModels
 
         public ICommand OnStartInventoryButtonCommand { protected set; get; }
         public ICommand OnClearButtonCommand { protected set; get; }
-        public ICommand OnSenseOnlyButtonCommand { protected set; get; }
-        public ICommand OnSenseStoreButtonCommand { protected set; get; }
-        public ICommand OnSenseCalibrateButtonCommand { protected set; get; }
-        public ICommand OnSystemConfigurationWord1ButtonCommand { protected set; get; }
-        public ICommand OnTamperLockWordButtonCommand { protected set; get; }
-        public ICommand OnSensorCalibrationWordButtonCommand { protected set; get; }
-        public ICommand OnSensorControlWord1ButtonCommand { protected set; get; }
-        public ICommand OnSensorDataStoredButtonCommand { protected set; get; }
+
+        public ICommand OnInitialRegfileButtonCommand { protected set; get; }
+        public ICommand OnGetTemperatureButtonCommand { protected set; get; }
+        public ICommand OnLoggingButtonCommand { protected set; get; }
+        public ICommand OnReadWriteMemoryButtonCommand { protected set; get; }
+        public ICommand OnReadWriteRegButtonCommand { protected set; get; }
+        public ICommand OnAuthButtonCommand { protected set; get; }
+        public ICommand OnDeepSleepButtonCommand { protected set; get; }
+        public ICommand OnOpModeCheckButtonCommand { protected set; get; }
+        public ICommand OnLedCtrlButtonCommand { protected set; get; }
+
 
         private ObservableCollection<EM4152TagInfoViewModel> _TagInfoList = new ObservableCollection<EM4152TagInfoViewModel>();
         public ObservableCollection<EM4152TagInfoViewModel> TagInfoList { get { return _TagInfoList; } set { SetProperty(ref _TagInfoList, value); } }
@@ -110,14 +113,15 @@ namespace BLE.Client.ViewModels
             OnStartInventoryButtonCommand = new Command(StartInventoryClick);
             OnClearButtonCommand = new Command(ClearClick);
 
-            OnSenseOnlyButtonCommand = new Command(OnSenseOnlyButtonClick);
-            OnSenseStoreButtonCommand = new Command(OnSenseStoreButtonClick);
-            OnSenseCalibrateButtonCommand = new Command(OnSenseCalibrateButtonClick);
-            OnSystemConfigurationWord1ButtonCommand = new Command(OnSystemConfigurationWord1ButtonClick);
-            OnTamperLockWordButtonCommand = new Command(OnTamperLockWordButtonClick);
-            OnSensorCalibrationWordButtonCommand = new Command(OnSensorCalibrationWordButtonClick);
-            OnSensorControlWord1ButtonCommand = new Command(OnSensorControlWord1ButtonClick);
-            OnSensorDataStoredButtonCommand = new Command(OnSensorDataStoredButtonClick);
+            OnInitialRegfileButtonCommand = new Command(OnInitialRegfileButtonClick);
+            OnGetTemperatureButtonCommand = new Command(OnGetTemperatureButtonClick);
+            OnLoggingButtonCommand = new Command(OnLoggingButtonClick);
+            OnReadWriteMemoryButtonCommand = new Command(OnReadWriteMemoryButtonClick);
+            OnReadWriteRegButtonCommand = new Command(OnReadWriteRegButtonClick);
+            OnAuthButtonCommand = new Command(OnAuthButtonClick);
+            OnDeepSleepButtonCommand = new Command(OnDeepSleepButtonClick);
+            OnOpModeCheckButtonCommand = new Command(OnOpModeCheckButtonClick);
+            OnLedCtrlButtonCommand = new Command(OnLedCtrlButtonClick);
 
             SetEvent(true);
         }
@@ -182,44 +186,49 @@ namespace BLE.Client.ViewModels
             });
         }
 
-        private void OnSenseOnlyButtonClick()
+        private void OnInitialRegfileButtonClick()
         {
-            
-            
-        }   
-
-        private void OnSenseStoreButtonClick()
-        {
+            //            ShowViewModel<ViewModelEM4152SystemConfigurationWord1>(new MvxBundle());
         }
 
-        private void OnSenseCalibrateButtonClick()
+        private void OnGetTemperatureButtonClick()
         {
+            //            ShowViewModel<ViewModelEM4152SystemConfigurationWord1>(new MvxBundle());
         }
 
-        private void OnSystemConfigurationWord1ButtonClick()
+        private void OnLoggingButtonClick()
         {
-            ShowViewModel<ViewModelEM4152SystemConfigurationWord1>(new MvxBundle());
-
+            //            ShowViewModel<ViewModelEM4152SystemConfigurationWord1>(new MvxBundle());
         }
 
-        private void OnTamperLockWordButtonClick()
+        private void OnReadWriteMemoryButtonClick()
         {
-            ShowViewModel<ViewModelEM4152TamperLockWord>(new MvxBundle());
+            ShowViewModel<ViewModelFM13DT160ReadWriteMemory>(new MvxBundle());
         }
 
-        private void OnSensorCalibrationWordButtonClick()
+        private void OnReadWriteRegButtonClick()
         {
-            ShowViewModel< ViewModelEM4152SensorCalibrationWord>(new MvxBundle());
+  //          ShowViewModel<ViewModelEM4152TamperLockWord>(new MvxBundle());
         }
 
-        private void OnSensorControlWord1ButtonClick()
+        private void OnAuthButtonClick()
         {
-            ShowViewModel< ViewModelEM4152SensorControlWord1>(new MvxBundle());
+    //        ShowViewModel< ViewModelEM4152SensorCalibrationWord>(new MvxBundle());
         }
 
-        private void OnSensorDataStoredButtonClick()
+        private void OnDeepSleepButtonClick()
         {
-            ShowViewModel< ViewModelEM4152SensorDataStored>(new MvxBundle());
+      //      ShowViewModel< ViewModelEM4152SensorControlWord1>(new MvxBundle());
+        }
+
+        private void OnOpModeCheckButtonClick()
+        {
+        //    ShowViewModel< ViewModelEM4152SensorDataStored>(new MvxBundle());
+        }
+
+        private void OnLedCtrlButtonClick()
+        {
+            //    ShowViewModel< ViewModelEM4152SensorDataStored>(new MvxBundle());
         }
 
         public EM4152TagInfoViewModel objItemSelected

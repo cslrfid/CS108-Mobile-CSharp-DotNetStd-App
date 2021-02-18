@@ -174,7 +174,7 @@ namespace BLE.Client.ViewModels
                 // CS108 filter
                 switch (Xamarin.Forms.Device.RuntimePlatform)
                 {
-                    case Xamarin.Forms.Device.Windows:
+                    case Xamarin.Forms.Device.UWP:
                         if (args.Device.AdvertisementRecords.Count == 0)
                             CS108Service = true;
                         break;

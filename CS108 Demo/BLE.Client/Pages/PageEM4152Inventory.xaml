@@ -46,14 +46,15 @@
 			<StackLayout Orientation="Vertical" >
 				<Button Text= "{Binding startInventoryButtonText}" Font="Large" Command="{Binding OnStartInventoryButtonCommand}" />
 				<Button Text="Clear" Font="Large" Command="{Binding OnClearButtonCommand}" HorizontalOptions="CenterAndExpand" />
-				<Button Text="Sense only" Command="{Binding OnSenseOnlyButtonCommand}" Font="Large" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<!--<Button Text="Sense only" Command="{Binding OnSenseOnlyButtonCommand}" Font="Large" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="Sense and Store" Command="{Binding OnSenseStoreButtonCommand}" Font="Large" BackgroundColor="#C3C3C3" TextColor="Black" />
-				<Button Text="Sense and Calibrate" Command="{Binding OnSenseCalibrateButtonCommand}" Font="Large" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Sense and Calibrate" Command="{Binding OnSenseCalibrateButtonCommand}" Font="Large" BackgroundColor="#C3C3C3" TextColor="Black" />-->
+				
 				<Button Text="System Configuration Word 1" Command="{Binding OnSystemConfigurationWord1ButtonCommand}" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="Tamper Lock Word" Command="{Binding OnTamperLockWordButtonCommand}" Font="Large" BackgroundColor="#C3C3C3" TextColor="Black" />
-				<!--<Button Text="Sensor Calibration Word" Command="{Binding OnSensorCalibrationWordButtonCommand}" Font="Large" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Sensor Calibration Word" Command="{Binding OnSensorCalibrationWordButtonCommand}" Font="Large" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="Sensor Control Word 1" Command="{Binding OnSensorControlWord1ButtonCommand}" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
-				<Button Text="Sensor Data Stored" Command="{Binding OnSensorDataStoredButtonCommand}" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />-->
+				<Button Text="Sensor Data Stored" Command="{Binding OnSensorDataStoredButtonCommand}" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 			</StackLayout>
 		</ScrollView>
 

@@ -966,7 +966,7 @@ namespace CSLibrary
 #endif
         #endregion
 
-        #region Japan 2012
+        #region Japan
         /// <summary>
         /// Japan 2012 Frequency Table
         /// </summary>
@@ -976,8 +976,8 @@ namespace CSLibrary
             918.00,
             919.20,
             920.40,
-            //920.60,
-            //920.80,
+            920.60,
+            920.80,
         };
         /*OK*/
         private readonly uint[] jpn2012FreqTable = new uint[]
@@ -986,14 +986,37 @@ namespace CSLibrary
             0x003C23DC, /*918.000MHz   Channel 2*/
             0x003C23E8, /*919.200MHz   Channel 3*/
             0x003C23F4, /*920.400MHz   Channel 4*/
-            //0x003C23F6, /*920.600MHz   Channel 5*/
-            //0x003C23F8, /*920.800MHz   Channel 6*/
+            0x003C23F6, /*920.600MHz   Channel 5*/
+            0x003C23F8, /*920.800MHz   Channel 6*/
         };
         /// <summary>
         /// Japan Frequency Channel number
         /// </summary>
-        private const uint JPN2012_CHN_CNT = 4;
+        private const uint JPN2012_CHN_CNT = 6;
         private readonly uint[] jpn2012FreqSortedIdx = new uint[]{
+            0, 1, 2, 3, 4, 5
+        };
+
+        private readonly double[] JPN2019TableOfFreq = new double[]
+        {
+            916.80,
+            918.00,
+            919.20,
+            920.40,
+        };
+
+        private readonly uint[] jpn2019FreqTable = new uint[]
+        {
+            0x003C23D0, /*916.800MHz   Channel 1*/
+            0x003C23DC, /*918.000MHz   Channel 2*/
+            0x003C23E8, /*919.200MHz   Channel 3*/
+            0x003C23F4, /*920.400MHz   Channel 4*/
+        };
+        /// <summary>
+        /// Japan Frequency 2019 Channel number
+        /// </summary>
+        private const uint JPN2019_CHN_CNT = 4;
+        private readonly uint[] jpn2019FreqSortedIdx = new uint[]{
             0, 1, 2, 3
         };
 
@@ -1985,6 +2008,7 @@ namespace CSLibrary
             0x003C23CB, /*916.3 MHz   */
             0x003C23D7, /*917.5 MHz   */
             0x003C23E3, /*918.7 MHz   */
+            0x003C23E3, /*918.7 MHz   */
             //0x003C23EF, /*919.9 MHz   */
         };
         /// <summary>
@@ -2171,7 +2195,10 @@ namespace CSLibrary
                 case RegionCode.IN:
                     return IDA_CHN_CNT;
                 case RegionCode.JP:
-                    return JPN2012_CHN_CNT;
+                    if (m_oem_special_country_version == 0x2A4A5036)
+                        return JPN2012_CHN_CNT;
+                    else
+                        return JPN2019_CHN_CNT;
                 case RegionCode.ZA:
                     return ZA_CHN_CNT;
                 case RegionCode.BR1:
@@ -2259,7 +2286,10 @@ namespace CSLibrary
                 case RegionCode.IN:
                     return indiaFreqTable;
                 case RegionCode.JP:
-                    return jpn2012FreqTable;
+                    if (m_oem_special_country_version == 0x2A4A5036)
+                        return jpn2012FreqTable;
+                    else
+                        return jpn2019FreqTable;
                 case RegionCode.ZA:
                     return zaFreqTable;
                 case RegionCode.BR1:
@@ -2388,7 +2418,10 @@ namespace CSLibrary
                 case RegionCode.IN:
                     return indiaFreqSortedIdx;
                 case RegionCode.JP:
-                    return jpn2012FreqSortedIdx;
+                    if (m_oem_special_country_version == 0x2A4A5036)
+                        return jpn2012FreqSortedIdx;
+                    else
+                        return jpn2019FreqSortedIdx;
                 case RegionCode.ZA:
                     return zaFreqSortedIdx;
                 case RegionCode.BR1:
@@ -2482,7 +2515,10 @@ namespace CSLibrary
                 case RegionCode.VI:
                     return HKTableOfFreq;
                 case RegionCode.JP:
-                    return JPN2012TableOfFreq;
+                    if (m_oem_special_country_version == 0x2A4A5036)
+                        return JPN2012TableOfFreq;
+                    else
+                        return JPN2019TableOfFreq;
                 case RegionCode.KR:
                     return KRTableOfFreq;
                 case RegionCode.MY:
@@ -2534,3 +2570,31 @@ namespace CSLibrary
 
     }
 }
+
+#if new
+{
+    public class FREQUENCYDATA
+    {
+        int channel;
+        double frequency;
+        UInt16 pplvalue;
+    }
+
+    public class FREQUENCYSET
+    {
+        public string country;
+        public FREQUENCYDATA [] frequencyData;
+    }
+
+    // Israeli
+    FREQUENCYSET israeliFrequencySet {
+        country = "Israeli";
+        frequencyData = new FREQUENCYDATA()[]{ { 0, 915.5, 0x00180E4E },
+                                               { 1, 915.7, 0x003C23C5 },
+                                               { 2, 915.9, 0x003C23C7 },
+                                               { 3, 916.1, 0x003C23C9 },
+                                               { 4, 916.3, 0x003C23CB },
+                                               { 5, 916.5, 0x003C23CD } }
+
+}
+#endif

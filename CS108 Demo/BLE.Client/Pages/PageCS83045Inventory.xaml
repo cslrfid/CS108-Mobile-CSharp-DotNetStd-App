@@ -5,8 +5,8 @@
                 Title="CS8304/5 Inventory">
 
     <StackLayout>
-            
-        <ListView x:Name="liewViewTagData" ItemsSource="{Binding TagInfoList}" SelectedItem="{Binding objItemSelected, Mode=TwoWay}" >
+
+		<ListView x:Name="liewViewTagData" ItemsSource="{Binding TagInfoList}" ItemSelected="OnItemSelected" >
             <ListView.Header>
                 <StackLayout BackgroundColor="#cccccc">
                     <Grid>
@@ -59,7 +59,7 @@
             <StackLayout Orientation="Horizontal">
                 <Button Text="Start Log" Command="{Binding OnStartLogButtonCommand}" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
                 <Button Text="End Log" Command="{Binding OnStopLogButtonCommand}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
-                <!--<Button Text="Get Log" Command="{Binding OnGetLogButtonCommand}" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" />-->
+                <Button Text="Get Log" Command="{Binding OnGetLogButtonCommand}" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" />
             </StackLayout>
 
             <StackLayout Orientation="Horizontal">

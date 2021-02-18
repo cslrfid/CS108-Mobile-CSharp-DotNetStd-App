@@ -7,37 +7,37 @@
 
   
     <ScrollView>
-    
         <StackLayout Padding="5, 3, 5, 0">
-        
-            <Label Text="Selected EPC" WidthRequest="70" />
-		    <Editor Text="{ Binding entrySelectedEPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
 
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Access PWD" WidthRequest="70" />
-                <Entry Text="{ Binding entrySelectedPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
-            </StackLayout>
+			<StackLayout Orientation="Vertical">
+				<Label Text="Selected EPC"/>
+				<Entry Text="{ Binding entrySelectedEPCText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+			</StackLayout>
 
-            <Label Text="Data of 5.3. Measuring Temperature Using SELECT"/>
-            <Entry Text="{ Binding _5_3, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Access PWD" WidthRequest="70" />
+				<Entry Text="{ Binding entrySelectedPWDText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+			</StackLayout>
 
-            <Label Text="Data of 5.4. Reading Temperature in MASTER MODE"/>
-            <Entry Text="{ Binding _5_4, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+			<StackLayout Orientation="Vertical">
+				<Label Text="Sense At Control" WidthRequest="500" />
+				<Button x:Name="buttonSenseAtControl" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonSenseAtControlClicked"/>
+			</StackLayout>
 
-            <Label Text="Data of 5.5. Converting TEMPERATURE CODE into°C"/>
-            <Entry Text="{ Binding _5_5, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+			<StackLayout Orientation="Vertical" IsVisible="true">
+				<Label Text="Sensor Control Word 1 Value"/>
+				<Label x:Name="labelSensorControlWord1" Text="{Binding labelSensorControlWord1Text, Mode=TwoWay}" HorizontalOptions="FillAndExpand" PropertyChanged="labelSensorControlWord1PropertyChanged" />
+			</StackLayout>
 
-            <Label Text="Final Temperature °C"/>
-            <Entry Text="{ Binding _Temp, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+			<StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+				<Button x:Name="buttonRead" Text="Read" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding ButtonReadCommand}"/>
+			</StackLayout>
 
-            <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand">
-            <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
-                <Button Text="Read" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnReadButtonCommand}" />
-            </StackLayout>
-      
-      </StackLayout>
+			<StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+				<Button x:Name="buttonWrite" Text="Write" Font="Large" BackgroundColor="#C3C3C3" Clicked="ButtonWriteClicked" />
+			</StackLayout>
 
-    </StackLayout>
-  </ScrollView>
+		</StackLayout>
+	</ScrollView>
 </pages:BasePage>
     

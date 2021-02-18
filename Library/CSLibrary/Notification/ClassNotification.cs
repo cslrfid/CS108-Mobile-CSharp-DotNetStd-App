@@ -8,6 +8,7 @@ namespace CSLibrary
 {
     public partial class Notification
     {
+        bool _currentAutoReportStatus = false;
         uint _batteryLevel = 0;
 
         // RFID event code
@@ -74,14 +75,27 @@ namespace CSLibrary
         {
             if (OnOff)
             {
-                //_deviceHandler.SendAsync(0, 2, DOWNLINKCMD.STARTAUTOREPORTING, null, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.NOWAIT);
-                _deviceHandler.SendAsync(0, 2, DOWNLINKCMD.STARTAUTOREPORTING, null, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE);
+//                if (!_currentAutoReportStatus)
+                {
+                    _deviceHandler.SendAsync(0, 2, DOWNLINKCMD.STARTAUTOREPORTING, null, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE);
+                    _currentAutoReportStatus = true;
+                }
             }
             else
             {
-                _deviceHandler.SendAsync(0, 2, DOWNLINKCMD.STOPAUTOREPORTING, null, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE);
+  //              if (_currentAutoReportStatus)
+                {
+                    _deviceHandler.SendAsync(0, 2, DOWNLINKCMD.STOPAUTOREPORTING, null, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE);
+                    _currentAutoReportStatus = false;
+                }
             }
         }
+
+        internal void GetCurrentBatteryVoltage()
+        {
+            _deviceHandler.SendAsync(0, 2, DOWNLINKCMD.GETVOLTAGE, null, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.NOWAIT);
+        }
+
 
         internal void DeviceRecvVoltage(uint voltagemV)
         {
@@ -92,7 +106,6 @@ namespace CSLibrary
 
             OnVoltageEvent(_deviceHandler, new Notification.VoltageEventArgs(voltagemV));
         }
-
 
         bool _receiveOffWithin1s = false;
         bool _receiveOnWithinOffcycle = false;

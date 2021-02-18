@@ -137,25 +137,11 @@ namespace BLE.Client.Pages
             {
                 case "-1":
                 case "-8":
-                case "-9":
-                    _freqOrderOptions = new string[] { "Fixed", "Agile" };
-                    break;
-
-                case "-2":
-                case "-2 AS":
-                case "-2 NZ":
-                case "-2 OFCA":
-                case "-4":
-                case "-7":
-                    _freqOrderOptions = new string[] { "Hopping" };
-                    break;
-
-                case "-2 RW":
-                    _freqOrderOptions = new string[] { "Hopping", "Fixed" };
+                    _freqOrderOptions = new string[] { "Fixed" };
                     break;
 
                 default:
-                    _freqOrderOptions = new string[] { "Hopping", "Fixed", "Agile" };
+                    _freqOrderOptions = new string[] { "Hopping" };
                     break;
             }
 

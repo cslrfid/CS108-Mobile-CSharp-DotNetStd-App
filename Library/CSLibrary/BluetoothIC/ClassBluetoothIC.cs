@@ -101,57 +101,5 @@ namespace CSLibrary
 
             return true;
         }
-
-
-
-
-        /*
-
-                internal void SetAutoReport (bool OnOff)
-                {
-                    if (OnOff)
-                    {
-                        //_deviceHandler.SendAsync(0, 2, DOWNLINKCMD.STARTAUTOREPORTING, null, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.NOWAIT);
-                        _deviceHandler.SendAsync(0, 2, DOWNLINKCMD.STARTAUTOREPORTING, null, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE);
-                    }
-                    else
-                    {
-                        _deviceHandler.SendAsync(0, 2, DOWNLINKCMD.STOPAUTOREPORTING, null, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE);
-                    }
-                }
-
-                internal void DeviceRecvVoltage (uint voltagemV)
-                {
-                    _batteryLevel = voltagemV;
-
-                    if (OnVoltageEvent == null)
-                        return;
-
-                    OnVoltageEvent(_deviceHandler, new Notification.VoltageEventArgs (voltagemV));
-                }
-
-                internal void DeviceRecvState(int value)
-                {
-                    if (OnKeyEvent == null)
-                        return;
-
-                    switch (value)
-                    {
-                        case 0: // button on
-                            OnKeyEvent (_deviceHandler, new Notification.HotKeyEventArgs (Key.BUTTON, true));
-                            break;
-
-                        case 1: // button off
-                            OnKeyEvent (_deviceHandler, new Notification.HotKeyEventArgs (Key.BUTTON, false));
-                            break;
-                    }
-                }
-
-                public uint GetCurrentBatteryLevel ()
-                {
-                    return _batteryLevel;
-                }
-            */
-
     }
 }

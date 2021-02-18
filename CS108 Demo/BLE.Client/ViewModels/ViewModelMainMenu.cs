@@ -184,6 +184,7 @@ namespace BLE.Client.ViewModels
                 }
 
                 ClassBattery.SetBatteryMode(ClassBattery.BATTERYMODE.IDLE);
+                BleMvxApplication._reader.battery.SetPollingTime(BleMvxApplication._config.RFID_BatteryPollingTime);
             }
         }
 
@@ -294,7 +295,7 @@ namespace BLE.Client.ViewModels
                         break;
 
                     default:
-                        labelVoltage = "CS108 Bat. " + ClassBattery.Voltage2Percent(voltage).ToString("0") + "%"; //			%
+                        labelVoltage = "CS108 Bat. " + ClassBattery.Voltage2Percent(voltage).ToString("0") + "%" + " " + voltage.ToString("0.000") + "v"; //			%
                         break;
                 }
             }
@@ -447,7 +448,11 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._POSTFILTER_MASK_MatchNot = false;
             BleMvxApplication._POSTFILTER_MASK_Enable = false;
 
+            labelVoltage = "";
+            RaisePropertyChanged(() => labelVoltage);
+
             ShowViewModel<DeviceListViewModel>(new MvxBundle());
+
             CheckConnection();
         }
 

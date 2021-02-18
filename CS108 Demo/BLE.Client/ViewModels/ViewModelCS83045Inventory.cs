@@ -162,15 +162,6 @@ namespace BLE.Client.ViewModels
         }
 
         //private TagInfoViewModel _ItemSelected;
-        public ColdChainTagInfoViewModel objItemSelected
-        {
-            set
-            {
-                BleMvxApplication._SELECT_EPC = value.EPC;
-                ShowViewModel<ViewModelRFMicroReadTemp>(new MvxBundle());
-            }
-        }
-
         void SetConfigPower()
         {
             if (BleMvxApplication._reader.rfid.GetAntennaPort() == 1)
@@ -500,7 +491,7 @@ namespace BLE.Client.ViewModels
 
         void OnGetLogButtonClcked ()
         {
-
+            ShowViewModel<ViewModelCS83045ViewLog>(new MvxBundle());
         }
 
         private void StartLogResultProccess(CSLibrary.Events.OnAccessCompletedEventArgs e)

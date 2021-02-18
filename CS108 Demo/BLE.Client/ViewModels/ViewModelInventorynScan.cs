@@ -392,14 +392,14 @@ namespace BLE.Client.ViewModels
                 {
                     BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.EPC;
                     BleMvxApplication._reader.rfid.Options.TagSelected.epcMask = new CSLibrary.Structures.S_MASK(BleMvxApplication._PREFILTER_MASK_EPC);
-                    BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskOffset = 0;
+                    BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskOffset = BleMvxApplication._PREFILTER_MASK_Offset;
                     BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskLength = (uint)(BleMvxApplication._PREFILTER_MASK_EPC.Length) * 4;
                 }
                 else
                 {
                     BleMvxApplication._reader.rfid.Options.TagSelected.bank = (CSLibrary.Constants.MemoryBank)(BleMvxApplication._PREFILTER_Bank);
                     BleMvxApplication._reader.rfid.Options.TagSelected.Mask = CSLibrary.Tools.Hex.ToBytes(BleMvxApplication._PREFILTER_MASK_EPC);
-                    BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
+                    BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = BleMvxApplication._PREFILTER_MASK_Offset;
                     BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = (uint)(BleMvxApplication._PREFILTER_MASK_EPC.Length) * 4;
                 }
                 BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PREFILTER);
@@ -1014,6 +1014,7 @@ namespace BLE.Client.ViewModels
                 BleMvxApplication._reader.barcode.VibratorOff();
             //Vibrator(false);
             _startBarcodeScanButtonText = "Start Scan";
+            RaisePropertyChanged(() => startBarcodeScanButtonText);
         }
 
         void Linkage_CaptureCompleted(object sender, CSLibrary.Barcode.BarcodeEventArgs e)
@@ -1181,11 +1182,19 @@ namespace BLE.Client.ViewModels
 
                 foreach (var tagitem in _TagInfoList)
                 {
-                    CSVdata += "\"" + tagitem.PC.ToString("X4") + "\",";
-                    CSVdata += "\"" + tagitem.EPC.ToString() + "\",";
-                    CSVdata += tagitem.timeOfRead.ToString("yyyy/MM/dd HH:mm:ss.fff") + "\",";
-                    CSVdata += "\"" + tagitem.timeOfRead.ToString("zzz") + "\"";
+                    CSVdata += tagitem.PC.ToString("X4") + ",";
+                    CSVdata += tagitem.EPC.ToString() + ",";
+                    CSVdata += tagitem.timeOfRead.ToString("yyyy/MM/dd HH:mm:ss.fff") + ",";
+                    CSVdata += tagitem.timeOfRead.ToString("zzz");
                     CSVdata += System.Environment.NewLine;
+                    
+                    /*
+                                        CSVdata += "\"" + tagitem.PC.ToString("X4") + "\",";
+                                        CSVdata += "\"" + tagitem.EPC.ToString() + "\",";
+                                        CSVdata += tagitem.timeOfRead.ToString("yyyy/MM/dd HH:mm:ss.fff") + "\",";
+                                        CSVdata += "\"" + tagitem.timeOfRead.ToString("zzz") + "\"";
+                                        CSVdata += System.Environment.NewLine;
+                    */
                 }
 
                 return CSVdata;
@@ -1214,7 +1223,7 @@ namespace BLE.Client.ViewModels
                     r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
                     {
                         Text = GetCSVData(),
-                        Title = "CS108 tags list"
+                        Title = "CS108 tags list.csv"
                     });
                     break;
 

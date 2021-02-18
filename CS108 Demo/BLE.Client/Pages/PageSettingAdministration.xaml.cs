@@ -64,6 +64,8 @@ namespace BLE.Client.Pages
             entryVibrationWindow.Text = BleMvxApplication._config.RFID_VibrationWindow.ToString();
             entryVibrationTime.Text = BleMvxApplication._config.RFID_VibrationTime.ToString();
 
+            //entryBatteryIntervalTime.Text = BleMvxApplication._config.RFID_BatteryPollingTime.ToString();
+
             if (Device.RuntimePlatform != Device.Android)
             {
                 //switchSavetoFile.IsEnabled = false;
@@ -117,6 +119,8 @@ namespace BLE.Client.Pages
             BleMvxApplication._config.RFID_VibrationTag = switchVibrationTag.IsToggled;
             BleMvxApplication._config.RFID_VibrationWindow = UInt32.Parse(entryVibrationWindow.Text);
             BleMvxApplication._config.RFID_VibrationTime = UInt32.Parse(entryVibrationTime.Text);
+
+            //BleMvxApplication._config.RFID_BatteryPollingTime = uint.Parse(entryBatteryIntervalTime.Text);
 
             BleMvxApplication.SaveConfig();
 
