@@ -34,10 +34,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.ByPassRegister.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.Country.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.FM13DT160.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.FrequencyChannel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.Inventory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.MacRegister.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.OEM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.PowerManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.Read.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.Select.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.Write.cs" />
@@ -70,5 +72,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tools\ClassFIFIQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\ClassTimer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Tools\HexEncoding.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Battery\" />
   </ItemGroup>
 </Project>

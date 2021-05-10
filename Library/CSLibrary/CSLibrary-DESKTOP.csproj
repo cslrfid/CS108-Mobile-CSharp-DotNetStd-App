@@ -53,6 +53,7 @@
     <Compile Include="BarcodeReader\Constants\CSLibrary.Barcode.Constants.cs" />
     <Compile Include="BarcodeReader\Events\CSLibrary.Barcode.EventArgs.cs" />
     <Compile Include="BarcodeReader\Structures\CSLibrary.Barcode.Structures.cs" />
+    <Compile Include="Battery\ClassBattery.cs" />
     <Compile Include="BluetoothIC\ClassBluetoothIC.cs" />
     <Compile Include="BluetoothProtocol\BTConnect.cs" />
     <Compile Include="BluetoothProtocol\BTReceive.cs" />
@@ -74,10 +75,12 @@
     <Compile Include="RFIDReader\ClassRFID.Private.ByPassRegister.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.Country.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.cs" />
+    <Compile Include="RFIDReader\ClassRFID.Private.FM13DT160.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.FrequencyChannel.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.Inventory.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.MacRegister.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.OEM.cs" />
+    <Compile Include="RFIDReader\ClassRFID.Private.PowerManager.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.Read.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.Select.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.Write.cs" />
