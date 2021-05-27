@@ -330,6 +330,9 @@
     <EmbeddedResource Update="Pages\ServiceListPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Pages\PageMultiBankInventoryG2iL.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

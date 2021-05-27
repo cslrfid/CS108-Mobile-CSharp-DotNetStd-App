@@ -38,6 +38,7 @@ namespace BLE.Client.ViewModels
         private readonly IUserDialogs _userDialogs;
 
         public ICommand OnMultiBankInventoryButtonCommand { protected set; get; }
+        public ICommand OnMultiBankInventoryG2iLButtonCommand { protected set; get; }
         public ICommand OnPhaseChannelInventoryButtonCommand { protected set; get; }
         public ICommand OnPeriodicReadButtonCommand { protected set; get; }
         public ICommand OnUCODEDNAButtonCommand { protected set; get; }
@@ -62,6 +63,7 @@ namespace BLE.Client.ViewModels
             _userDialogs = userDialogs;
 
             OnMultiBankInventoryButtonCommand = new Command(OnMultiBankInventoryButtonClicked);
+            OnMultiBankInventoryG2iLButtonCommand = new Command(OnMultiBankInventoryG2iLButtonClicked);
             OnPhaseChannelInventoryButtonCommand = new Command(OnPhaseChannelInventoryButtonClicked);
             OnPeriodicReadButtonCommand = new Command(OnPeriodicReadButtonClicked);
             OnUCODEDNAButtonCommand = new Command(OnUCODEDNAButtonClicked);
@@ -89,6 +91,12 @@ namespace BLE.Client.ViewModels
         {
             ShowViewModel<ViewModelMultiBankInventorySetting>(new MvxBundle());
         }
+
+        void OnMultiBankInventoryG2iLButtonClicked()
+        {
+            ShowViewModel<ViewModelMultiBankInventoryG2iL>(new MvxBundle());
+        }
+
 
         void OnPhaseChannelInventoryButtonClicked()
         {

@@ -11,6 +11,7 @@
 				<Button Text="Multi Bank Inventory" Font="Large" Command="{Binding OnMultiBankInventoryButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="Phase and Channel Inventory" Font="Large" Command="{Binding OnPhaseChannelInventoryButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="Periodic Read" Font="Large" Command="{Binding OnPeriodicReadButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Tamper Detector (G2iL+)" Font="Large" Command="{Binding OnMultiBankInventoryG2iLButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="UCODE DNA" Font="Large" Command="{Binding OnUCODEDNAButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="Magnus S2 or S3 IC" Font="Large" Command="{Binding OnRFMicroButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="Axzon Xerxes" Font="Large" Command="{Binding OnXerxesButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
