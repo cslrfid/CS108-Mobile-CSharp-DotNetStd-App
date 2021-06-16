@@ -437,6 +437,8 @@ namespace BLE.Client.ViewModels
                 return;
             }
 
+            CSLibrary.Debug.WriteLine("StartInventory");
+
             StartTagCount();
             _InventoryScanning = true;
             _startInventoryButtonText = "Stop Inventory";
@@ -570,6 +572,8 @@ namespace BLE.Client.ViewModels
 
         async void StopInventory ()
         {
+            CSLibrary.Debug.WriteLine("StopInventory");
+
             BleMvxApplication._reader.rfid.StopOperation();
             if (BleMvxApplication._config.RFID_Vibration)
                 BleMvxApplication._reader.barcode.VibratorOff();
@@ -1070,6 +1074,8 @@ namespace BLE.Client.ViewModels
 
         void HotKeys_OnKeyEvent(object sender, CSLibrary.Notification.HotKeyEventArgs e)
         {
+            CSLibrary.Debug.WriteLine("Key Event real time keydown:" + e.KeyDown.ToString());
+
             InvokeOnMainThread(() =>
             {
                 Page currentPage;
@@ -1361,7 +1367,6 @@ namespace BLE.Client.ViewModels
 
                     _userDialogs.Alert("Fail to Save to Cloud Server !!!!!");
                 }
-
             }
             catch (Exception ex)
             {
@@ -1371,6 +1376,5 @@ namespace BLE.Client.ViewModels
 
             return false;
         }
-
     }
 }

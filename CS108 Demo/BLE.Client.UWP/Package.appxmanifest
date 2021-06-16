@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="ConvergenceSystemsLimited.CS108CDemo" Publisher="CN=781A704A-3406-4460-BC4A-0B7C6B92AAAB" Version="3.1.6.0" />
+  <Identity Name="ConvergenceSystemsLimited.CS108CDemo" Publisher="CN=781A704A-3406-4460-BC4A-0B7C6B92AAAB" Version="3.1.14.0" />
   <mp:PhoneIdentity PhoneProductId="3e70c2f6-c440-4dbe-9fe1-23b41094a1ea" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>CS108 C# Demo</DisplayName>
@@ -19,6 +19,8 @@
         <uap:InitialRotationPreference>
           <uap:Rotation Preference="portrait" />
           <uap:Rotation Preference="landscape" />
+          <uap:Rotation Preference="portraitFlipped"/>
+          <uap:Rotation Preference="landscapeFlipped"/>
         </uap:InitialRotationPreference>
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
           <uap:ShowNameOnTiles>
@@ -32,5 +34,6 @@
   <Capabilities>
     <Capability Name="internetClient" />
     <DeviceCapability Name="bluetooth" />
+    <DeviceCapability Name="location"/>
   </Capabilities>
 </Package>

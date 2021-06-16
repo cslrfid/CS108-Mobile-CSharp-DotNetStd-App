@@ -23,6 +23,10 @@
 				<Button Text="EM4152" Font="Large" Command="{Binding OnEM4152ButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="FM13DT160" Font="Large" Command="{Binding OnFM13DT160ButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="Smartrac Thermologger" Font="Large" Command="{Binding OnSmartracThermologgerButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Write Any EPC" Font="Large" Command="{Binding OnWriteAnyEPCButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Performance Test" Font="Large" Command="{Binding OnPerformanceTestButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Monza4 QT" Font="Large" Command="{Binding OnMonza4QTButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Magnus S3 with GPS for Advantech" Font="Large" Command="{Binding OnMagnusS3withGPSforTabletButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 			</StackLayout>
 		</StackLayout>
 	</ScrollView>

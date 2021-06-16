@@ -9,6 +9,7 @@
     <Import_RootNamespace>CSLibrary</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Battery\ClassBattery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CSLibrary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BarcodeReader\ClassBarCode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BarcodeReader\Constants\CSLibrary.Barcode.Constants.cs" />
@@ -34,10 +35,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.ByPassRegister.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.Country.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.FM13DT160.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.FrequencyChannel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.Inventory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.MacRegister.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.OEM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.PowerManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.QTCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.Read.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.Select.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Private.Write.cs" />
@@ -48,6 +52,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Public.Operation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Public.Power.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Public.Profile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Public.QTCommandParms.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\ClassRFID.Public.SetLNA.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\Constants\AntennaPort.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RFIDReader\Constants\AntennaSequenceMode.cs" />

@@ -67,7 +67,6 @@ namespace BLE.Client.ViewModels
                             ShowViewModel<ViewModelRFMicroS3Inventory>(new MvxBundle());
                             break;
                     }
-            //ShowViewModel<ViewModelRFMicroInventory>(new MvxBundle());
         }
     }
 }

@@ -15,6 +15,11 @@
           <Label x:Name="labelPcbVer" Text="Main Board PCB Version"/>
           <Label x:Name="labelSerialNumber" Text="Serial Number"/>
         </StackLayout>
+
+		<StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand" >
+			<Button Text="Open Privacy policy" Font="Large" HorizontalOptions="StartAndExpand" Clicked="buttonOpenPrivacypolicyClicked"/>
+		</StackLayout>
+
 	</StackLayout>
 
 </pages:BasePage>

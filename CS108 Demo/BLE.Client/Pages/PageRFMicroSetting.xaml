@@ -41,17 +41,21 @@
                 <Button x:Name="buttonSensorUnit" Text ="{Binding buttonSensorUnitText, Mode=OneWayToSource }" PropertyChanged="buttonSensorUnitPropertyChanged" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonSensorUnitClicked" />
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Min OCRSSI" WidthRequest="100" VerticalOptions="Center"/>
-                <Entry x:Name="entryMinOCRSSI" Text ="{Binding entryMinOCRSSIText, Mode=OneWayToSource }" HorizontalOptions="FillAndExpand" />
-            </StackLayout>
+			<StackLayout Orientation="Horizontal">
+				<Label Text="OCRSSI" WidthRequest="65" VerticalOptions="Center" />
 
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Max OCRSSI" WidthRequest="100" VerticalOptions="Center"/>
-                <Entry x:Name="entryMaxOCRSSI" Text ="{Binding entryMaxOCRSSIText, Mode=OneWayToSource }" HorizontalOptions="FillAndExpand" />
-            </StackLayout>
+				<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+					<Label Text="Min" WidthRequest="35" VerticalOptions="Center"/>
+					<Entry x:Name="entryMinOCRSSI" Text ="{Binding entryMinOCRSSIText, Mode=OneWayToSource }" HorizontalOptions="FillAndExpand" />
+				</StackLayout>
 
-            <StackLayout Orientation="Horizontal">
+				<StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+					<Label Text="Max" WidthRequest="35" VerticalOptions="Center"/>
+					<Entry x:Name="entryMaxOCRSSI" Text ="{Binding entryMaxOCRSSIText, Mode=OneWayToSource }" HorizontalOptions="FillAndExpand" />
+				</StackLayout>
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
                 <Label Text="Color Threshold" WidthRequest="100" VerticalOptions="Center"/>
                 <Button x:Name="buttonThresholdComparison" Text ="{Binding buttonThresholdComparisonText, Mode=OneWayToSource }" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonThresholdComparisonClicked" />
                 <Entry x:Name="entryThresholdValue" Text ="{Binding entryThresholdValueText, Mode=OneWayToSource }" HorizontalOptions="FillAndExpand"  VerticalOptions="Center"/>
