@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
 
 namespace BLE.Client.Pages
 {
@@ -51,6 +52,13 @@ namespace BLE.Client.Pages
                 return "No PCB Version";
             }
         }
+
+        public async void buttonOpenPrivacypolicyClicked(object sender, EventArgs args)
+        {
+            await Launcher.OpenAsync(new Uri("https://www.convergence.com.hk/apps-privacy-policy/"));
+        }
+
+
 
     }
 }

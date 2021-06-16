@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -81,6 +81,7 @@
     <Compile Include="RFIDReader\ClassRFID.Private.MacRegister.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.OEM.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.PowerManager.cs" />
+    <Compile Include="RFIDReader\ClassRFID.Private.QTCommand.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.Read.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.Select.cs" />
     <Compile Include="RFIDReader\ClassRFID.Private.Write.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="RFIDReader\ClassRFID.Public.Operation.cs" />
     <Compile Include="RFIDReader\ClassRFID.Public.Power.cs" />
     <Compile Include="RFIDReader\ClassRFID.Public.Profile.cs" />
+    <Compile Include="RFIDReader\ClassRFID.Public.QTCommandParms.cs" />
     <Compile Include="RFIDReader\ClassRFID.Public.SetLNA.cs" />
     <Compile Include="RFIDReader\Constants\AntennaPort.cs" />
     <Compile Include="RFIDReader\Constants\AntennaSequenceMode.cs" />
@@ -115,10 +117,10 @@
     <Compile Include="Tools\HexEncoding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Readme.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>del ..\..\obj\project.assets.json</PreBuildEvent>

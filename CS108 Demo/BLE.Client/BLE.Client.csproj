@@ -107,6 +107,7 @@
     <PackageReference Include="Prism.Core" Version="6.3.0" />
     <PackageReference Include="Splat" Version="2.0.0" />
     <PackageReference Include="Xam.Plugins.Settings" Version="3.0.1" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.4.0" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1931" />
   </ItemGroup>
 
@@ -117,7 +118,70 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\Monza4 QT\PublicModeInventory\PageQTPublicModeInventory.xaml.cs">
+      <DependentUpon>PageQTPublicModeInventory.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\Monza4 QT\PrivateModeInventory\PageQTPrivateModeInventory.xaml.cs">
+      <DependentUpon>PageQTPrivateModeInventory.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\Monza4 QT\ReadPublicModeData\PageQTReadPublicModeData.xaml.cs">
+      <DependentUpon>PageQTReadPublicModeData.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\Monza4 QT\ReadWritePrivateModeData\PageQTReadWritePrivateModeData.xaml.cs">
+      <DependentUpon>PageQTReadWritePrivateModeData.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\Monza4 QT\InventorySelectionMenu\PageQTInventorySlectionMenu.xaml.cs">
+      <DependentUpon>PageQTInventorySlectionMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\Temperature tag with location demo for Tablet\PageTempGPSInventory.xaml.cs">
+      <DependentUpon>PageTempGPSInventory.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\Temperature tag with location demo for Tablet\PageTempGPSSetting.xaml.cs">
+      <DependentUpon>PageTempGPSSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\PageFM13DT160DeepSleep.xaml.cs">
+      <DependentUpon>PageFM13DT160DeepSleep.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\PageFM13DT160InitRegFile.xaml.cs">
+      <DependentUpon>PageFM13DT160InitRegFile.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\PageFM13DT160LedCtrl.xaml.cs">
+      <DependentUpon>PageFM13DT160LedCtrl.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\PageFM13DT160OpModeCheck.xaml.cs">
+      <DependentUpon>PageFM13DT160OpModeCheck.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\PagePerformanceTest.xaml.cs">
+      <DependentUpon>PagePerformanceTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\PageWriteAnyEPC.xaml.cs">
+      <DependentUpon>PageWriteAnyEPC.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="BleMvxFormsApp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PagesViewModelsSet\SpecialFuction\Monza4 QT\PublicModeInventory\PageQTPublicModeInventory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PagesViewModelsSet\SpecialFuction\Monza4 QT\PrivateModeInventory\PageQTPrivateModeInventory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PagesViewModelsSet\SpecialFuction\Monza4 QT\ReadPublicModeData\PageQTReadPublicModeData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PagesViewModelsSet\SpecialFuction\Monza4 QT\ReadWritePrivateModeData\PageQTReadWritePrivateModeData.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PagesViewModelsSet\SpecialFuction\Monza4 QT\InventorySelectionMenu\PageQTInventorySlectionMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PagesViewModelsSet\SpecialFuction\Temperature tag with location demo for Tablet\PageTempGPSInventory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PagesViewModelsSet\SpecialFuction\Temperature tag with location demo for Tablet\PageTempGPSSetting.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\DeviceListPage.xaml">
@@ -171,6 +235,18 @@
     <EmbeddedResource Update="Pages\PageEM4152SensorDataStored.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Pages\PageFM13DT160DeepSleep.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\PageFM13DT160InitRegFile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\PageFM13DT160LedCtrl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\PageFM13DT160OpModeCheck.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Pages\PageEM4152SystemConfigurationWord1.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
@@ -193,6 +269,9 @@
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\PageGeiger.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\PagePerformanceTest.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\PageInventory.xaml">
@@ -229,6 +308,9 @@
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\PageRead.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\PageWriteAnyEPC.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\PageReadWrite.xaml">

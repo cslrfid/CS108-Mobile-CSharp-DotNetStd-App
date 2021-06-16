@@ -223,7 +223,7 @@ namespace BLE.Client.ViewModels
 
         private void OnOpModeCheckButtonClick()
         {
-        //    ShowViewModel< ViewModelEM4152SensorDataStored>(new MvxBundle());
+            ShowViewModel <ViewModelFM13DT160OpModeCheck>(new MvxBundle());
         }
 
         private void OnLedCtrlButtonClick()

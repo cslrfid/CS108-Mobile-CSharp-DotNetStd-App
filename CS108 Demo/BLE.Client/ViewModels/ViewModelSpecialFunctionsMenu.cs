@@ -52,10 +52,10 @@ namespace BLE.Client.ViewModels
         public ICommand OnEM4152ButtonCommand { protected set; get; }
         public ICommand OnFM13DT160ButtonCommand { protected set; get; }
         public ICommand OnSmartracThermologgerButtonCommand { protected set; get; }
-        
-
-
-
+        public ICommand OnWriteAnyEPCButtonCommand { protected set; get; }
+        public ICommand OnPerformanceTestButtonCommand { protected set; get; }
+        public ICommand OnMonza4QTButtonCommand { protected set; get; }
+        public ICommand OnMagnusS3withGPSforTabletButtonCommand { protected set; get; }
 
         public ViewModelSpecialFunctionsMenu (IAdapter adapter, IUserDialogs userDialogs) : base(adapter)
         {
@@ -76,6 +76,10 @@ namespace BLE.Client.ViewModels
             OnEM4152ButtonCommand = new Command(OnEM4152ButtonClicked);
             OnFM13DT160ButtonCommand = new Command(OnFM13DT160ButtonClicked);
             OnSmartracThermologgerButtonCommand = new Command(OnSmartracThermologgerButtonClicked);
+            OnWriteAnyEPCButtonCommand = new Command(OnWriteAnyEPCButtonClicked);
+            OnPerformanceTestButtonCommand = new Command(OnPerformanceTestButtonClicked);
+            OnMonza4QTButtonCommand = new Command(OnMonza4QTButtonClicked);
+            OnMagnusS3withGPSforTabletButtonCommand = new Command(OnMagnusS3withGPSforTabletButtonClicked);
         }
 
         public override void Resume()
@@ -159,6 +163,27 @@ namespace BLE.Client.ViewModels
         {
             ShowViewModel<ViewModelSmartracThermologgerInventory>(new MvxBundle());
         }
+
+        void OnWriteAnyEPCButtonClicked()
+        {
+            ShowViewModel<ViewModelWriteAnyEPC>(new MvxBundle());
+        }
+
+        void OnPerformanceTestButtonClicked()
+        {
+            ShowViewModel<ViewModelPerformanceTest>(new MvxBundle());
+        }
+
+        void OnMonza4QTButtonClicked()
+        {
+            ShowViewModel<ViewModelQTInventorySlectionMenu>(new MvxBundle());
+        }
+
+        void OnMagnusS3withGPSforTabletButtonClicked()
+        {
+            ShowViewModel<ViewModelTempGPSSetting>(new MvxBundle());
+        }
+
 
     }
 }

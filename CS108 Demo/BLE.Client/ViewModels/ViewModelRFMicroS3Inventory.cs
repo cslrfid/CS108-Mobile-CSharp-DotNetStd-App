@@ -835,15 +835,18 @@ namespace BLE.Client.ViewModels
                         switch (BleMvxApplication._rfMicro_SensorUnit)
                         {
                             case 0:
-                                dataBase += "code";
+                                dataBase += "RAW";
                                 break;
                             case 1:
-                                dataBase += "F";
+                                dataBase += "RAW";
                                 break;
                             case 2:
-                                dataBase += "C";
+                                dataBase += "F";
                                 break;
                             case 3:
+                                dataBase += "C";
+                                break;
+                            case 4:
                                 dataBase += "%";
                                 break;
                         }
