@@ -1,6 +1,6 @@
 # CS108-Mobile-CSharp-DotNetStd-App
 
-### <span style="color:red">Note: this repository is now replaced by [version 4](https://github.com/cslrfid/CS108-Mobile-CSharp-DotNetStd-App-4) of the C# demo app running Mvvmcross 7+.  No feature changes/updates will be taken place here. </span>
+### <span style="color:red">Note: this repository is now replaced by [version 4](https://github.com/cslrfid/CS108-Mobile-CSharp-DotNetStd-App-v4) of the C# demo app running Mvvmcross 7+.  No feature changes/updates will be taken place here. </span>
 
 <br>
 CS108 Xamarin C# Bluetooth Demo App and SDK 
