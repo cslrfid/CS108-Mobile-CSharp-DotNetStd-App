@@ -32,7 +32,7 @@ namespace CSLibrary
         UInt32[] _0000 = null;             // 0X0000~0X0002
         UInt32[] _0100 = null;              // 0x0100 ~ 0x010d
         UInt32[] _0117 = null;
-        UInt32[] _0200 = null;
+        UInt32[] _0200 = new UInt32[4];
         UInt32[] _0300 = null;
         UInt32[] _0400 = null;
         UInt32[] _0500 = null;             // 0x0500 ~ 0x0501
